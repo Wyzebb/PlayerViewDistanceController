@@ -1,0 +1,6 @@
+name: PlayerViewDistanceController
+version: '${project.version}'
+main: me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController
+api-version: '1.20'
+authors: [Wyzebb]
+description: A plugin that makes view distance controllable per player

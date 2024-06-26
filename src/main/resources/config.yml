@@ -1,0 +1,59 @@
+############## PlayerViewDistanceController Config ##############
+
+# Configurations for individual players can be found in the players directory
+
+###################### Main configuration ######################
+
+# Should there be a default-distance or should it be the default in server.properties?
+set-default-distance: true
+
+# Default view distance for anyone who joins the server (Must be between 1-32)
+default-distance: 32
+
+# Maximum view distance for anyone (Cannot exceed 32)
+max-distance: 32
+
+# Minimum view distance for anyone (Cannot be less than 2)
+min-distance: 2
+
+# Display a message when a player joins telling them what their view distance is set to
+display-msg-on-join: true
+
+# If the server should send a message when a player joins telling them what their view distance is set to, even if it is the default/ max
+display-max-join-msg: false
+
+
+########################## Messages ##########################
+
+# Join message for when players join
+join-msg: "§e§l(!) §eYour view distance is currently set to {chunks} chunks"
+
+# The message displayed when you change your own view distance
+self-view-distance-change-msg: "§e§l(!) §eYou changed your view distance to {chunks} chunks"
+
+# The message displayed when a selected player is not online
+player-offline-msg: "§c§l(!) §cThat player is not online!"
+
+# The message displayed for the command sender when you change someone else's view distance
+sender-view-distance-change-msg: "§e§l(!) §e{target-player}'s view distance was changed to {chunks} chunks"
+
+# The message displayed for the target of a command when your view distance has been changed
+target-view-distance-change-msg: "§e§l(!) §eYour view distance was changed to {chunks} chunks"
+
+# The message displayed when there are not enough arguments or the arguments are invalid
+incorrect-args: "§c§l(!) §cNot enough arguments"
+
+
+############### Command block/ Console Messages ###############
+
+# The message that displays when someone tries to change the view distance from the console/ a command block without specifying a player
+# Colour codes do not work in the console/ a command block
+change-consoleorcmd-distance-error: "(!) You must specify a player!"
+
+# The message displayed when a selected player is not online
+consoleorcmdblock-player-offline-msg: "(!) That player is not online!"
+
+# The message displayed for the command sender when you change someone else's view distance
+consoleorcmdblock-sender-view-distance-change-msg: "(!) {target-player}'s view distance was changed to {chunks} chunks"
+
+consoleorcmdblock-incorrect-args: "(!) Incorrect arguments"
