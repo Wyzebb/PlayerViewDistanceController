@@ -2,8 +2,6 @@
 ![Banner image](https://i.ibb.co/hdNnMNG/Banner.png)
 **<p style="color:red">DISCLAIMER: PAPER IS REQUIRED</p>**
 
-<a href="https://github.com/Wyzebb/PlayerViewDistanceController"><img src="https://i.ibb.co/whyhbcN/Bugs-and-Features-button-Photoroom-1.png" alt="Github" width="350"/></a>
-
 <a href="https://discord.gg/akbd8EPSgr">![Discord](https://img.shields.io/discord/1254765564790837288?style=for-the-badge&logo=discord&label=Discord)</a>
 
 Also see on: <a href="https://modrinth.com/plugin/player-view-distance-controller">Modrinth</a>,    <a href="https://hangar.papermc.io/Wyzebb/PlayerViewDistanceController">Paper Hangar</a>,    <a href="https://www.curseforge.com/minecraft/bukkit-plugins/player-view-distance-controller">Curseforge</a>,    <a href="https://www.spigotmc.org/resources/player-view-distance-controller.117627/">Spigot</a>
