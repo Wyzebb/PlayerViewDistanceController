@@ -1,5 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller;
 
+import me.wyzebb.playerviewdistancecontroller.commands.ViewDistanceCommand;
+import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PlayerViewDistanceController extends JavaPlugin {

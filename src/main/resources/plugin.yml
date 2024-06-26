@@ -3,4 +3,13 @@ version: '${project.version}'
 main: me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController
 api-version: '1.20'
 authors: [Wyzebb]
-description: A plugin that makes view distance controllable per player
+description: A plugin that makes view distance controllable for each player
+commands:
+  viewdistance:
+    description: Change a player's max view distance
+    usage: "Usage: /<command> <chunks> [player]"
+    permission: viewdistance.command
+    permission-message: "§cYou don't have the 'viewdistance.command' permission!"
+    aliases:
+      - setchunks
+      - vd
