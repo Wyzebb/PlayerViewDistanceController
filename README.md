@@ -1,6 +1,8 @@
-# PlayerViewDistanceController
+# PlayerViewDistanceController  
 ![Banner image](https://i.ibb.co/hdNnMNG/Banner.png)
 **<p style="color:red">DISCLAIMER: PAPER IS REQUIRED</p>**
+
+<a href="https://github.com/Wyzebb/PlayerViewDistanceController"><img src="https://i.ibb.co/whyhbcN/Bugs-and-Features-button-Photoroom-1.png" alt="Github" width="350"/></a>
 
 <a href="https://discord.gg/akbd8EPSgr">![Discord](https://img.shields.io/discord/1254765564790837288?style=for-the-badge&logo=discord&label=Discord)</a>
 
@@ -25,7 +27,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 
 ### **Commands**
 ####  `/viewdistance`
-- **Usage:** `/&lt;command&gt; &lt;chunks&gt; [player]`
+- **Usage:** `/<command> <chunks> [player]`
 - **Aliases:** `setchunks`, `vd`
 
 <br/>
@@ -42,5 +44,5 @@ This plugin that makes the maximum view distance controllable per player. Those 
   ```
 - To set another player's view distance to 15 chunks:
   ```
-  /viewdistance 15 &lt;player&gt;
+  /viewdistance 15 <player>
   ```
