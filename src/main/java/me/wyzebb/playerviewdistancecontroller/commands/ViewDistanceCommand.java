@@ -29,7 +29,7 @@ public class ViewDistanceCommand implements CommandExecutor {
             return true;
         }
 
-        int amount = 0;
+        int amount;
 
         try {
             amount = Integer.parseInt(args[0]);
@@ -76,7 +76,7 @@ public class ViewDistanceCommand implements CommandExecutor {
                         plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-player-offline-msg"));
                     }
 
-                } else if (sender == (Player) target) {
+                } else if (sender == target) {
                     msg = plugin.getConfig().getString("self-view-distance-change-msg");
                     msg = msg.replace("{chunks}", String.valueOf(amount));
                     sender.sendMessage(msg);
