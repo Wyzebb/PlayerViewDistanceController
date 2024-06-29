@@ -79,7 +79,7 @@ public class JoinLeaveEvent implements Listener {
         try {
             cfg.save(playerDataFile);
         } catch (IOException event) {
-            event.printStackTrace();
+            plugin.getLogger().warning("An error occurred saving the player view distance data!");
         }
 
         PlayerUtility.setPlayerDataHandler(e.getPlayer(), null);
