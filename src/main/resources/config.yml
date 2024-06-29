@@ -2,12 +2,14 @@
 
 # Configurations for individual players can be found in the players directory
 
+
 ###################### Main configuration ######################
 
-# Should there be a default-distance or should it be the default in server.properties?
+# Should there be a default-distance for each player?
+# Set to false for server.properties default or set default-distance to max
 set-default-distance: true
 
-# Default view distance for anyone who joins the server (Must be between 1-32)
+# Default view distance for anyone who joins the server (Must be between 2 and 32)
 default-distance: 32
 
 # Maximum view distance for anyone (Cannot exceed 32)
@@ -19,11 +21,12 @@ min-distance: 2
 # Display a message when a player joins telling them what their view distance is set to
 display-msg-on-join: true
 
-# If the server should send a message when a player joins telling them what their view distance is set to, even if it is the default/ max
+# If a message should be sent to a player when they join telling them what their view distance is set to, when it is the default/ max
 display-max-join-msg: false
 
 
 ########################## Messages ##########################
+# Colour codes may be used for this section using the '§' symbol
 
 # Join message for when players join
 join-msg: "§e§l(!) §eYour view distance is currently set to {chunks} chunks"
