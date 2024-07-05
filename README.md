@@ -6,7 +6,7 @@
     <a href="https://modrinth.com/plugin/player-view-distance-controller"><img alt="modrinth" height="56"
         src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg"></a>
     <a href="https://www.curseforge.com/minecraft/bukkit-plugins/pvdc"><img alt="curseforge" height="56"
-        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg">
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg"></a>
     <a href="https://hangar.papermc.io/Wyzebb/PlayerViewDistanceController"><img alt="hangar" height="56"
         src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/hangar_vector.svg"></a>
     <br />
