@@ -1,20 +1,26 @@
-# PlayerViewDistanceController  
-![Banner image](https://i.ibb.co/hdNnMNG/Banner.png)
-**<p style="color:red">DISCLAIMER: PAPER IS REQUIRED</p>**
-
-<a href="https://discord.gg/akbd8EPSgr">![Discord](https://img.shields.io/discord/1254765564790837288?style=for-the-badge&logo=discord&label=Discord)</a>
-
-Also see on: <a href="https://modrinth.com/plugin/player-view-distance-controller">Modrinth</a>,    <a href="https://hangar.papermc.io/Wyzebb/PlayerViewDistanceController">Paper Hangar</a>,    <a href="https://www.curseforge.com/minecraft/bukkit-plugins/player-view-distance-controller">Curseforge</a>,    <a href="https://www.spigotmc.org/resources/player-view-distance-controller.117627/">Spigot</a>
-
-
+![Banner](https://i.ibb.co/p1fVk8s/Banner-min.webp)
+`DISCLAIMER: PAPER IS REQUIRED`
+<p>
+    <a href="https://www.spigotmc.org/resources/player-view-distance-controller.117627/"><img alt="spigot" height="56"
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/spigot_vector.svg"></a>
+    <a href="https://modrinth.com/plugin/player-view-distance-controller"><img alt="modrinth" height="56"
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg"></a>
+    <a href="https://www.curseforge.com/minecraft/bukkit-plugins/pvdc"><img alt="curseforge" height="56"
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg">
+    <a href="https://hangar.papermc.io/Wyzebb/PlayerViewDistanceController"><img alt="hangar" height="40"
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/hangar_vector.svg"></a>
+    <br />
+    <a href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56"
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg"></a>
+    <a href="https://www.patreon.com/Wyzebb"><img alt="patreon-singular" height="56"
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/patreon-singular_vector.svg"></a>
+</p>
 <br/>
-
-### **What does this plugin do?**
 This plugin that makes the maximum view distance controllable per player. Those with the permission can change their own view distance or the view distance of other players.
 
 <br/>
 
-### **Features**
+## **Features**
 - **Saves across restarts**: Each player's view distance saves across restarts.
 - **Join and leave handling**: Automatically restores player view distances when they connect to the server.
 - **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
@@ -23,15 +29,16 @@ This plugin that makes the maximum view distance controllable per player. Those 
 
 <br/>
 
-### **Commands**
-####  `/viewdistance`
-- **Usage:** `/<command> <chunks> [player]`
-- **Aliases:** `setchunks`, `vd`
+## **Permissions**
+- Main permission: `viewdistance.command`
+- Granted to ops by default
 
 <br/>
 
-**Permission:** `viewdistance.command`
-- Operators have the permission granted by default
+## **Commands**
+####  `/viewdistance`
+- **Usage:** `/<command> <chunks> [player]`
+- **Aliases:** `setchunks`, `vd`
 
 <br/>
 
