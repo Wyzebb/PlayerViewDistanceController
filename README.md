@@ -7,7 +7,7 @@
         src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg"></a>
     <a href="https://www.curseforge.com/minecraft/bukkit-plugins/pvdc"><img alt="curseforge" height="56"
         src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg">
-    <a href="https://hangar.papermc.io/Wyzebb/PlayerViewDistanceController"><img alt="hangar" height="40"
+    <a href="https://hangar.papermc.io/Wyzebb/PlayerViewDistanceController"><img alt="hangar" height="56"
         src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/hangar_vector.svg"></a>
     <br />
     <a href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56"
