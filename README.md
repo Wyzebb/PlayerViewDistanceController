@@ -43,7 +43,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 - **Aliases:** `vd`, `setchunks`
 
 ####  `/globalviewdistance`
-- **Usage:** `/<command> <chunks> [player]`
+- **Usage:** `/<command> <chunks>`
 - **Aliases:** `gvd`, `setglobalchunks`
 
 <br/>
