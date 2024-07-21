@@ -25,20 +25,26 @@ This plugin that makes the maximum view distance controllable per player. Those 
 - **Join and leave handling**: Automatically restores player view distances when they connect to the server.
 - **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
 - **Per-player control**: Each player has their own view distance, which can be set and saved individually.
+- **Global control**: Easily set the max view distance of all online players.
 - **Commands and permissions**: Easily change view distances via commands or the per-player config, with permissions in place.
 
 <br/>
 
 ## **Permissions**
-- Main permission: `viewdistance.command`
-- Granted to ops by default
+- Self and other player view distance permission: `viewdistance.command`
+- Global view distance permission: `viewdistance.global`
+- Both are granted to ops by default
 
 <br/>
 
 ## **Commands**
 ####  `/viewdistance`
 - **Usage:** `/<command> <chunks> [player]`
-- **Aliases:** `setchunks`, `vd`
+- **Aliases:** `vd`, `setchunks`
+
+####  `/globalviewdistance`
+- **Usage:** `/<command> <chunks> [player]`
+- **Aliases:** `gvd`, `setglobalchunks`
 
 <br/>
 
@@ -50,4 +56,8 @@ This plugin that makes the maximum view distance controllable per player. Those 
 - To set another player's view distance to 15 chunks:
   ```
   /viewdistance 15 <player>
+  ```
+- To set every player's view distance to 8 chunks:
+  ```
+  /gvd 8
   ```
