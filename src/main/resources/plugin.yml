@@ -2,8 +2,9 @@ name: PlayerViewDistanceController
 version: '${project.version}'
 main: me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController
 api-version: '1.20'
-authors: [Wyzebb]
+author: Wyzebb
 description: A plugin that makes view distance controllable for each player
+prefix: PVDC
 commands:
   viewdistance:
     description: Change a player's max view distance
@@ -13,3 +14,28 @@ commands:
     aliases:
       - setchunks
       - vd
+
+  globalviewdistance:
+    description: Change every online player's max view distance
+    usage: "Usage: /<command> <chunks>"
+    permission: viewdistance.global
+    permission-message: "§cYou don't have the 'viewdistance.global' permission!"
+    aliases:
+      - setglobalchunks
+      - gvd
+
+permissions:
+  viewdistance.command:
+    description: Allows view distance command for self and others
+    default: op
+
+  viewdistance.global:
+    description: Allows view distance command for all online players
+    default: op
+
+  viewdistance.*:
+    description: Permission for everything
+    default: op
+    children:
+      viewdistance.command: true
+      viewdistance.global: true
