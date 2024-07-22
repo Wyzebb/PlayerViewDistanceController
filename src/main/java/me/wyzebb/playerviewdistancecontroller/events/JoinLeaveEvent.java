@@ -12,6 +12,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Set;
 
 public class JoinLeaveEvent implements Listener {
 
@@ -34,6 +36,21 @@ public class JoinLeaveEvent implements Listener {
         if (playerDataFile.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = cfg.getInt("chunks");
+            plugin.getLogger().info("1");
+
+            if (amount == plugin.getConfig().getInt("default-distance")) {
+                // Default so redirect to prefixes
+                int pre = checkPrefixes(amount, e, playerDataFile, dataHandler);
+                if (!(pre == 1000)) {
+                    amount = pre;
+                }
+            }
+        } else {
+            int pre = checkPrefixes(amount, e, playerDataFile, dataHandler);
+            if (!(pre == 1000)) {
+                amount = pre;
+            }
+
         }
 
         amount = Math.min(32, amount);
@@ -67,6 +84,64 @@ public class JoinLeaveEvent implements Listener {
 
         PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
     }
+
+
+    private int checkPrefixes(Integer chunkAmount, PlayerJoinEvent event, File playerDataFile, PlayerDataHandler dataHandler) {
+        Set<String> keys = plugin.getPrefixesConfig().getConfigurationSection("prefixes").getKeys(false);
+        plugin.getLogger().info("2");
+        if (!keys.isEmpty()) {
+            plugin.getLogger().info("Keys: " + keys.toString());
+            plugin.getLogger().info("3");
+
+            for (String key : keys) {
+                plugin.getLogger().info("4");
+                plugin.getLogger().info("Key: " + key);
+                plugin.getLogger().info("Value: " + plugin.getPrefixesConfig().getInt(("prefixes." + key)));
+
+
+            }
+        } else {
+            plugin.getLogger().info("5");
+            plugin.getLogger().info("No keys found or keys set is null");
+            return 1000;
+        }
+        plugin.getLogger().info("6");
+        for (String key : keys) {
+            plugin.getLogger().info("7");
+            if (Objects.equals(key, "dot")) {
+                key = ".";
+            }
+            plugin.getLogger().info("8");
+            if (event.getPlayer().getName().toLowerCase().startsWith(key.toLowerCase())) {
+                // Name starts with prefix
+
+                chunkAmount = plugin.getPrefixesConfig().getInt(("prefixes." + key));
+
+
+                chunkAmount = Math.min(32, chunkAmount);
+                chunkAmount = Math.max(2, chunkAmount);
+
+                chunkAmount = Math.min(plugin.getConfig().getInt("max-distance"), chunkAmount);
+                chunkAmount = Math.max(plugin.getConfig().getInt("min-distance"), chunkAmount);
+
+                if (!((playerDataFile.exists())) && !(plugin.getConfig().getBoolean("set-default-distance"))) {
+                    chunkAmount = Math.min(32, plugin.getConfig().getInt("max-distance"));
+                    chunkAmount = Math.max(2, plugin.getConfig().getInt("min-distance"));
+                }
+
+                dataHandler.setChunks(chunkAmount);
+                event.getPlayer().setViewDistance(chunkAmount);
+
+                String msg = "SET YOUR VIEW DISTANCE TO {chunks} chunks because of your name's prefix";
+                msg = msg.replace("{chunks}", String.valueOf(chunkAmount));
+                event.getPlayer().sendMessage(msg);
+
+
+            }
+        }
+        return chunkAmount;
+    }
+
 
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent e) {
