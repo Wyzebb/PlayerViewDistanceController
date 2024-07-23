@@ -1,18 +1,17 @@
 package me.wyzebb.playerviewdistancecontroller;
 
+import me.wyzebb.playerviewdistancecontroller.commands.BaseViewDistanceCommand;
 import me.wyzebb.playerviewdistancecontroller.commands.GlobalViewDistanceCommand;
+import me.wyzebb.playerviewdistancecontroller.commands.SetSubCommand;
 import me.wyzebb.playerviewdistancecontroller.commands.ViewDistanceCommand;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
 
 public final class PlayerViewDistanceController extends JavaPlugin {
-    private File prefixesConfigFile;
     private FileConfiguration prefixesConfig;
 
     @Override
@@ -30,6 +29,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         // Register Commands
         getCommand("viewdistance").setExecutor(new ViewDistanceCommand(this));
         getCommand("globalviewdistance").setExecutor(new GlobalViewDistanceCommand(this));
+
+        BaseViewDistanceCommand baseCommand = new BaseViewDistanceCommand();
+        getCommand("viewdistance").setExecutor(baseCommand);
+        baseCommand.registerCommand("lol", new SetSubCommand());
     }
 
     public FileConfiguration getPrefixesConfig() {
@@ -37,7 +40,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     private void createPrefixesConfig() {
-        prefixesConfigFile = new File(getDataFolder(), "prefixes.yml");
+        File prefixesConfigFile = new File(getDataFolder(), "prefixes.yml");
         if (!prefixesConfigFile.exists()) {
             prefixesConfigFile.getParentFile().mkdirs();
             saveResource("prefixes.yml", false);
