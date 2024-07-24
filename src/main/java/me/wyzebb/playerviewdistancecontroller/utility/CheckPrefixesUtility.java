@@ -26,9 +26,7 @@ public class CheckPrefixesUtility {
                     dataHandler.setChunks(amount);
                     event.getPlayer().setViewDistance(amount);
 
-                    String msg = "SET YOUR VIEW DISTANCE TO {chunks} chunks because of your name's prefix";
-                    msg = msg.replace("{chunks}", String.valueOf(amount));
-                    event.getPlayer().sendMessage(msg);
+                    event.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("prefix-chunks-set-msg", amount, plugin));
                 }
             }
             return amount;
