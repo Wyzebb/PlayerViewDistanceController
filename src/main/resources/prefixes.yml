@@ -2,5 +2,5 @@
 # This would typically be used for Geyser bedrock compatibility
 
 prefixes:
-  "dot": 5
-  "prefix2": 12
+  "dot": 32
+  "another_prefix": 32
