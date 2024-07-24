@@ -1,0 +1,6 @@
+# Type 'dot' for a '.' as the YAML file parses the '.' incorrectly
+# This would typically be used for Geyser bedrock compatibility
+
+prefixes:
+  "dot": 32
+  "another_prefix": 32

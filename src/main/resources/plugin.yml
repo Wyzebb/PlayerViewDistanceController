@@ -8,28 +8,19 @@ prefix: PVDC
 commands:
   viewdistance:
     description: Change a player's max view distance
-    usage: "Usage: /<command> <chunks> [player]"
+    usage: "Usage: /<command> <set/setonline> <chunks> [player]"
     permission: viewdistance.command
     permission-message: "§cYou don't have the 'viewdistance.command' permission!"
     aliases:
       - setchunks
       - vd
 
-  globalviewdistance:
-    description: Change every online player's max view distance
-    usage: "Usage: /<command> <chunks>"
-    permission: viewdistance.global
-    permission-message: "§cYou don't have the 'viewdistance.global' permission!"
-    aliases:
-      - setglobalchunks
-      - gvd
-
 permissions:
   viewdistance.command:
     description: Allows view distance command for self and others
     default: op
 
-  viewdistance.global:
+  viewdistance.setonline:
     description: Allows view distance command for all online players
     default: op
 

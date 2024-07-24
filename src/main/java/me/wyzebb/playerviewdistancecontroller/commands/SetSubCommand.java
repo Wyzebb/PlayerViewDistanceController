@@ -2,58 +2,51 @@ package me.wyzebb.playerviewdistancecontroller.commands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import org.bukkit.Bukkit;
-import org.bukkit.command.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class ViewDistanceCommand implements CommandExecutor {
+public class SetSubCommand extends SubCommand {
 
     private final PlayerViewDistanceController plugin;
 
-    public ViewDistanceCommand(PlayerViewDistanceController plugin) {
+    public SetSubCommand(PlayerViewDistanceController plugin) {
         this.plugin = plugin;
     }
 
     String msg;
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
-        if (args.length < 1 || args.length > 2) {
-            if (sender instanceof Player) {
-                sender.sendMessage(plugin.getConfig().getString("incorrect-args"));
+    public void onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (args.length < 2 || args.length > 3) {
+            if (commandSender instanceof Player) {
+                commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
             } else {
                 plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
             }
-            return true;
-        }
+        } else {
+           int amount = 32;
 
-        int amount;
-
-        try {
-            amount = Integer.parseInt(args[0]);
-
-            amount = Math.min(32, amount);
-            amount = Math.max(2, amount);
-
-            amount = Math.min(plugin.getConfig().getInt("max-distance"), amount);
-            amount = Math.max(plugin.getConfig().getInt("min-distance"), amount);
-        } catch (Exception e) {
-            if (sender instanceof Player) {
-                sender.sendMessage(plugin.getConfig().getString("incorrect-args"));
-            } else {
-                plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
+            try {
+                amount = Integer.parseInt(args[1]);
+                amount = ClampAmountUtility.clampChunkValue(amount, plugin);
+            } catch (Exception e) {
+                if (commandSender instanceof Player) {
+                    commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
+                } else {
+                    plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
+                }
             }
-            return true;
-        }
 
-        try {
-            if (args.length == 1) {
-                if (sender instanceof Player player) {
+            if (args.length == 2) {
+                if (commandSender instanceof Player player) {
                     msg = plugin.getConfig().getString("self-view-distance-change-msg");
                     msg = msg.replace("{chunks}", String.valueOf(amount));
-                    sender.sendMessage(msg);
+                    commandSender.sendMessage(msg);
                     player.setViewDistance(amount);
 
                     PlayerDataHandler dataHandler = new PlayerDataHandler();
@@ -65,21 +58,21 @@ public class ViewDistanceCommand implements CommandExecutor {
                 }
 
             } else {
-                String targetName = args[1];
+                String targetName = args[2];
 
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    if (sender instanceof Player) {
-                        sender.sendMessage(plugin.getConfig().getString("player-offline-msg"));
+                    if (commandSender instanceof Player) {
+                        commandSender.sendMessage(plugin.getConfig().getString("player-offline-msg"));
                     } else {
                         plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-player-offline-msg"));
                     }
 
-                } else if (sender == target) {
+                } else if (commandSender == target) {
                     msg = plugin.getConfig().getString("self-view-distance-change-msg");
                     msg = msg.replace("{chunks}", String.valueOf(amount));
-                    sender.sendMessage(msg);
+                    commandSender.sendMessage(msg);
                     target.setViewDistance(amount);
 
                     PlayerDataHandler dataHandler = new PlayerDataHandler();
@@ -87,14 +80,14 @@ public class ViewDistanceCommand implements CommandExecutor {
                     PlayerUtility.setPlayerDataHandler(target, dataHandler);
 
                 } else {
-                    if (sender instanceof Player) {
-                        String msg = plugin.getConfig().getString("sender-view-distance-change-msg");
+                    if (commandSender instanceof Player) {
+                        String msg = plugin.getConfig().getString("commandSender-view-distance-change-msg");
                         msg = msg.replace("{target-player}", target.getName());
                         msg = msg.replace("{chunks}", String.valueOf(amount));
-                        sender.sendMessage(msg);
+                        commandSender.sendMessage(msg);
 
                     } else {
-                        String msg = plugin.getConfig().getString("consoleorcmdblock-sender-view-distance-change-msg");
+                        String msg = plugin.getConfig().getString("consoleorcmdblock-commandSender-view-distance-change-msg");
                         msg = msg.replace("{target-player}", target.getName());
                         msg = msg.replace("{chunks}", String.valueOf(amount));
                         plugin.getLogger().info(msg);
@@ -110,15 +103,11 @@ public class ViewDistanceCommand implements CommandExecutor {
 
                     PlayerUtility.setPlayerDataHandler(target, dataHandler);
                 }
-
-            }
-        } catch (Exception e) {
-            if (sender instanceof Player) {
-                sender.sendMessage(plugin.getConfig().getString("incorrect-args"));
-            } else {
-                plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
             }
         }
-        return true;
+    }
+
+    public String getPermission() {
+        return "Permissions";
     }
 }

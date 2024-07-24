@@ -2,7 +2,10 @@ package me.wyzebb.playerviewdistancecontroller.events;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.CheckPrefixesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessageUtility;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -11,7 +14,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
-import java.io.IOException;
 
 public class JoinLeaveEvent implements Listener {
 
@@ -21,31 +23,33 @@ public class JoinLeaveEvent implements Listener {
         this.plugin = plugin;
     }
 
-    String msg;
-
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
         int amount = plugin.getConfig().getInt("default-distance");
         PlayerDataHandler dataHandler = new PlayerDataHandler();
-
         PlayerUtility playerDataHandler = new PlayerUtility(plugin);
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
 
         if (playerDataFile.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = cfg.getInt("chunks");
+
+            if (amount == plugin.getConfig().getInt("default-distance")) {
+                // Default so redirect to prefixes
+                int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler, plugin);
+                if (!(errorCheck == 1000)) {
+                    amount = errorCheck;
+                }
+            }
+        } else {
+            int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler, plugin);
+            if (!(errorCheck == 1000)) {
+                amount = errorCheck;
+            }
+
         }
 
-        amount = Math.min(32, amount);
-        amount = Math.max(2, amount);
-
-        amount = Math.min(plugin.getConfig().getInt("max-distance"), amount);
-        amount = Math.max(plugin.getConfig().getInt("min-distance"), amount);
-
-        if (!((playerDataFile.exists())) && !(plugin.getConfig().getBoolean("set-default-distance"))) {
-            amount = Math.min(32, plugin.getConfig().getInt("max-distance"));
-            amount = Math.max(2, plugin.getConfig().getInt("min-distance"));
-        }
+        amount = ClampAmountUtility.clampChunkValue(amount, plugin);
 
         dataHandler.setChunks(amount);
         e.getPlayer().setViewDistance(amount);
@@ -53,20 +57,15 @@ public class JoinLeaveEvent implements Listener {
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
             if (amount == plugin.getConfig().getInt("max-distance") || amount == 32)  {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    msg = plugin.getConfig().getString("join-msg");
-                    msg = msg.replace("{chunks}", String.valueOf(amount));
-                    e.getPlayer().sendMessage(msg);
+                    e.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("join-msg", amount, plugin));
                 }
             } else {
-                msg = plugin.getConfig().getString("join-msg");
-                msg = msg.replace("{chunks}", String.valueOf(amount));
-                e.getPlayer().sendMessage(msg);
+                e.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("join-msg", amount, plugin));
             }
-
         }
-
         PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
     }
+
 
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent e) {
@@ -78,7 +77,7 @@ public class JoinLeaveEvent implements Listener {
 
         try {
             cfg.save(playerDataFile);
-        } catch (IOException event) {
+        } catch (Exception event) {
             plugin.getLogger().warning("An error occurred saving the player view distance data!");
         }
 

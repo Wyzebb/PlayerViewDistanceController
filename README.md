@@ -16,7 +16,7 @@
         src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/patreon-singular_vector.svg"></a>
 </p>
 <br/>
-This plugin that makes the maximum view distance controllable per player. Those with the permission can change their own view distance or the view distance of other players.
+This plugin that makes the maximum view distance controllable per player. Those with permissions can change their own view distance or the view distance of other players individually or all that are online.
 
 <br/>
 
@@ -32,32 +32,21 @@ This plugin that makes the maximum view distance controllable per player. Those 
 
 ## **Permissions**
 - Self and other player view distance permission: `viewdistance.command`
-- Global view distance permission: `viewdistance.global`
+- Global view distance permission: `viewdistance.setonline`
 - Both are granted to ops by default
 
 <br/>
 
 ## **Commands**
-####  `/viewdistance`
-- **Usage:** `/<command> <chunks> [player]`
+### Base Command: `/viewdistance`
+- **Usage:** `/<command> <subcommand>`
 - **Aliases:** `vd`, `setchunks`
 
-####  `/globalviewdistance`
-- **Usage:** `/<command> <chunks>`
-- **Aliases:** `gvd`, `setglobalchunks`
+### Subcommands
+#### - `set`
+- **Usage:** `/<vd> <set> <chunks> [player]`
+- Sets the maximum view distance of yourself or another online player
 
-<br/>
-
-### **Example Usage**
-- To set your own view distance to 10 chunks:
-  ```
-  /viewdistance 10
-  ```
-- To set another player's view distance to 15 chunks:
-  ```
-  /viewdistance 15 <player>
-  ```
-- To set every player's view distance to 8 chunks:
-  ```
-  /gvd 8
-  ```
+#### - `setonline`
+- **Usage:** `/<vd> <setonline> <chunks>`
+- Sets the maximum view distance of all online players
