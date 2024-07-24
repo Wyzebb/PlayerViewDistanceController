@@ -14,9 +14,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Set;
 
 public class JoinLeaveEvent implements Listener {
 
