@@ -3,8 +3,11 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessColorCodesUtility;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,44 +24,29 @@ public class SetOnlineCommand extends SubCommand {
     @Override
     public void performCommand(@NotNull CommandSender commandSender, @NotNull String[] args) {
         if (args.length != 2) {
-            if (commandSender instanceof Player) {
-                commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
-            } else {
-                plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
-            }
+            ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
         } else {
-           int amount = ClampAmountUtility.getMaxPossible();
+            int amount = ClampAmountUtility.getMaxPossible();
 
             try {
                 amount = Integer.parseInt(args[1]);
                 amount = ClampAmountUtility.clampChunkValue(amount, plugin);
             } catch (Exception e) {
-                if (commandSender instanceof Player) {
-                    commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
-                } else {
-                    plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
-                }
+                ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
             }
 
             try {
                 for (Player p : plugin.getServer().getOnlinePlayers()) {
-                    msg = plugin.getConfig().getString("target-view-distance-change-msg");
-                    msg = msg.replace("{chunks}", String.valueOf(amount));
-                    p.sendMessage(msg);
+                    ProcessColorCodesUtility.processMessage("all-online-change-msg", p, amount);
 
-                    p.setViewDistance(amount);
-
-                    PlayerDataHandler dataHandler = new PlayerDataHandler();
-                    dataHandler.setChunks(amount);
-                    PlayerUtility.setPlayerDataHandler(p, dataHandler);
+                    DataProcessorUtility.processData(p, amount);
                 }
-
             } catch (Exception e) {
-                if (commandSender instanceof Player) {
-                    commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
-                } else {
-                    plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
-                }
+                ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
+            }
+
+            if (commandSender instanceof ConsoleCommandSender) {
+                ProcessColorCodesUtility.processMessage("all-online-change-msg", commandSender, amount);
             }
         }
     }

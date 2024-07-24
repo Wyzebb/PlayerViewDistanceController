@@ -1,10 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessColorCodesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +33,7 @@ public class SetCommand extends SubCommand {
     public void performCommand(CommandSender commandSender, String[] args) {
 
         if (args.length < 2 || args.length > 3) {
-            ProcessColorCodesUtility.processColorMessage("incorrect-args", commandSender, plugin);
+            ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
         } else {
             int amount = ClampAmountUtility.getMaxPossible();
 
@@ -44,71 +41,36 @@ public class SetCommand extends SubCommand {
                 amount = Integer.parseInt(args[1]);
                 amount = ClampAmountUtility.clampChunkValue(amount, plugin);
             } catch (Exception e) {
-                ProcessColorCodesUtility.processColorMessage("incorrect-args", commandSender, plugin);
+                ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
             }
 
             String msg;
 
             if (args.length == 2) {
                 if (commandSender instanceof Player player) {
-                    msg = plugin.getConfig().getString("self-view-distance-change-msg");
-                    msg = msg.replace("{chunks}", String.valueOf(amount));
-                    commandSender.sendMessage(msg);
-                    player.setViewDistance(amount);
-
-                    PlayerDataHandler dataHandler = new PlayerDataHandler();
-                    dataHandler.setChunks(amount);
-                    PlayerUtility.setPlayerDataHandler(player, dataHandler);
-
+                    ProcessColorCodesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                    DataProcessorUtility.processData(player, amount);
                 } else {
                     plugin.getLogger().info(plugin.getConfig().getString("incorrect-args"));
                 }
 
             } else {
                 String targetName = args[2];
-
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    if (commandSender instanceof Player) {
-                        commandSender.sendMessage(plugin.getConfig().getString("player-offline-msg"));
-                    } else {
-                        plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-player-offline-msg"));
-                    }
+                    ProcessColorCodesUtility.processMessage("player-offline-msg", commandSender);
 
                 } else if (commandSender == target) {
-                    msg = plugin.getConfig().getString("self-view-distance-change-msg");
-                    msg = msg.replace("{chunks}", String.valueOf(amount));
-                    commandSender.sendMessage(msg);
-                    target.setViewDistance(amount);
-
-                    PlayerDataHandler dataHandler = new PlayerDataHandler();
-                    dataHandler.setChunks(amount);
-                    PlayerUtility.setPlayerDataHandler(target, dataHandler);
+                    ProcessColorCodesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                    DataProcessorUtility.processData(target, amount);
 
                 } else {
-                    if (commandSender instanceof Player) {
-                        msg = plugin.getConfig().getString("commandSender-view-distance-change-msg");
-                        msg = msg.replace("{target-player}", target.getName());
-                        msg = msg.replace("{chunks}", String.valueOf(amount));
-                        commandSender.sendMessage(msg);
+                    ProcessColorCodesUtility.processMessage("sender-view-distance-change-msg", commandSender, amount, target, commandSender);
 
-                    } else {
-                        msg = plugin.getConfig().getString("consoleorcmdblock-commandSender-view-distance-change-msg");
-                        msg = msg.replace("{target-player}", target.getName());
-                        msg = msg.replace("{chunks}", String.valueOf(amount));
-                        plugin.getLogger().info(msg);
-                    }
+                    ProcessColorCodesUtility.processMessage("target-view-distance-change-msg", target, amount, target, target);
 
-                    msg = plugin.getConfig().getString("target-view-distance-change-msg");
-                    msg = msg.replace("{chunks}", String.valueOf(amount));
-                    target.setViewDistance(amount);
-                    target.getPlayer().sendMessage(msg);
-
-                    PlayerDataHandler dataHandler = new PlayerDataHandler();
-                    dataHandler.setChunks(amount);
-
-                    PlayerUtility.setPlayerDataHandler(target, dataHandler);
+                    DataProcessorUtility.processData(target, amount);
                 }
             }
         }
