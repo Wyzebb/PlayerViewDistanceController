@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class ProcessColorCodesUtility {
+public class ProcessConfigMessagesUtility {
     public static void processMessage(String configPath, CommandSender commandSender) {
         PlayerViewDistanceController plugin = PlayerViewDistanceController.getPlugin(PlayerViewDistanceController.class);
         String msg = plugin.getConfig().getString(configPath);
@@ -36,7 +36,7 @@ public class ProcessColorCodesUtility {
         }
     }
 
-    public static void processMessage(String configPath, CommandSender commandSender, int amount, Player target, CommandSender toSendTo) {
+    public static void processMessage(String configPath, int amount, Player target, CommandSender toSendTo) {
         PlayerViewDistanceController plugin = PlayerViewDistanceController.getPlugin(PlayerViewDistanceController.class);
         String msg = plugin.getConfig().getString(configPath);
 

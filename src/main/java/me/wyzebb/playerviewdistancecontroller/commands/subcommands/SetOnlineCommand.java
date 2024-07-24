@@ -3,7 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessColorCodesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class SetOnlineCommand extends SubCommand {
     @Override
     public void performCommand(@NotNull CommandSender commandSender, @NotNull String[] args) {
         if (args.length != 2) {
-            ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
+            ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
         } else {
             int amount = ClampAmountUtility.getMaxPossible();
 
@@ -28,21 +28,21 @@ public class SetOnlineCommand extends SubCommand {
                 amount = Integer.parseInt(args[1]);
                 amount = ClampAmountUtility.clampChunkValue(amount, plugin);
             } catch (Exception e) {
-                ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
+                ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
             }
 
             try {
                 for (Player p : plugin.getServer().getOnlinePlayers()) {
-                    ProcessColorCodesUtility.processMessage("all-online-change-msg", p, amount);
+                    ProcessConfigMessagesUtility.processMessage("all-online-change-msg", p, amount);
 
                     DataProcessorUtility.processData(p, amount);
                 }
             } catch (Exception e) {
-                ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
+                ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
             }
 
             if (commandSender instanceof ConsoleCommandSender) {
-                ProcessColorCodesUtility.processMessage("all-online-change-msg", commandSender, amount);
+                ProcessConfigMessagesUtility.processMessage("all-online-change-msg", commandSender, amount);
             }
         }
     }

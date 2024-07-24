@@ -33,7 +33,7 @@ public class SetCommand extends SubCommand {
     public void performCommand(CommandSender commandSender, String[] args) {
 
         if (args.length < 2 || args.length > 3) {
-            ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
+            ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
         } else {
             int amount = ClampAmountUtility.getMaxPossible();
 
@@ -41,12 +41,12 @@ public class SetCommand extends SubCommand {
                 amount = Integer.parseInt(args[1]);
                 amount = ClampAmountUtility.clampChunkValue(amount, plugin);
             } catch (Exception e) {
-                ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
+                ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
             }
 
             if (args.length == 2) {
                 if (commandSender instanceof Player player) {
-                    ProcessColorCodesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                    ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
                     DataProcessorUtility.processData(player, amount);
                 } else {
                     plugin.getLogger().info(plugin.getConfig().getString("incorrect-args"));
@@ -57,16 +57,16 @@ public class SetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    ProcessColorCodesUtility.processMessage("player-offline-msg", commandSender);
+                    ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
 
                 } else if (commandSender == target) {
-                    ProcessColorCodesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                    ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
                     DataProcessorUtility.processData(target, amount);
 
                 } else {
-                    ProcessColorCodesUtility.processMessage("sender-view-distance-change-msg", commandSender, amount, target, commandSender);
+                    ProcessConfigMessagesUtility.processMessage("sender-view-distance-change-msg", amount, target, commandSender);
 
-                    ProcessColorCodesUtility.processMessage("target-view-distance-change-msg", target, amount, target, target);
+                    ProcessConfigMessagesUtility.processMessage("target-view-distance-change-msg", amount, target, target);
 
                     DataProcessorUtility.processData(target, amount);
                 }

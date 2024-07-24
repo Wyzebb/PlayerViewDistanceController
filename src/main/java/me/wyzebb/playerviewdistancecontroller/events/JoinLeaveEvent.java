@@ -54,10 +54,10 @@ public class JoinLeaveEvent implements Listener {
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
             if (amount == plugin.getConfig().getInt("max-distance") || amount == ClampAmountUtility.getMaxPossible())  {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    ProcessColorCodesUtility.processMessage("join-msg", e.getPlayer(), amount);
+                    ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), amount);
                 }
             } else {
-                ProcessColorCodesUtility.processMessage("join-msg", e.getPlayer(), amount);
+                ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), amount);
             }
         }
         PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
