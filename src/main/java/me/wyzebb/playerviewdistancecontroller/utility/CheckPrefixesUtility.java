@@ -26,7 +26,7 @@ public class CheckPrefixesUtility {
                     dataHandler.setChunks(amount);
                     event.getPlayer().setViewDistance(amount);
 
-                    event.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("prefix-chunks-set-msg", amount, plugin));
+                    ProcessColorCodesUtility.processMessage("prefix-chunks-set-msg", event.getPlayer(), amount);
                 }
             }
             return amount;
