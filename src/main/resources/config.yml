@@ -22,12 +22,12 @@ min-distance: 2
 # Display a message when a player joins telling them what their view distance is set to
 display-msg-on-join: true
 
-# If a message should be sent to a player when they join telling them what their view distance is set to, when it is the default/ max
+# If a join message should be sent telling them what their view distance is set to, when it is the default/ max of 32
 display-max-join-msg: false
 
 
 ########################## Messages ##########################
-# Colour codes may be used for this section using the '§' symbol
+# Color codes may be used for this section using the '§' symbol
 
 join-msg: "§e§l(!) §eYour view distance is currently set to {chunks} chunks"
 
@@ -45,18 +45,3 @@ target-view-distance-change-msg: "§e§l(!) §eYour view distance has been chang
 incorrect-args: "§c§l(!) §cIncorrect arguments - Use /help <command> for help"
 
 prefix-chunks-set-msg: "§c§l(!) §cYour view distance was set to {chunks} chunks because of your name's prefix"
-
-
-############### Command block/ Console Messages ###############
-
-# The message that displays when someone tries to change the view distance from the console/ a command block without specifying a player
-# Colour codes do not work in the console/ a command block
-change-consoleorcmd-distance-error: "(!) You must specify a player!"
-
-# The message displayed when a selected player is not online
-consoleorcmdblock-player-offline-msg: "(!) That player is not online!"
-
-# The message displayed for the command sender when you change someone else's view distance
-consoleorcmdblock-sender-view-distance-change-msg: "(!) {target-player}'s view distance was changed to {chunks} chunks"
-
-consoleorcmdblock-incorrect-args: "(!) Incorrect arguments - Use /help <command> for help"
