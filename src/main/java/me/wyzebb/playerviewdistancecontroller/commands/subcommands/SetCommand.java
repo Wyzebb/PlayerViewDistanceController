@@ -31,8 +31,6 @@ public class SetCommand extends SubCommand {
         return "/vd set <chunks> [player]";
     }
 
-    private String msg;
-
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
 
@@ -55,6 +53,8 @@ public class SetCommand extends SubCommand {
                     plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
                 }
             }
+
+            String msg;
 
             if (args.length == 2) {
                 if (commandSender instanceof Player player) {
@@ -95,19 +95,19 @@ public class SetCommand extends SubCommand {
 
                 } else {
                     if (commandSender instanceof Player) {
-                        String msg = plugin.getConfig().getString("commandSender-view-distance-change-msg");
+                        msg = plugin.getConfig().getString("commandSender-view-distance-change-msg");
                         msg = msg.replace("{target-player}", target.getName());
                         msg = msg.replace("{chunks}", String.valueOf(amount));
                         commandSender.sendMessage(msg);
 
                     } else {
-                        String msg = plugin.getConfig().getString("consoleorcmdblock-commandSender-view-distance-change-msg");
+                        msg = plugin.getConfig().getString("consoleorcmdblock-commandSender-view-distance-change-msg");
                         msg = msg.replace("{target-player}", target.getName());
                         msg = msg.replace("{chunks}", String.valueOf(amount));
                         plugin.getLogger().info(msg);
                     }
 
-                    String msg = plugin.getConfig().getString("target-view-distance-change-msg");
+                    msg = plugin.getConfig().getString("target-view-distance-change-msg");
                     msg = msg.replace("{chunks}", String.valueOf(amount));
                     target.setViewDistance(amount);
                     target.getPlayer().sendMessage(msg);
