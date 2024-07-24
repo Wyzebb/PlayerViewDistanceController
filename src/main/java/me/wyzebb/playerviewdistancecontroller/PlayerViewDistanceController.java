@@ -23,12 +23,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         // Register join and leave events
         getServer().getPluginManager().registerEvents(new JoinLeaveEvent(this), this);
 
-        // Register Commands
-//        BaseViewDistanceCommand baseCommand = new BaseViewDistanceCommand(this);
-//        getCommand("viewdistance").setExecutor(baseCommand);
-//        baseCommand.registerCommand("set", new SetCommand(this));
-//        baseCommand.registerCommand("setonline", new SetOnlineCommand(this));
+        // Register commands and tab completer
         getCommand("viewdistance").setExecutor(new CommandManager(this));
+        getCommand("viewdistance").setTabCompleter(new CommandManager(this));
     }
 
     public FileConfiguration getPrefixesConfig() {
