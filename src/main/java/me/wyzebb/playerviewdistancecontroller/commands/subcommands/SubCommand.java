@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 
 public abstract class SubCommand{
 
-    public abstract void performCommand(CommandSender commandSender, String args[]);
+    public abstract void performCommand(CommandSender commandSender, String[] args);
 
     public abstract String getName();
 
