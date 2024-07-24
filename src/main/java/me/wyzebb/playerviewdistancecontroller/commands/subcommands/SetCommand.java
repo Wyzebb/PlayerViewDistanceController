@@ -4,6 +4,7 @@ import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessColorCodesUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,23 +36,15 @@ public class SetCommand extends SubCommand {
     public void performCommand(CommandSender commandSender, String[] args) {
 
         if (args.length < 2 || args.length > 3) {
-            if (commandSender instanceof Player) {
-                commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
-            } else {
-                plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
-            }
+            ProcessColorCodesUtility.processColorMessage("incorrect-args", commandSender, plugin);
         } else {
-            int amount = 32;
+            int amount = ClampAmountUtility.getMaxPossible();
 
             try {
                 amount = Integer.parseInt(args[1]);
                 amount = ClampAmountUtility.clampChunkValue(amount, plugin);
             } catch (Exception e) {
-                if (commandSender instanceof Player) {
-                    commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
-                } else {
-                    plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
-                }
+                ProcessColorCodesUtility.processColorMessage("incorrect-args", commandSender, plugin);
             }
 
             String msg;
@@ -68,7 +61,7 @@ public class SetCommand extends SubCommand {
                     PlayerUtility.setPlayerDataHandler(player, dataHandler);
 
                 } else {
-                    plugin.getLogger().info(plugin.getConfig().getString("change-consoleorcmd-distance-error"));
+                    plugin.getLogger().info(plugin.getConfig().getString("incorrect-args"));
                 }
 
             } else {
