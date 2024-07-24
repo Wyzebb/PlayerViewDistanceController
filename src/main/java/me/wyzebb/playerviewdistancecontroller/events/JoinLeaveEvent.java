@@ -23,8 +23,6 @@ public class JoinLeaveEvent implements Listener {
         this.plugin = plugin;
     }
 
-    String msg;
-
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
         int amount = plugin.getConfig().getInt("default-distance");
@@ -38,13 +36,13 @@ public class JoinLeaveEvent implements Listener {
 
             if (amount == plugin.getConfig().getInt("default-distance")) {
                 // Default so redirect to prefixes
-                int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, playerDataFile, dataHandler, plugin);
+                int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler, plugin);
                 if (!(errorCheck == 1000)) {
                     amount = errorCheck;
                 }
             }
         } else {
-            int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, playerDataFile, dataHandler, plugin);
+            int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler, plugin);
             if (!(errorCheck == 1000)) {
                 amount = errorCheck;
             }

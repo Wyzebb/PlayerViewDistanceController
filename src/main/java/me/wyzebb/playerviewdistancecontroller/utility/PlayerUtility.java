@@ -37,6 +37,6 @@ public class PlayerUtility {
 
     public File getPlayerDataFile(Player p) {
         File dataFolder = plugin.getDataFolder();
-        return new File(dataFolder, "players/" + p.getUniqueId().toString() + ".yml");
+        return new File(dataFolder, "players/" + p.getUniqueId() + ".yml");
     }
 }

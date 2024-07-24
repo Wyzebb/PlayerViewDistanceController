@@ -4,16 +4,15 @@ import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.io.File;
 import java.util.Objects;
 import java.util.Set;
 
 public class CheckPrefixesUtility {
 
-    public static int checkPrefixes(int amount, PlayerJoinEvent event, File playerDataFile, PlayerDataHandler dataHandler, PlayerViewDistanceController plugin) {
+    public static int checkPrefixes(int amount, PlayerJoinEvent event, PlayerDataHandler dataHandler, PlayerViewDistanceController plugin) {
         Set<String> keys = plugin.getPrefixesConfig().getConfigurationSection("prefixes").getKeys(false);
         if (!keys.isEmpty()) {
-            plugin.getLogger().info("Loaded prefixes: " + keys.toString());
+            plugin.getLogger().info("Loaded prefixes: " + keys);
 
             for (String key : keys) {
                 if (Objects.equals(key, "dot")) {
