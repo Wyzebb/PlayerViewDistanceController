@@ -27,7 +27,7 @@ public class SetOnlineCommand extends SubCommand {
                 plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
             }
         } else {
-           int amount = 32;
+           int amount = ClampAmountUtility.getMaxPossible();
 
             try {
                 amount = Integer.parseInt(args[1]);
