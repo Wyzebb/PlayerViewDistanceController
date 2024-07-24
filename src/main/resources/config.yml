@@ -3,7 +3,6 @@
 # Configurations for individual players can be found in the players directory
 # See prefixes.yml to change prefix distances
 
-
 ###################### Main configuration ######################
 
 # Should there be a default-distance for each player?
@@ -42,6 +41,8 @@ sender-view-distance-change-msg: "§e§l(!) §e{target-player}'s view distance w
 target-view-distance-change-msg: "§e§l(!) §eYour view distance has been changed to {chunks} chunks"
 
 # The message displayed when there are not enough arguments or the arguments are invalid
-incorrect-args: "§c§l(!) §cIncorrect arguments - Use /help <command> for help"
+incorrect-args: "§c§l(!) §cIncorrect arguments - Use /vd for help"
 
-prefix-chunks-set-msg: "§c§l(!) §cYour view distance was set to {chunks} chunks because of your name's prefix"
+prefix-chunks-set-msg: "§e§l(!) §eYour view distance was set to {chunks} chunks because of your name's prefix"
+
+all-online-change-msg: "§e§l(!) §eThe maximum view distance of all online players has been set to {chunks} chunks"
