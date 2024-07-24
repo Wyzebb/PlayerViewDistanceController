@@ -44,8 +44,6 @@ public class SetCommand extends SubCommand {
                 ProcessColorCodesUtility.processMessage("incorrect-args", commandSender);
             }
 
-            String msg;
-
             if (args.length == 2) {
                 if (commandSender instanceof Player player) {
                     ProcessColorCodesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
