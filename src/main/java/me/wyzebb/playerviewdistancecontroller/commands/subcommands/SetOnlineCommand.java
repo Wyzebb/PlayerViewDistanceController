@@ -1,26 +1,25 @@
-package me.wyzebb.playerviewdistancecontroller.commands;
+package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class SetOnlineSubCommand extends SubCommand {
+public class SetOnlineCommand extends SubCommand {
 
     private final PlayerViewDistanceController plugin;
 
-    public SetOnlineSubCommand(PlayerViewDistanceController plugin) {
+    public SetOnlineCommand(PlayerViewDistanceController plugin) {
         this.plugin = plugin;
     }
 
     String msg;
 
     @Override
-    public void onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+    public void performCommand(@NotNull CommandSender commandSender, @NotNull String[] args) {
         if (args.length != 2) {
             if (commandSender instanceof Player) {
                 commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
@@ -64,7 +63,18 @@ public class SetOnlineSubCommand extends SubCommand {
         }
     }
 
-    public String getPermission() {
-        return "Permissions";
+    @Override
+    public String getName() {
+        return "setonline";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Sets the max view distance of all online players";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/vd setonline <chunks>";
     }
 }

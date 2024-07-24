@@ -1,27 +1,41 @@
-package me.wyzebb.playerviewdistancecontroller.commands;
+package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-public class SetSubCommand extends SubCommand {
+public class SetCommand extends SubCommand {
 
     private final PlayerViewDistanceController plugin;
 
-    public SetSubCommand(PlayerViewDistanceController plugin) {
+    public SetCommand(PlayerViewDistanceController plugin) {
         this.plugin = plugin;
     }
 
-    String msg;
+    @Override
+    public String getName() {
+        return "set";
+    }
 
     @Override
-    public void onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+    public String getDescription() {
+        return "Set your own max view distance or the max view distance of another player";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/vd set <chunks> [player]";
+    }
+
+    private String msg;
+
+    @Override
+    public void performCommand(CommandSender commandSender, String[] args) {
+
         if (args.length < 2 || args.length > 3) {
             if (commandSender instanceof Player) {
                 commandSender.sendMessage(plugin.getConfig().getString("incorrect-args"));
@@ -29,7 +43,7 @@ public class SetSubCommand extends SubCommand {
                 plugin.getLogger().warning(plugin.getConfig().getString("consoleorcmdblock-incorrect-args"));
             }
         } else {
-           int amount = 32;
+            int amount = 32;
 
             try {
                 amount = Integer.parseInt(args[1]);
@@ -105,9 +119,6 @@ public class SetSubCommand extends SubCommand {
                 }
             }
         }
-    }
 
-    public String getPermission() {
-        return "Permissions";
     }
 }
