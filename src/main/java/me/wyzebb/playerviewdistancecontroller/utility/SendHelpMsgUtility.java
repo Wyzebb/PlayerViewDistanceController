@@ -16,7 +16,7 @@ public class SendHelpMsgUtility {
         CommandManager cmdManager = new CommandManager(plugin);
         List<SubCommand> subcommands = cmdManager.getSubcommands();
 
-        List<String> messageLines = new ArrayList<>();
+        ArrayList<String> messageLines = new ArrayList<>();
         messageLines.add("--------------------------------");
         for (SubCommand subcommand : subcommands) {
             messageLines.add(subcommand.getSyntax() + " - " + subcommand.getDescription());
