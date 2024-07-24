@@ -55,7 +55,7 @@ public class JoinLeaveEvent implements Listener {
         e.getPlayer().setViewDistance(amount);
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
-            if (amount == plugin.getConfig().getInt("max-distance") || amount == 32)  {
+            if (amount == plugin.getConfig().getInt("max-distance") || amount == ClampAmountUtility.getMaxPossible())  {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
                     e.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("join-msg", amount, plugin));
                 }
