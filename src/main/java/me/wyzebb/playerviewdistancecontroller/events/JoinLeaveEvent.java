@@ -2,8 +2,10 @@ package me.wyzebb.playerviewdistancecontroller.events;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.CheckPrefixesUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessageUtility;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -30,7 +32,6 @@ public class JoinLeaveEvent implements Listener {
     private void onPlayerJoin(PlayerJoinEvent e) {
         int amount = plugin.getConfig().getInt("default-distance");
         PlayerDataHandler dataHandler = new PlayerDataHandler();
-
         PlayerUtility playerDataHandler = new PlayerUtility(plugin);
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
 
@@ -40,13 +41,13 @@ public class JoinLeaveEvent implements Listener {
 
             if (amount == plugin.getConfig().getInt("default-distance")) {
                 // Default so redirect to prefixes
-                int errorCheck = checkPrefixes(amount, e, playerDataFile, dataHandler);
+                int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, playerDataFile, dataHandler, plugin);
                 if (!(errorCheck == 1000)) {
                     amount = errorCheck;
                 }
             }
         } else {
-            int errorCheck = checkPrefixes(amount, e, playerDataFile, dataHandler);
+            int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, playerDataFile, dataHandler, plugin);
             if (!(errorCheck == 1000)) {
                 amount = errorCheck;
             }
@@ -55,72 +56,19 @@ public class JoinLeaveEvent implements Listener {
 
         amount = ClampAmountUtility.clampChunkValue(amount, plugin);
 
-//        if (!((playerDataFile.exists())) && !(plugin.getConfig().getBoolean("set-default-distance"))) {
-//            amount = Math.min(32, plugin.getConfig().getInt("max-distance"));
-//            amount = Math.max(2, plugin.getConfig().getInt("min-distance"));
-//        }
-
         dataHandler.setChunks(amount);
         e.getPlayer().setViewDistance(amount);
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
             if (amount == plugin.getConfig().getInt("max-distance") || amount == 32)  {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    msg = plugin.getConfig().getString("join-msg");
-                    msg = msg.replace("{chunks}", String.valueOf(amount));
-                    e.getPlayer().sendMessage(msg);
+                    e.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("join-msg", amount, plugin));
                 }
             } else {
-                msg = plugin.getConfig().getString("join-msg");
-                msg = msg.replace("{chunks}", String.valueOf(amount));
-                e.getPlayer().sendMessage(msg);
+                e.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("join-msg", amount, plugin));
             }
-
         }
-
         PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
-    }
-
-
-    private int checkPrefixes(Integer amount, PlayerJoinEvent event, File playerDataFile, PlayerDataHandler dataHandler) {
-        Set<String> keys = plugin.getPrefixesConfig().getConfigurationSection("prefixes").getKeys(false);
-        if (!keys.isEmpty()) {
-            plugin.getLogger().info("Loaded prefixes: " + keys.toString()); // UNNECESSARY: FOR DEBUGGING
-
-            // UNNECESSARY: FOR DEBUGGING
-            for (String key : keys) {
-                plugin.getLogger().info("Prefix: " + key);
-                plugin.getLogger().info("Distance: " + plugin.getPrefixesConfig().getInt(("prefixes." + key)));
-            }
-        } else {
-            plugin.getLogger().info("No keys found or keys set is null");
-            return 1000; // ERROR
-        }
-
-        for (String key : keys) {
-            if (Objects.equals(key, "dot")) {
-                key = ".";
-            }
-            if (event.getPlayer().getName().toLowerCase().startsWith(key.toLowerCase())) {
-                // Name starts with prefix
-
-                amount = plugin.getPrefixesConfig().getInt(("prefixes." + key));
-                amount = ClampAmountUtility.clampChunkValue(amount, plugin);
-
-//                if (!((playerDataFile.exists())) && !(plugin.getConfig().getBoolean("set-default-distance"))) {
-//                    amount = Math.min(32, plugin.getConfig().getInt("max-distance"));
-//                    amount = Math.max(2, plugin.getConfig().getInt("min-distance"));
-//                }
-
-                dataHandler.setChunks(amount);
-                event.getPlayer().setViewDistance(amount);
-
-                String msg = "SET YOUR VIEW DISTANCE TO {chunks} chunks because of your name's prefix";
-                msg = msg.replace("{chunks}", String.valueOf(amount));
-                event.getPlayer().sendMessage(msg);
-            }
-        }
-        return amount;
     }
 
 
