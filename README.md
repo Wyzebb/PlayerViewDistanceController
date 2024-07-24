@@ -31,7 +31,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 <br/>
 
 ## **Permissions**
-- Self and other player view distance permission: `viewdistance.command`
+- Base command and set self and other player max view distance: `viewdistance.command`
 - Global view distance permission: `viewdistance.setonline`
 - Both are granted to ops by default
 
