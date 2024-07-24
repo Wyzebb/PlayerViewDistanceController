@@ -1,8 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller;
 
-import me.wyzebb.playerviewdistancecontroller.commands.BaseViewDistanceCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.SetOnlineSubCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.SetSubCommand;
+import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -26,10 +24,11 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinLeaveEvent(this), this);
 
         // Register Commands
-        BaseViewDistanceCommand baseCommand = new BaseViewDistanceCommand(this);
-        getCommand("viewdistance").setExecutor(baseCommand);
-        baseCommand.registerCommand("set", new SetSubCommand(this));
-        baseCommand.registerCommand("setonline", new SetOnlineSubCommand(this));
+//        BaseViewDistanceCommand baseCommand = new BaseViewDistanceCommand(this);
+//        getCommand("viewdistance").setExecutor(baseCommand);
+//        baseCommand.registerCommand("set", new SetCommand(this));
+//        baseCommand.registerCommand("setonline", new SetOnlineCommand(this));
+        getCommand("viewdistance").setExecutor(new CommandManager(this));
     }
 
     public FileConfiguration getPrefixesConfig() {
