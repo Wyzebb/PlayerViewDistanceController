@@ -1,4 +1,4 @@
-# Type 'dot' for a '.' as the YAML file parses the '.' incorrectly
+# Type 'dot' for a '.' as the YAML file parses the '.'
 # This would typically be used for Geyser bedrock compatibility
 
 prefixes:
