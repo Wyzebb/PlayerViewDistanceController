@@ -49,7 +49,7 @@ public class SetCommand extends SubCommand {
                     ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
                     DataProcessorUtility.processData(player, amount);
                 } else {
-                    plugin.getLogger().info(plugin.getConfig().getString("incorrect-args"));
+                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
                 }
 
             } else {
