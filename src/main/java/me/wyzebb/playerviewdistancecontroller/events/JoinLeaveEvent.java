@@ -2,10 +2,7 @@ package me.wyzebb.playerviewdistancecontroller.events;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.CheckPrefixesUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessageUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -55,12 +52,12 @@ public class JoinLeaveEvent implements Listener {
         e.getPlayer().setViewDistance(amount);
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
-            if (amount == plugin.getConfig().getInt("max-distance") || amount == 32)  {
+            if (amount == plugin.getConfig().getInt("max-distance") || amount == ClampAmountUtility.getMaxPossible())  {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    e.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("join-msg", amount, plugin));
+                    ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), amount);
                 }
             } else {
-                e.getPlayer().sendMessage(ProcessConfigMessageUtility.getProcessedConfigMessage("join-msg", amount, plugin));
+                ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), amount);
             }
         }
         PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);

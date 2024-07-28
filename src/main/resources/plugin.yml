@@ -8,7 +8,7 @@ prefix: PVDC
 commands:
   viewdistance:
     description: Change a player's max view distance
-    usage: "Usage: /<command> <set/setonline> <chunks> [player]"
+    usage: "Use /vd for help"
     permission: viewdistance.command
     permission-message: "§cYou don't have the 'viewdistance.command' permission!"
     aliases:
