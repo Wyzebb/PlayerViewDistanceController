@@ -1,22 +1,12 @@
 ![Banner](https://i.ibb.co/p1fVk8s/Banner-min.webp)
-`DISCLAIMER: PAPER IS REQUIRED`
 <p>
-    <a href="https://modrinth.com/plugin/player-view-distance-controller"><img alt="modrinth" height="56"
-        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg"></a>
-    <a href="https://www.curseforge.com/minecraft/bukkit-plugins/pvdc"><img alt="curseforge" height="56"
-        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg"></a>
-    <a href="https://hangar.papermc.io/Wyzebb/PlayerViewDistanceController"><img alt="hangar" height="56"
-        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/hangar_vector.svg"></a>
-    <br />
-    <a href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56"
-        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg"></a>
-    <a href="https://www.patreon.com/Wyzebb"><img alt="patreon-singular" height="56"
-        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/patreon-singular_vector.svg"></a>
+  <a href="https://github.com/Wyzebb/PlayerViewDistanceController"><img alt="github" height="56"
+        src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg"></a>
+  <a href="https://ko-fi.com/wyzebb"><img alt="kofi-singular" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg"></a>
+  <a href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg"></a>
 </p>
-<br/>
-This plugin that makes the maximum view distance controllable per player. Those with permissions can change their own view distance or the view distance of other players individually or all that are online.
-
-<br/>
+This plugin that makes the maximum view distance controllable per player. Those with permissions can change their own max view distance, the max view distance of any other player or all online players.
+<br/><br/>
 
 ## **Features**
 - **Saves across restarts**: Each player's view distance saves across restarts.
@@ -39,7 +29,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 ### Base Command: `/viewdistance`
 - **Usage:** `/<command> <subcommand>`
 - **Aliases:** `vd`, `setchunks`
-
+<br/><br/>
 ### Subcommands
 #### - `set`
 - **Usage:** `/<vd> <set> <chunks> [player]`
