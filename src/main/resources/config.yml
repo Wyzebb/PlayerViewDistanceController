@@ -1,12 +1,8 @@
-############## PlayerViewDistanceController Config ##############
-
 # Configurations for individual players can be found in the players directory
 # See prefixes.yml to change prefix distances
 
-###################### Main configuration ######################
+################## Main settings ##################
 
-# Should there be a default-distance for each player?
-# Set to false for server.properties default or set default-distance to max
 set-default-distance: true
 
 # Default view distance for anyone who joins the server (Must be between 2 and 32)
@@ -21,28 +17,28 @@ min-distance: 2
 # Display a message when a player joins telling them what their view distance is set to
 display-msg-on-join: true
 
-# If a join message should be sent telling them what their view distance is set to, when it is the default/ max of 32
+# Display a message when a player joins telling them what their view distance is set to, when it is the default or maximum
 display-max-join-msg: false
 
 
-########################## Messages ##########################
+################## Messages ##################
 # Color codes may be used for this section using the '§' symbol
 
-join-msg: "§e§l(!) §eYour view distance is currently set to {chunks} chunks"
+join-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
 
-self-view-distance-change-msg: "§e§l(!) §eYou changed your view distance to {chunks} chunks"
+self-view-distance-change-msg: "§e§l(!) §eYou changed your maximum view distance to {chunks} chunks"
 
 player-offline-msg: "§c§l(!) §cThat player is not online!"
 
-# The message displayed for the command sender when you change someone else's view distance
-sender-view-distance-change-msg: "§e§l(!) §e{target-player}'s view distance was changed to {chunks} chunks"
+# The message displayed for the command sender when they change someone else's maximum view distance
+sender-view-distance-change-msg: "§e§l(!) §e{target-player}'s maximum view distance was changed to {chunks} chunks"
 
-# The message displayed for the target of a command when your view distance has been changed
-target-view-distance-change-msg: "§e§l(!) §eYour view distance has been changed to {chunks} chunks"
+# The message displayed for a player when their maximum view distance has been changed
+target-view-distance-change-msg: "§e§l(!) §eYour maximum view distance has been changed to {chunks} chunks"
 
 # The message displayed when there are not enough arguments or the arguments are invalid
 incorrect-args: "§c§l(!) §cIncorrect arguments - Use /vd for help"
 
-prefix-chunks-set-msg: "§e§l(!) §eYour view distance was set to {chunks} chunks because of your name's prefix"
+prefix-chunks-set-msg: "§e§l(!) §eYour maximum view distance was set to {chunks} chunks because of your name's prefix"
 
 all-online-change-msg: "§e§l(!) §eThe maximum view distance of all online players has been set to {chunks} chunks"
