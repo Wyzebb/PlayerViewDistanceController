@@ -29,7 +29,8 @@ This plugin that makes the maximum view distance controllable per player. Those 
 ### Base Command: `/viewdistance`
 - **Usage:** `/<command> <subcommand>`
 - **Aliases:** `vd`, `setchunks`
-  <br/><br/>
+<br/><br/>
+
 ### Subcommands
 #### - `set`
 - **Usage:** `/<vd> <set> <chunks> [player]`
