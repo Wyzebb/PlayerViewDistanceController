@@ -9,18 +9,18 @@ This plugin that makes the maximum view distance controllable per player. Those 
 <br/><br/>
 
 ## **Features**
-- **Saves across restarts**: Each player's view distance saves across restarts.
-- **Join and leave handling**: Automatically restores player view distances when they connect to the server.
-- **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
 - **Per-player control**: Each player has their own view distance, which can be set and saved individually.
 - **Global control**: Easily set the max view distance of all online players.
-- **Commands and permissions**: Easily change view distances via commands or the per-player config, with permissions in place.
+- **Saves data persistently**: Automatically restores player view distances when they connect to the server, even across restarts.
+- **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
+- **Name prefix control**: Allow bedrock players or players with specific prefixes on their names to have custom max view distances.
 
 <br/>
 
 ## **Permissions**
 - Base command and set self and other player max view distance: `viewdistance.command`
 - Global view distance permission: `viewdistance.setonline`
+- Global view distance permission: `viewdistance.reload`
 - Both are granted to ops by default
 
 <br/>
@@ -29,7 +29,6 @@ This plugin that makes the maximum view distance controllable per player. Those 
 ### Base Command: `/viewdistance`
 - **Usage:** `/<command> <subcommand>`
 - **Aliases:** `vd`, `setchunks`
-  <br/><br/>
 ### Subcommands
 #### - `set`
 - **Usage:** `/<vd> <set> <chunks> [player]`
@@ -38,3 +37,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 #### - `setonline`
 - **Usage:** `/<vd> <setonline> <chunks>`
 - Sets the maximum view distance of all online players
+
+#### - `reload`
+- **Usage:** `/<vd> <reload>`
+- Reloads the plugin config
