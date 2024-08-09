@@ -10,8 +10,6 @@ import java.io.File;
 
 public class ReloadCommand extends SubCommand {
 
-    private FileConfiguration prefixesConfig;
-
     private final PlayerViewDistanceController plugin;
 
     public ReloadCommand(PlayerViewDistanceController plugin) {
@@ -41,10 +39,6 @@ public class ReloadCommand extends SubCommand {
         ProcessConfigMessagesUtility.processMessage("reload-config-msg", commandSender);
     }
 
-    public FileConfiguration getPrefixesConfig() {
-        return this.prefixesConfig;
-    }
-
     private void createPrefixesConfig() {
         File prefixesConfigFile = new File(plugin.getDataFolder(), "prefixes.yml");
         if (!prefixesConfigFile.exists()) {
@@ -55,6 +49,6 @@ public class ReloadCommand extends SubCommand {
             plugin.saveResource("prefixes.yml", false);
         }
 
-        prefixesConfig = YamlConfiguration.loadConfiguration(prefixesConfigFile);
+        FileConfiguration prefixesConfig = YamlConfiguration.loadConfiguration(prefixesConfigFile);
     }
 }
