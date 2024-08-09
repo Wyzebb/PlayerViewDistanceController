@@ -48,7 +48,5 @@ public class ReloadCommand extends SubCommand {
             }
             plugin.saveResource("prefixes.yml", false);
         }
-
-        FileConfiguration prefixesConfig = YamlConfiguration.loadConfiguration(prefixesConfigFile);
     }
 }
