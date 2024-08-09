@@ -1,13 +1,13 @@
 package me.wyzebb.playerviewdistancecontroller.commands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+import me.wyzebb.playerviewdistancecontroller.commands.subcommands.ReloadCommand;
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SetCommand;
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SetOnlineCommand;
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SubCommand;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
@@ -26,6 +26,7 @@ public class CommandManager implements TabExecutor {
         this.plugin = plugin;
         subcommands.add(new SetCommand(plugin));
         subcommands.add(new SetOnlineCommand(plugin));
+        subcommands.add(new ReloadCommand(plugin));
     }
 
     @Override
