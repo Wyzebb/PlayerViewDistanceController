@@ -10,7 +10,7 @@ import java.util.Set;
 public class CheckPrefixesUtility {
 
     public static int checkPrefixes(int amount, PlayerJoinEvent event, PlayerDataHandler dataHandler, PlayerViewDistanceController plugin) {
-        Set<String> keys = plugin.getPrefixesConfig().getConfigurationSection("prefixes").getKeys(false);
+        Set<String> keys = Objects.requireNonNull(plugin.getPrefixesConfig().getConfigurationSection("prefixes")).getKeys(false);
         if (!keys.isEmpty()) {
             plugin.getLogger().info("Loaded prefixes: " + keys);
 
