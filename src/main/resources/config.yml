@@ -42,3 +42,5 @@ incorrect-args: "§c§l(!) §cIncorrect arguments - Use /vd for help"
 prefix-chunks-set-msg: "§e§l(!) §eYour maximum view distance was set to {chunks} chunks because of your name's prefix"
 
 all-online-change-msg: "§e§l(!) §eThe maximum view distance of all online players has been set to {chunks} chunks"
+
+reload-config-msg: "§e§l(!) §eThe PVDC config files have been reloaded"
