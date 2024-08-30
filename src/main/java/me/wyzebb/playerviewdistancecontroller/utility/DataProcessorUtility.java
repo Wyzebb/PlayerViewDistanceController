@@ -8,6 +8,7 @@ public class DataProcessorUtility {
         target.setViewDistance(amount);
         PlayerDataHandler dataHandler = new PlayerDataHandler();
         dataHandler.setChunks(amount);
+        dataHandler.setSaveChunks(true);
         PlayerUtility.setPlayerDataHandler(target, dataHandler);
     }
 }
