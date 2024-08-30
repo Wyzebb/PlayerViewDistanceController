@@ -28,6 +28,9 @@ permissions:
     description: Allows view distance reload command
     default: op
 
+  viewdistance.maxdistance:
+    description: Allows max view distance to be set via luckperms eg viewdistance.maxdistance
+
   viewdistance.*:
     description: Permission for everything
     default: op
