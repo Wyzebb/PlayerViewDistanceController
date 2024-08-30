@@ -10,6 +10,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 
 ## **Features**
 - **Per-player control**: Each player has their own view distance, which can be set and saved individually.
+- **Permission-based control**: Max view distance can be set for groups or individual players via Luckperms.
 - **Global control**: Easily set the max view distance of all online players.
 - **Saves data persistently**: Automatically restores player view distances when they connect to the server, even across restarts.
 - **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
@@ -19,6 +20,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 
 ## **Permissions**
 - Base command and set self and other player max view distance: `viewdistance.command`
+- Permission-based max view distance via luckperms: `viewdistance.maxdistance.<chunks>`
 - Global view distance permission: `viewdistance.setonline`
 - Reload plugin config permission: `viewdistance.reload`
 - Both are granted to ops by default
