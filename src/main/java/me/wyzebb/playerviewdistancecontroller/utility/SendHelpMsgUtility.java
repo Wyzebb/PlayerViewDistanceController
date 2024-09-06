@@ -17,11 +17,11 @@ public class SendHelpMsgUtility {
         List<SubCommand> subcommands = cmdManager.getSubcommands();
 
         ArrayList<String> messageLines = new ArrayList<>();
-        messageLines.add("--------------------------------");
+        messageLines.add("§c--------------------------------");
         for (SubCommand subcommand : subcommands) {
-            messageLines.add(subcommand.getSyntax() + " - " + subcommand.getDescription());
+            messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
         }
-        messageLines.add("--------------------------------");
+        messageLines.add("§c--------------------------------");
 
         if (commandSender instanceof Player p) {
             for (String line : messageLines) {
