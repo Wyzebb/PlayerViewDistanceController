@@ -1,7 +1,7 @@
 name: PlayerViewDistanceController
 version: '${project.version}'
 main: me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController
-api-version: '1.20'
+api-version: '1.21'
 author: Wyzebb
 description: A plugin that makes view distance controllable for each player
 prefix: PVDC
