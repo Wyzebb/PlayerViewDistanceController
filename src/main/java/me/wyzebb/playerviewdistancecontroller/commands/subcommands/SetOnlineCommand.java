@@ -19,31 +19,36 @@ public class SetOnlineCommand extends SubCommand {
 
     @Override
     public void performCommand(@NotNull CommandSender commandSender, @NotNull String[] args) {
-        if (args.length != 2) {
-            ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
-        } else {
-            int amount = ClampAmountUtility.getMaxPossible();
+        if (commandSender.hasPermission("pvdc.setonline")) {
 
-            try {
-                amount = Integer.parseInt(args[1]);
-                amount = ClampAmountUtility.clampChunkValue(amount, plugin);
-            } catch (Exception e) {
+            if (args.length != 2) {
                 ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
-            }
+            } else {
+                int amount = ClampAmountUtility.getMaxPossible();
 
-            try {
-                for (Player p : plugin.getServer().getOnlinePlayers()) {
-                    ProcessConfigMessagesUtility.processMessage("all-online-change-msg", p, amount);
-
-                    DataProcessorUtility.processData(p, amount);
+                try {
+                    amount = Integer.parseInt(args[1]);
+                    amount = ClampAmountUtility.clampChunkValue(amount, plugin);
+                } catch (Exception e) {
+                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
                 }
-            } catch (Exception e) {
-                ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
-            }
 
-            if (commandSender instanceof ConsoleCommandSender) {
-                ProcessConfigMessagesUtility.processMessage("all-online-change-msg", commandSender, amount);
+                try {
+                    for (Player p : plugin.getServer().getOnlinePlayers()) {
+                        ProcessConfigMessagesUtility.processMessage("all-online-change-msg", p, amount);
+
+                        DataProcessorUtility.processData(p, amount);
+                    }
+                } catch (Exception e) {
+                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                }
+
+                if (commandSender instanceof ConsoleCommandSender) {
+                    ProcessConfigMessagesUtility.processMessage("all-online-change-msg", commandSender, amount);
+                }
             }
+        } else {
+            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
         }
     }
 
