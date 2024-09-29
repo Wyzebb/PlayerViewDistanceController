@@ -31,7 +31,6 @@ public class SetCommand extends SubCommand {
 
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
-
         if (args.length < 2 || args.length > 3) {
             ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
         } else {
@@ -46,8 +45,12 @@ public class SetCommand extends SubCommand {
 
             if (args.length == 2) {
                 if (commandSender instanceof Player player) {
-                    ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
-                    DataProcessorUtility.processData(player, amount);
+                    if (commandSender.hasPermission("pvdc.others")) {
+                        ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                        DataProcessorUtility.processData(player, amount);
+                    } else {
+                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+                    }
                 } else {
                     ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
                 }
@@ -60,15 +63,23 @@ public class SetCommand extends SubCommand {
                     ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
 
                 } else if (commandSender == target) {
-                    ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
-                    DataProcessorUtility.processData(target, amount);
+                    if (commandSender.hasPermission("pvdc.self")) {
+                        ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                        DataProcessorUtility.processData(target, amount);
+                    } else {
+                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+                    }
 
                 } else {
-                    ProcessConfigMessagesUtility.processMessage("sender-view-distance-change-msg", amount, target, commandSender);
+                    if (commandSender.hasPermission("pvdc.others")) {
+                        ProcessConfigMessagesUtility.processMessage("sender-view-distance-change-msg", amount, target, commandSender);
 
-                    ProcessConfigMessagesUtility.processMessage("target-view-distance-change-msg", amount, target, target);
+                        ProcessConfigMessagesUtility.processMessage("target-view-distance-change-msg", amount, target, target);
 
-                    DataProcessorUtility.processData(target, amount);
+                        DataProcessorUtility.processData(target, amount);
+                    } else {
+                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+                    }
                 }
             }
         }
