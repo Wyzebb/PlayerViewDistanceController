@@ -10,32 +10,35 @@ commands:
   viewdistance:
     description: Change a player's max view distance
     usage: "Use /vd for help"
-    permission: viewdistance.command
-    permission-message: "§cYou don't have the 'viewdistance.command' permission!"
     aliases:
       - setchunks
       - vd
 
 permissions:
-  viewdistance.command:
-    description: Allows view distance command for self and others
+  pvdc.others:
+    description: Allows you to change the max view distance of other players
     default: op
 
-  viewdistance.setonline:
+  pvdc.self:
+    description: Allows you to change your own max view distance
+    default: op
+
+  pvdc.setonline:
     description: Allows view distance command for all online players
     default: op
 
-  viewdistance.reload:
+  pvdc.reload:
     description: Allows view distance reload command
     default: op
 
-  viewdistance.maxdistance:
-    description: Allows max view distance to be set via luckperms eg viewdistance.maxdistance
+  pvdc.maxdistance:
+    description: Allows max view distance to be set via luckperms eg pvdc.maxdistance.3
 
-  viewdistance.*:
+  pvdc.*:
     description: Permission for everything
     default: op
     children:
-      viewdistance.command: true
-      viewdistance.global: true
-      viewdistance.reload: true
+      pvdc.others: true
+      pvdc.self: true
+      pvdc.setonline: true
+      pvdc.reload: true
