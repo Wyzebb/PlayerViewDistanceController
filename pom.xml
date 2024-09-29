@@ -6,7 +6,7 @@
 
   <groupId>me.wyzebb</groupId>
   <artifactId>PlayerViewDistanceController</artifactId>
-  <version>1.7.0</version>
+  <version>1.7.1</version>
   <packaging>jar</packaging>
 
   <name>PlayerViewDistanceController</name>
