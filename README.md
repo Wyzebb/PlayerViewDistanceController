@@ -19,11 +19,13 @@ This plugin that makes the maximum view distance controllable per player. Those 
 <br/>
 
 ## **Permissions**
-- Base command and set self and other player max view distance: `viewdistance.command`
-- Permission-based max view distance via luckperms: `viewdistance.maxdistance.<chunks>`
-- Global view distance permission: `viewdistance.setonline`
-- Reload plugin config permission: `viewdistance.reload`
-- Both are granted to ops by default
+- Set your own max view distance: `pvdc.self`
+- Set the max view distance of other players: `pvdc.others`
+- Permission-based max view distance via luckperms: `pvdc.maxdistance.<chunks>`
+- Global view distance permission: `pvdc.setonline`
+- Reload plugin config permission: `pvdc.reload`
+
+- All permissions are granted to ops by default
 
 <br/>
 
