@@ -38,7 +38,7 @@ public class JoinLeaveEvent implements Listener {
         LuckPerms api = provider.getProvider();
         User user = api.getPlayerAdapter(Player.class).getUser(e.getPlayer());
 
-        // Regular expression to match permissions like viewdistance.maxdistance.7
+        // Regular expression to match permissions like pvdc.maxdistance.7
         Pattern pattern = Pattern.compile("viewdistance\\.maxdistance\\.(\\d+)");
 
         // Iterate over the player's permissions and find the smallest view distance
