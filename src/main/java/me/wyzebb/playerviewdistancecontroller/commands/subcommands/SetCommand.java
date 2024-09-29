@@ -45,7 +45,7 @@ public class SetCommand extends SubCommand {
 
             if (args.length == 2) {
                 if (commandSender instanceof Player player) {
-                    if (commandSender.hasPermission("pvdc.others")) {
+                    if (commandSender.hasPermission("pvdc.self")) {
                         ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
                         DataProcessorUtility.processData(player, amount);
                     } else {
