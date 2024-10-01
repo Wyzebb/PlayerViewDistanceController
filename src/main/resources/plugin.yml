@@ -9,7 +9,7 @@ folia-supported: true
 commands:
   viewdistance:
     description: Change a player's max view distance
-    usage: "Use /vd for help"
+    usage: "Use /vd help for usage information"
     aliases:
       - setchunks
       - vd
@@ -31,14 +31,24 @@ permissions:
     description: Allows view distance reload command
     default: op
 
+  pvdc.get:
+    description: Allows you to get the max view distance of players
+    default: op
+
+  pvdc.get-self:
+    description: Allows you to get your own max view distance
+    default: true
+
   pvdc.maxdistance:
     description: Allows max view distance to be set via luckperms eg pvdc.maxdistance.3
 
   pvdc.*:
-    description: Permission for everything
+    description: Grants all permissions for PVDC
     default: op
     children:
       pvdc.others: true
       pvdc.self: true
       pvdc.setonline: true
+      pvdc.get: true
+      pvdc.get-self: true
       pvdc.reload: true
