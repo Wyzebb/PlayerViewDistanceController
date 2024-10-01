@@ -15,7 +15,7 @@ commands:
     description: Change a player's max view distance
     usage: "Use /vd help for usage information"
     aliases:
-      - setchunks
+      - pvdc
       - vd
 
 permissions:
