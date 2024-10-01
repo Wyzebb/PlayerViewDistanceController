@@ -44,10 +44,7 @@ public class ReloadCommand extends SubCommand {
     private void createPrefixesConfig() {
         File prefixesConfigFile = new File(plugin.getDataFolder(), "prefixes.yml");
         if (!prefixesConfigFile.exists()) {
-            boolean folder = prefixesConfigFile.getParentFile().mkdirs();
-            if (!folder) {
-                plugin.getLogger().warning("An error occured when reloading config");
-            }
+            prefixesConfigFile.getParentFile().mkdirs();
             plugin.saveResource("prefixes.yml", false);
         }
     }
