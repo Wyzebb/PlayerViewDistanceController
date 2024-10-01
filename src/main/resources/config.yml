@@ -47,6 +47,6 @@ reload-config-msg: "§e§l(!) §eThe PVDC config files have been reloaded"
 
 no-permission: "§c§l(!) §cYou do not have permission to execute this command!"
 
-self-view-distance-get-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks}!"
+self-view-distance-get-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
 
-view-distance-get-msg: "§e§l(!) §e{target-player}'s maximum view distance is currently set to {chunks}!"
+view-distance-get-msg: "§e§l(!) §e{target-player}'s maximum view distance is currently set to {chunks} chunks"
