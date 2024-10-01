@@ -6,6 +6,7 @@ import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SubCommand;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,7 @@ import java.util.List;
 public class SendHelpMsgUtility {
 
     public static void sendHelpMessage(CommandSender commandSender, PlayerViewDistanceController plugin) {
-        CommandManager cmdManager = new CommandManager(plugin);
-        List<SubCommand> subcommands = cmdManager.getSubcommands();
-
-        ArrayList<String> messageLines = new ArrayList<>();
-        messageLines.add("§c--------------------------------");
-        for (SubCommand subcommand : subcommands) {
-            messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
-        }
-        messageLines.add("§c--------------------------------");
+        ArrayList<String> messageLines = getStrings(plugin);
 
         if (commandSender instanceof Player p) {
             for (String line : messageLines) {
@@ -36,5 +29,20 @@ public class SendHelpMsgUtility {
                 plugin.getLogger().info(line);
             }
         }
+    }
+
+    private static @NotNull ArrayList<String> getStrings(PlayerViewDistanceController plugin) {
+        CommandManager cmdManager = new CommandManager(plugin);
+        List<SubCommand> subcommands = cmdManager.getSubcommands();
+
+        ArrayList<String> messageLines = new ArrayList<>();
+        messageLines.add("§c--------------------------------");
+        for (SubCommand subcommand : subcommands) {
+            messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
+        }
+        messageLines.add("");
+        messageLines.add("§cFurther configuration options in config.yml");
+        messageLines.add("§c--------------------------------");
+        return messageLines;
     }
 }
