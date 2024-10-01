@@ -1,5 +1,5 @@
 # Configurations for individual players can be found in the players directory
-# See prefixes.yml to change prefix distances
+# See prefixes.yml to change max view distances for people with certain name prefixes
 
 ################## Main settings ##################
 
@@ -26,24 +26,24 @@ display-max-join-msg: false
 
 join-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
 
-self-view-distance-change-msg: "§e§l(!) §eYou changed your maximum view distance to {chunks} chunks"
+self-view-distance-change-msg: "§a§l(!) §aYou changed your maximum view distance to {chunks} chunks"
 
 player-offline-msg: "§c§l(!) §cThat player is not online!"
 
 # The message displayed for the command sender when they change someone else's maximum view distance
-sender-view-distance-change-msg: "§e§l(!) §e{target-player}'s maximum view distance was changed to {chunks} chunks"
+sender-view-distance-change-msg: "§a§l(!) §a{target-player}'s maximum view distance was changed to {chunks} chunks"
 
 # The message displayed for a player when their maximum view distance has been changed
-target-view-distance-change-msg: "§e§l(!) §eYour maximum view distance has been changed to {chunks} chunks"
+target-view-distance-change-msg: "§a§l(!) §aYour maximum view distance has been changed to {chunks} chunks"
 
 # The message displayed when there are not enough arguments or the arguments are invalid
 incorrect-args: "§c§l(!) §cIncorrect arguments - Use /vd help for help"
 
-prefix-chunks-set-msg: "§e§l(!) §eYour maximum view distance was set to {chunks} chunks because of your name's prefix"
+prefix-chunks-set-msg: "§a§l(!) §aYour maximum view distance was set to {chunks} chunks because of your name's prefix"
 
-all-online-change-msg: "§e§l(!) §eThe maximum view distance of all online players has been set to {chunks} chunks"
+all-online-change-msg: "§a§l(!) §aThe maximum view distance of all online players has been set to {chunks} chunks"
 
-reload-config-msg: "§e§l(!) §eThe PVDC config files have been reloaded"
+reload-config-msg: "§a§l(!) §aThe PVDC config files have been successfully reloaded"
 
 no-permission: "§c§l(!) §cYou do not have permission to execute this command!"
 
