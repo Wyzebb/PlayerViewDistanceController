@@ -10,7 +10,7 @@ This plugin that makes the maximum view distance controllable per player. Those 
 
 ## **Features**
 - **Per-player control**: Each player has their own view distance, which can be set and saved individually.
-- **Permission-based control**: Max view distance can be set for groups or individual players via Luckperms.
+- **Permission-based control**: Max view distance can be set for groups or individual players via Luckperms (LuckPerms is optional).
 - **Global control**: Easily set the max view distance of all online players.
 - **Saves data persistently**: Automatically restores player view distances when they connect to the server, even across restarts.
 - **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
@@ -19,20 +19,23 @@ This plugin that makes the maximum view distance controllable per player. Those 
 <br/>
 
 ## **Permissions**
-- Set your own max view distance: `pvdc.self`
-- Set the max view distance of other players: `pvdc.others`
-- Permission-based max view distance via luckperms: `pvdc.maxdistance.<chunks>`
-- Global view distance permission: `pvdc.setonline`
-- Reload plugin config permission: `pvdc.reload`
+- Set your own max view distance: `pvdc.set-self`
+- Set the max view distance of other players: `pvdc.set-others`
+- Permission-based max view distance via LuckPerms: `pvdc.maxdistance.<chunks>`
+- Global view distance: `pvdc.setonline`
+- Reload plugin config: `pvdc.reload`
+- Get the max view distance of another player: `pvdc.get-others`
+- Get your own max view distance: `pvdc.get-self`
 
 - All permissions are granted to ops by default
+- `pvdc.get-self` is granted to all players by default
 
 <br/>
 
 ## **Commands**
 ### Base Command: `/viewdistance`
 - **Usage:** `/<command> <subcommand>`
-- **Aliases:** `vd`, `setchunks`
+- **Aliases:** `vd`, `pvdc`
 ### Subcommands
 #### - `set`
 - **Usage:** `/<vd> <set> <chunks> [player]`
@@ -44,4 +47,12 @@ This plugin that makes the maximum view distance controllable per player. Those 
 
 #### - `reload`
 - **Usage:** `/<vd> <reload>`
-- Reloads the plugin config
+- Reloads the plugin config files
+
+#### - `get`
+- **Usage:** `/<vd> <get>`
+- Get your own max view distance or the max view distance of another player
+
+#### - `help`
+- **Usage:** `/<vd> <help>`
+- Displays the plugin help message
