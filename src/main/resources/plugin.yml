@@ -19,11 +19,11 @@ commands:
       - vd
 
 permissions:
-  pvdc.others:
+  pvdc.set-others:
     description: Allows you to change the max view distance of other players
     default: op
 
-  pvdc.self:
+  pvdc.set-self:
     description: Allows you to change your own max view distance
     default: op
 
@@ -35,8 +35,8 @@ permissions:
     description: Allows view distance reload command
     default: op
 
-  pvdc.get:
-    description: Allows you to get the max view distance of players
+  pvdc.get-others:
+    description: Allows you to get the max view distance of other players
     default: op
 
   pvdc.get-self:
@@ -50,9 +50,9 @@ permissions:
     description: Grants all permissions for PVDC
     default: op
     children:
-      pvdc.others: true
-      pvdc.self: true
+      pvdc.set-others: true
+      pvdc.set-self: true
       pvdc.setonline: true
-      pvdc.get: true
+      pvdc.get-others: true
       pvdc.get-self: true
       pvdc.reload: true
