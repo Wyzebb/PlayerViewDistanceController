@@ -1,10 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.ReloadCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SetCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SetOnlineCommand;
-import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SubCommand;
+import me.wyzebb.playerviewdistancecontroller.commands.subcommands.*;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -27,6 +24,8 @@ public class CommandManager implements TabExecutor {
         subcommands.add(new SetCommand(plugin));
         subcommands.add(new SetOnlineCommand(plugin));
         subcommands.add(new ReloadCommand(plugin));
+        subcommands.add(new HelpCommand(plugin));
+        subcommands.add(new GetCommand());
     }
 
     @Override
@@ -57,8 +56,16 @@ public class CommandManager implements TabExecutor {
             }
 
             return suggestions;
-        } else if (args.length == 2) {
-            return new ArrayList<>() {};
+        } else if (args.length == 2 && args[0].equals("get")) {
+            ArrayList<String> playerNames = new ArrayList<>();
+            Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().toArray().length];
+            Bukkit.getServer().getOnlinePlayers().toArray(players);
+
+            for (Player player : players) {
+                playerNames.add(player.getName());
+            }
+
+            return playerNames;
         } else if (args.length == 3 && args[0].equals("set")) {
             ArrayList<String> playerNames = new ArrayList<>();
             Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().toArray().length];
