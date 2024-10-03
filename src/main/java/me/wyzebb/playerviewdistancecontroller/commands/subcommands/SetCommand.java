@@ -44,13 +44,8 @@ public class SetCommand extends SubCommand {
             }
 
             if (args.length == 2) {
-                if (commandSender instanceof Player player) {
-                    if (commandSender.hasPermission("pvdc.self")) {
-                        ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
-                        DataProcessorUtility.processData(player, amount);
-                    } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
-                    }
+                if (commandSender instanceof Player) {
+                    setSelf(commandSender, amount);
                 } else {
                     ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
                 }
@@ -63,19 +58,12 @@ public class SetCommand extends SubCommand {
                     ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
 
                 } else if (commandSender == target) {
-                    if (commandSender.hasPermission("pvdc.self")) {
-                        ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
-                        DataProcessorUtility.processData(target, amount);
-                    } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
-                    }
+                    setSelf(commandSender, amount);
 
                 } else {
                     if (commandSender.hasPermission("pvdc.others")) {
                         ProcessConfigMessagesUtility.processMessage("sender-view-distance-change-msg", amount, target, commandSender);
-
                         ProcessConfigMessagesUtility.processMessage("target-view-distance-change-msg", amount, target, target);
-
                         DataProcessorUtility.processData(target, amount);
                     } else {
                         ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
@@ -83,6 +71,14 @@ public class SetCommand extends SubCommand {
                 }
             }
         }
+    }
 
+    private void setSelf(CommandSender commandSender, int amount) {
+        if (commandSender.hasPermission("pvdc.self")) {
+            ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+            DataProcessorUtility.processData((Player) commandSender, amount);
+        } else {
+            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+        }
     }
 }

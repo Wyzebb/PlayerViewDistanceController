@@ -29,12 +29,8 @@ public class GetCommand extends SubCommand {
             ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
         } else {
             if (args.length == 1) {
-                if (commandSender instanceof Player player) {
-                    if (commandSender.hasPermission("pvdc.get-self")) {
-                        ProcessConfigMessagesUtility.processMessage("self-view-distance-get-msg", commandSender, PlayerUtility.getPlayerDataHandler(player).getChunks());
-                    } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
-                    }
+                if (commandSender instanceof Player) {
+                    sendToSelf(commandSender);
                 } else {
                     ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
                 }
@@ -47,11 +43,7 @@ public class GetCommand extends SubCommand {
                     ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
 
                 } else if (commandSender == target) {
-                    if (commandSender.hasPermission("pvdc.get-self")) {
-                        ProcessConfigMessagesUtility.processMessage("self-view-distance-get-msg", commandSender, PlayerUtility.getPlayerDataHandler(target).getChunks());
-                    } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
-                    }
+                    sendToSelf(commandSender);
 
                 } else {
                     if (commandSender.hasPermission("pvdc.get")) {
@@ -61,6 +53,14 @@ public class GetCommand extends SubCommand {
                     }
                 }
             }
+        }
+    }
+
+    private void sendToSelf(CommandSender commandSender) {
+        if (commandSender.hasPermission("pvdc.get-self")) {
+            ProcessConfigMessagesUtility.processMessage("self-view-distance-get-msg", commandSender, PlayerUtility.getPlayerDataHandler((Player) commandSender).getChunks());
+        } else {
+            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
         }
     }
 }
