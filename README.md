@@ -5,7 +5,7 @@
   <a href="https://ko-fi.com/wyzebb"><img alt="kofi-singular" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular_vector.svg"></a>
   <a href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg"></a>
 </p>
-This plugin that makes the maximum view distance controllable per player. Those with permissions can change their own max view distance, the max view distance of any other player or all online players.
+This plugin makes the maximum view distance of each player highly customisable.
 <br/><br/>
 
 ## **Features**
@@ -15,20 +15,6 @@ This plugin that makes the maximum view distance controllable per player. Those 
 - **Saves data persistently**: Automatically restores player view distances when they connect to the server, even across restarts.
 - **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
 - **Name prefix control**: Allow bedrock players or players with specific prefixes on their names to have custom max view distances.
-
-<br/>
-
-## **Permissions**
-- Set your own max view distance: `pvdc.set-self`
-- Set the max view distance of other players: `pvdc.set-others`
-- Permission-based max view distance via LuckPerms: `pvdc.maxdistance.<chunks>`
-- Global view distance: `pvdc.setonline`
-- Reload plugin config: `pvdc.reload`
-- Get the max view distance of another player: `pvdc.get-others`
-- Get your own max view distance: `pvdc.get-self`
-
-- All permissions are granted to ops by default
-- `pvdc.get-self` is granted to all players by default
 
 <br/>
 
@@ -56,3 +42,17 @@ This plugin that makes the maximum view distance controllable per player. Those 
 #### - `help`
 - **Usage:** `/<vd> <help>`
 - Displays the plugin help message
+
+<br/>
+
+## **Permissions**
+- Set your own max view distance: `pvdc.set-self`
+- Set the max view distance of other players: `pvdc.set-others`
+- Permission-based max view distance via LuckPerms: `pvdc.maxdistance.<chunks>`
+- Global view distance: `pvdc.setonline`
+- Reload plugin config: `pvdc.reload`
+- Get the max view distance of another player: `pvdc.get-others`
+- Get your own max view distance: `pvdc.get-self`
+
+- All permissions are granted to ops by default
+- `pvdc.get-self` is granted to all players by default
