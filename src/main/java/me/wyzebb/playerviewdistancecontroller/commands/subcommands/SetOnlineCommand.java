@@ -18,6 +18,21 @@ public class SetOnlineCommand extends SubCommand {
     }
 
     @Override
+    public String getName() {
+        return "setonline";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Sets the max view distance of all online players";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/vd setonline <chunks>";
+    }
+
+    @Override
     public void performCommand(@NotNull CommandSender commandSender, @NotNull String[] args) {
         if (commandSender.hasPermission("pvdc.setonline")) {
 
@@ -50,20 +65,5 @@ public class SetOnlineCommand extends SubCommand {
         } else {
             ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
         }
-    }
-
-    @Override
-    public String getName() {
-        return "setonline";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Sets the max view distance of all online players";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/vd setonline <chunks>";
     }
 }
