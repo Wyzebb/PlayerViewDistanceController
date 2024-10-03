@@ -23,16 +23,12 @@ public class JoinLeaveEvent implements Listener {
 
     private int getLuckpermsDistance(PlayerJoinEvent e) {
         try {
-            // Use reflection to check if LuckPerms is available
-            Class.forName("net.luckperms.api.LuckPerms");
-
+            Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
             return LuckPermsDataHandler.getLuckpermsDistance(e, plugin);
         } catch (ClassNotFoundException ex) {
-            // LuckPerms isn't installed
             plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
             return 32; // Return default distance if LuckPerms is not available
         } catch (Exception ex) {
-            // Catch any reflection-related exceptions
             plugin.getLogger().warning("An unknown error occurred while accessing LuckPerms data: " + ex.getMessage());
             return 32; // Return default distance if LuckPerms is not available
         }
@@ -41,14 +37,16 @@ public class JoinLeaveEvent implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
         int amount = plugin.getConfig().getInt("default-distance");
+
+        // Get an instance of the player data handler for the specific player
         PlayerDataHandler dataHandler = new PlayerDataHandler();
         PlayerUtility playerDataHandler = new PlayerUtility(plugin);
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
 
         boolean save = true;
 
+        // Get any distances from LuckPerms
         int luckpermsDistance = getLuckpermsDistance(e);
-
         if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
             amount = luckpermsDistance;
             save = false;
@@ -59,7 +57,7 @@ public class JoinLeaveEvent implements Listener {
             amount = cfg.getInt("chunks");
 
             if (amount == plugin.getConfig().getInt("default-distance")) {
-                // Default so redirect to prefixes
+                // Default so check to prefixes
                 int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler, plugin);
                 if (!(errorCheck == 1000)) {
                     amount = errorCheck;
