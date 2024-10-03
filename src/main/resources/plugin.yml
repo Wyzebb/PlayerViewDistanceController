@@ -3,7 +3,7 @@ version: '${project.version}'
 main: me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController
 api-version: '1.20'
 author: Wyzebb
-description: A plugin that makes view distance controllable for each player
+description: This plugin makes the maximum view distance of each player highly customisable.
 prefix: PVDC
 folia-supported: true
 
@@ -12,7 +12,7 @@ softdepend:
 
 commands:
   viewdistance:
-    description: Change a player's max view distance
+    description: Base command for PVDC plugin
     usage: "Use /vd help for usage information"
     aliases:
       - pvdc

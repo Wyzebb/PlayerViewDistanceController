@@ -11,7 +11,7 @@
 
   <name>PlayerViewDistanceController</name>
 
-    <description>A plugin that makes view distance controllable per player
+    <description>This plugin makes the maximum view distance of each player highly customisable.
     </description>
     <properties>
     <java.version>1.17</java.version>
