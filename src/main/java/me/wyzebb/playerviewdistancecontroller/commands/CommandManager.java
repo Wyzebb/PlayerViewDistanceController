@@ -76,8 +76,6 @@ public class CommandManager implements TabExecutor {
             }
 
             return playerNames;
-        } else if (args.length == 3) {
-            return new ArrayList<>() {};
         }
 
         return new ArrayList<>() {};
