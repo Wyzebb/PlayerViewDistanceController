@@ -24,14 +24,20 @@ display-max-join-msg: false
 afk-chunk-limiter: true
 
 # After how many seconds the plugin will consider a player AFK
-afkTime: 10
+afkTime: 20
 
 ################## Messages ##################
 # Color codes may be used for this section using the '§' symbol
 
 join-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
 
-afk-msg: "§c§l(!) §cYour view distance has been restricted because you are AFK!"
+afk-msg: "§c§l(!) §cYour view distance has been restricted because you're AFK!"
+
+afk-msg-console: "(!) Player {target-player} is AFK and their view distance has been restricted!"
+
+afk-return-msg-console: "(!) Player {target-player} is no longer AFK and their view distance has been returned to the previous value!"
+
+afk-return-msg: "§a§l(!) §aYour view distance has been returned to normal!"
 
 self-view-distance-change-msg: "§a§l(!) §aYou changed your maximum view distance to {chunks} chunks"
 
