@@ -51,14 +51,12 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             getLogger().warning("CHECK");
             int currentTime = (int) System.currentTimeMillis();
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.isOp()) {
-                    UUID playerId = player.getUniqueId();
-                    int lastMoved = playerAfkMap.getOrDefault(playerId, currentTime);
+                UUID playerId = player.getUniqueId();
+                int lastMoved = playerAfkMap.getOrDefault(playerId, currentTime);
 
-                    if (currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) {
-                        // SET VIEW DISTANCE AND DO NOT SAVE THAT TO FILE: SAVE ORIGINAL TO FILE HERE FIRST
-                        getLogger().warning("AFK");
-                    }
+                if (currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) {
+                    // SET VIEW DISTANCE AND DO NOT SAVE THAT TO FILE: SAVE ORIGINAL TO FILE HERE FIRST
+                    getLogger().warning("AFK");
                 }
             }
         }
