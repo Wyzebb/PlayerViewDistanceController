@@ -36,13 +36,12 @@ public class SendHelpMsgUtility {
         List<SubCommand> subcommands = cmdManager.getSubcommands();
 
         ArrayList<String> messageLines = new ArrayList<>();
-        messageLines.add("§c--------------------------------");
         for (SubCommand subcommand : subcommands) {
             messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
         }
         messageLines.add("");
         messageLines.add("§cFurther configuration options in config.yml");
-        messageLines.add("§c--------------------------------");
+        messageLines.add("§ev" + plugin.getDescription().getVersion());
         return messageLines;
     }
 }
