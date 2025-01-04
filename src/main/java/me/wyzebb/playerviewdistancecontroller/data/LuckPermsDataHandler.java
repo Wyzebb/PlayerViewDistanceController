@@ -3,6 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.data;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
+import net.luckperms.api.query.QueryOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,7 +18,7 @@ public class LuckPermsDataHandler {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
 
             if (provider == null) {
-                plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
+                plugin.getLogger().warning("LuckPerms not found: it is optional, but it extends the plugin's functionality!");
                 return 32; // Return default distance if LuckPerms is not available
             }
 
@@ -33,7 +34,7 @@ public class LuckPermsDataHandler {
     private static int getMaxDistance(User user, Pattern pattern) {
         int maxDistance = 32;
 
-        for (var node : user.getNodes()) {
+        for (var node : user.resolveInheritedNodes(QueryOptions.nonContextual())) {
             String permission = node.getKey();
             Matcher matcher = pattern.matcher(permission);
 
