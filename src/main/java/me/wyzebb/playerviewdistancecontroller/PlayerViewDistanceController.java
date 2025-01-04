@@ -1,8 +1,10 @@
 package me.wyzebb.playerviewdistancecontroller;
 
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
+import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
+import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -46,7 +48,17 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public void updateLastMoved(Player player) {
         final UUID playerId = player.getUniqueId();
-        if (!playerAfkMap.containsKey(playerId)) getLogger().warning("No longer AFK");
+
+        if (playerAfkMap.containsKey(playerId)) {
+            if (playerAfkMap.get(playerId) == 0) {
+                PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
+                player.setViewDistance(dataHandler.getChunks());
+
+                ProcessConfigMessagesUtility.processMessage("afk-return-msg", player);
+                ProcessConfigMessagesUtility.processMessage("afk-return-msg-console", player, getServer().getConsoleSender());
+            }
+        }
+
         playerAfkMap.put(playerId, (int) System.currentTimeMillis());
     }
 
@@ -58,12 +70,12 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 final UUID playerId = player.getUniqueId();
                 int lastMoved = playerAfkMap.getOrDefault(playerId, currentTime);
 
-                if (currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) {
-                    // SET VIEW DISTANCE AND DO NOT SAVE THAT TO FILE: SAVE ORIGINAL TO FILE HERE FIRST
+                if ((currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) && playerAfkMap.get(playerId) != 0)  {
+                    player.setViewDistance(2);
+                    playerAfkMap.put(playerId, 0);
 
-                    getLogger().warning("AFK");
                     ProcessConfigMessagesUtility.processMessage("afk-msg", player);
-                    playerAfkMap.remove(playerId);
+                    ProcessConfigMessagesUtility.processMessage("afk-msg-console", player, getServer().getConsoleSender());
                 }
             }
         }
