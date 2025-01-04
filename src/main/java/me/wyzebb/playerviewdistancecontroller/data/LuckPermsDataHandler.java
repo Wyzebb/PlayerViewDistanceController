@@ -41,7 +41,7 @@ public class LuckPermsDataHandler {
             if (matcher.matches()) {
                 // Extract the number from the permission
                 int distance = Integer.parseInt(matcher.group(1));
-                if (maxDistance == 32 || distance < maxDistance) {
+                if (distance < maxDistance) {
                     maxDistance = distance;
                 }
             }
