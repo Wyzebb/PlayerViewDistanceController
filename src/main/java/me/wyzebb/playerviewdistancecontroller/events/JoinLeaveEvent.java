@@ -25,6 +25,7 @@ public class JoinLeaveEvent implements Listener {
     private int getLuckpermsDistance(PlayerJoinEvent e) {
         try {
             Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
+            plugin.getLogger().info("LuckPerms detected!");
             return LuckPermsDataHandler.getLuckpermsDistance(e, plugin);
         } catch (ClassNotFoundException ex) {
             plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
@@ -44,15 +45,6 @@ public class JoinLeaveEvent implements Listener {
         PlayerUtility playerDataHandler = new PlayerUtility(plugin);
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
 
-        boolean save = true;
-
-        // Get any distances from LuckPerms
-        int luckpermsDistance = getLuckpermsDistance(e);
-        if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
-            amount = luckpermsDistance;
-            save = false;
-        }
-
         if (playerDataFile.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = cfg.getInt("chunks");
@@ -70,6 +62,17 @@ public class JoinLeaveEvent implements Listener {
                 amount = errorCheck;
             }
 
+        }
+
+        boolean save = true;
+
+        // Get max distances from LuckPerms
+        int luckpermsDistance = getLuckpermsDistance(e);
+        if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
+            if (luckpermsDistance > amount) {
+                amount = luckpermsDistance;
+                save = false;
+            }
         }
 
         amount = ClampAmountUtility.clampChunkValue(amount, plugin);
