@@ -40,7 +40,7 @@ public class SendHelpMsgUtility {
             messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
         }
         messageLines.add("");
-        messageLines.add("§cFurther configuration options in config.yml");
+        messageLines.add("§cConfigure this plugin in config.yml");
         messageLines.add("§ev" + plugin.getDescription().getVersion());
         return messageLines;
     }
