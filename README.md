@@ -11,6 +11,7 @@ This plugin makes the maximum view distance of each player highly customisable.
 ## **Features**
 - **Per-player control**: Each player has their own view distance, which can be set and saved individually.
 - **Permission-based control**: Max view distance can be set for groups or individual players via Luckperms (LuckPerms is not required).
+- **AFK view restriction**: AFK players can have their views restricted until they next move so that server resources are not wasted. This can be customised or disabled in the config.
 - **Global control**: Easily set the max view distance of all online players.
 - **Saves data persistently**: Automatically restores player view distances when they connect to the server, even across restarts.
 - **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
