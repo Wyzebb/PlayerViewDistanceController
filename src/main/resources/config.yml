@@ -20,6 +20,11 @@ display-msg-on-join: true
 # Display a message when a player joins telling them what their view distance is set to, when it is the default or maximum
 display-max-join-msg: false
 
+# If chunks loaded will be limited for AFK players
+afk-chunk-limiter: true
+
+# After how many seconds the plugin will consider a player AFK
+afkTime: 10
 
 ################## Messages ##################
 # Color codes may be used for this section using the '§' symbol
