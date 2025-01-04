@@ -43,6 +43,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public void updateLastMoved(Player player) {
         playerAfkMap.put(player.getUniqueId(), (int) System.currentTimeMillis());
+        getLogger().info(String.valueOf(System.currentTimeMillis()));
     }
 
     private class CheckAfk extends BukkitRunnable {
