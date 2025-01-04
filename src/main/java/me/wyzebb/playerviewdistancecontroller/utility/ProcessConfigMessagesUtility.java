@@ -54,6 +54,22 @@ public class ProcessConfigMessagesUtility {
         }
     }
 
+    public static void processMessage(String configPath, Player target, CommandSender toSendTo) {
+        PlayerViewDistanceController plugin = PlayerViewDistanceController.getPlugin(PlayerViewDistanceController.class);
+        String msg = plugin.getConfig().getString(configPath);
+
+        msg = getProcessedConfigMessage(msg, target);
+
+        if (!(toSendTo instanceof Player)) {
+            msg = msg.replaceAll("§.", "");
+            plugin.getLogger().info(msg);
+        }
+
+        if (!(toSendTo instanceof ConsoleCommandSender)) {
+            toSendTo.sendMessage(msg);
+        }
+    }
+
     public static String getProcessedConfigMessage(String msg, int amount) {
         msg = msg.replace("{chunks}", String.valueOf(amount));
         return msg;
@@ -61,6 +77,11 @@ public class ProcessConfigMessagesUtility {
 
     public static String getProcessedConfigMessage(String msg, int amount, Player target) {
         msg = msg.replace("{chunks}", String.valueOf(amount));
+        msg = msg.replace("{target-player}", target.getName());
+        return msg;
+    }
+
+    public static String getProcessedConfigMessage(String msg, Player target) {
         msg = msg.replace("{target-player}", target.getName());
         return msg;
     }
