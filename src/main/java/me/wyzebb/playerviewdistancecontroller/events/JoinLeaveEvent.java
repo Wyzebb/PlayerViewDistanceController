@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
+import java.io.IOException;
 
 public class JoinLeaveEvent implements Listener {
 
@@ -89,7 +90,6 @@ public class JoinLeaveEvent implements Listener {
         PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
     }
 
-
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent e) {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(e.getPlayer());
@@ -101,12 +101,18 @@ public class JoinLeaveEvent implements Listener {
 
         try {
             if (save) {
+                plugin.getLogger().info("Attempting to save player data for: " + e.getPlayer().getName());
                 cfg.save(playerDataFile);
+                plugin.getLogger().info("Player data saved successfully for: " + e.getPlayer().getName());
             }
-        } catch (Exception event) {
-            plugin.getLogger().warning("An error occurred saving the player view distance data!");
+        } catch (IOException ioException) {
+            plugin.getLogger().severe("IOException occurred while saving player view distance data for " + e.getPlayer().getName() + ": " + ioException.getMessage());
+            ioException.printStackTrace(); // Print the stack trace for detailed debugging
+        } catch (Exception ex) {
+            plugin.getLogger().severe("An unexpected error occurred saving the player view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
+            ex.printStackTrace(); // Print the stack trace for unexpected errors
+        } finally {
+            PlayerUtility.setPlayerDataHandler(e.getPlayer(), null);
         }
-
-        PlayerUtility.setPlayerDataHandler(e.getPlayer(), null);
     }
 }
