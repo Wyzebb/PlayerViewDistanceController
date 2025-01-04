@@ -15,7 +15,7 @@ public class GetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Displays the targeted player's max view distance";
+        return "Displays a player's max view distance";
     }
 
     @Override
