@@ -31,6 +31,8 @@ afkTime: 10
 
 join-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
 
+afk-msg: "§c§l(!) §cYour view distance has been restricted because you are AFK!"
+
 self-view-distance-change-msg: "§a§l(!) §aYou changed your maximum view distance to {chunks} chunks"
 
 player-offline-msg: "§c§l(!) §cThat player is not online!"
