@@ -3,6 +3,7 @@ package me.wyzebb.playerviewdistancecontroller;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -44,22 +45,25 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     public void updateLastMoved(Player player) {
-        this.getLogger().info(String.valueOf(System.currentTimeMillis()));
-        playerAfkMap.put(player.getUniqueId(), (int) System.currentTimeMillis());
+        final UUID playerId = player.getUniqueId();
+        if (!playerAfkMap.containsKey(playerId)) getLogger().warning("No longer AFK");
+        playerAfkMap.put(playerId, (int) System.currentTimeMillis());
     }
 
     private class CheckAfk extends BukkitRunnable {
         @Override
         public void run() {
-            getLogger().warning("CHECK");
             int currentTime = (int) System.currentTimeMillis();
             for (Player player : Bukkit.getOnlinePlayers()) {
-                UUID playerId = player.getUniqueId();
+                final UUID playerId = player.getUniqueId();
                 int lastMoved = playerAfkMap.getOrDefault(playerId, currentTime);
 
                 if (currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) {
                     // SET VIEW DISTANCE AND DO NOT SAVE THAT TO FILE: SAVE ORIGINAL TO FILE HERE FIRST
+
                     getLogger().warning("AFK");
+                    ProcessConfigMessagesUtility.processMessage("afk-msg", player);
+                    playerAfkMap.remove(playerId);
                 }
             }
         }
