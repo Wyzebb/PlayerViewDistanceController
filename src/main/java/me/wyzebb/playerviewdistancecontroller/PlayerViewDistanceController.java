@@ -36,7 +36,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         Objects.requireNonNull(getCommand("viewdistance")).setTabCompleter(new CommandManager(this));
 
         // Start AFK checker if enabled in the config
-        if (getConfig().getBoolean("afk-chunk-limiter")) new CheckAfk().runTaskTimer(this, 0L, 20L);
+        if (getConfig().getBoolean("afk-chunk-limiter")) {
+            new CheckAfk().runTaskTimer(this, 0, 20L);
+        }
     }
 
     public void updateLastMoved(Player player) {
@@ -53,7 +55,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                     UUID playerId = player.getUniqueId();
                     int lastMoved = playerAfkMap.getOrDefault(playerId, currentTime);
 
-                    if (currentTime - lastMoved >= getConfig().getInt("afkTime")) {
+                    if (currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) {
                         // SET VIEW DISTANCE AND DO NOT SAVE THAT TO FILE: SAVE ORIGINAL TO FILE HERE FIRST
                         getLogger().warning("AFK");
                     }
@@ -78,6 +80,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        playerAfkMap.clear();
+
         getLogger().info("Plugin shut down!");
     }
 }
