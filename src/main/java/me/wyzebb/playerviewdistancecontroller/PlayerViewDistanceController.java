@@ -2,6 +2,7 @@ package me.wyzebb.playerviewdistancecontroller;
 
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
+import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,6 +31,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         // Register join and leave events
         getServer().getPluginManager().registerEvents(new JoinLeaveEvent(this), this);
+        getServer().getPluginManager().registerEvents(new NotAfkEvents(this), this);
 
         // Register commands and tab completer
         Objects.requireNonNull(getCommand("viewdistance")).setExecutor(new CommandManager(this));
@@ -42,8 +44,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     public void updateLastMoved(Player player) {
+        this.getLogger().info(String.valueOf(System.currentTimeMillis()));
         playerAfkMap.put(player.getUniqueId(), (int) System.currentTimeMillis());
-        getLogger().info(String.valueOf(System.currentTimeMillis()));
     }
 
     private class CheckAfk extends BukkitRunnable {
