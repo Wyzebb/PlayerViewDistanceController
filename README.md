@@ -15,7 +15,7 @@ This plugin makes the maximum view distance of each player highly customisable.
 - **Global control**: Easily set the max view distance of all online players.
 - **Saves data persistently**: Automatically restores player view distances when they connect to the server, even across restarts.
 - **Highly configurable**: Control various settings such as default, max, and min view distances, and custom messages.
-- **Name prefix control**: Allow bedrock players or players with specific prefixes on their names to have custom max view distances.
+- **Bedrock support**: Full bedrock support and bedrock players can have custom default values.
 
 <br/>
 

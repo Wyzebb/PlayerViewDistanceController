@@ -16,7 +16,7 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Reload the plugin's config files";
+        return "Reload this plugin's config.yml";
     }
 
     @Override
@@ -28,19 +28,10 @@ public class ReloadCommand extends SubCommand {
     public void performCommand(CommandSender commandSender, String[] args) {
         if (commandSender.hasPermission("pvdc.reload")) {
             plugin.getConfig().options().copyDefaults(true);
-            createPrefixesConfig();
             plugin.reloadConfig();
             ProcessConfigMessagesUtility.processMessage("reload-config-msg", commandSender);
         } else {
             ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
-        }
-    }
-
-    private void createPrefixesConfig() {
-        File prefixesConfigFile = new File(plugin.getDataFolder(), "prefixes.yml");
-        if (!prefixesConfigFile.exists()) {
-            boolean createFolders = prefixesConfigFile.getParentFile().mkdirs();
-            plugin.saveResource("prefixes.yml", false);
         }
     }
 }

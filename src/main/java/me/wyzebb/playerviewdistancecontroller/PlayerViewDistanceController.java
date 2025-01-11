@@ -10,12 +10,9 @@ import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -23,7 +20,6 @@ import java.util.UUID;
 
 public final class PlayerViewDistanceController extends JavaPlugin {
     public static PlayerViewDistanceController plugin;
-    private FileConfiguration prefixesConfig;
     public static Map<UUID, Integer> playerAfkMap = new HashMap<>();
 
     FoliaLib foliaLib = new FoliaLib(this);
@@ -36,7 +32,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         // Config
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
-        createPrefixesConfig();
 
         // Register join and leave events
         getServer().getPluginManager().registerEvents(new JoinLeaveEvent(), this);
@@ -104,19 +99,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 ProcessConfigMessagesUtility.processMessage("afk-msg-console", player, getServer().getConsoleSender());
             }
         }
-    }
-
-    public FileConfiguration getPrefixesConfig() {
-        return this.prefixesConfig;
-    }
-
-    private void createPrefixesConfig() {
-        File prefixesConfigFile = new File(getDataFolder(), "prefixes.yml");
-        if (!prefixesConfigFile.exists()) {
-            saveResource("prefixes.yml", false);
-        }
-
-        prefixesConfig = YamlConfiguration.loadConfiguration(prefixesConfigFile);
     }
 
     @Override

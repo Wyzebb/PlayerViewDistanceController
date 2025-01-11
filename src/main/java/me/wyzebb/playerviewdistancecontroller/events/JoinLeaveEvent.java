@@ -4,7 +4,6 @@ import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.UpdateChecker;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.CheckPrefixesUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
@@ -56,11 +55,6 @@ public class JoinLeaveEvent implements Listener {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = cfg.getInt("chunks");
             amountOthers = cfg.getInt("chunksOthers");
-        }
-
-        int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler);
-        if (!(errorCheck == 1000)) {
-            amount = errorCheck;
         }
 
         // Get max distances from LuckPerms
