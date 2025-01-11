@@ -84,6 +84,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                     continue;
                 }
 
+                if (player.hasPermission("pvdc.bypass-afk")) {
+                    continue;
+                }
+
                 int afkChunks = ClampAmountUtility.clampChunkValue(getConfig().getInt("afkChunks"));
 
                 player.setViewDistance(afkChunks);
