@@ -5,6 +5,7 @@ import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
+import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Bukkit;
@@ -81,7 +82,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                     continue;
                 }
 
-                player.setViewDistance(2);
+                int afkChunks = ClampAmountUtility.clampChunkValue(getConfig().getInt("afkChunks"));
+
+                player.setViewDistance(afkChunks);
                 playerAfkMap.put(playerId, 0);
 
                 ProcessConfigMessagesUtility.processMessage("afk-msg", player);
