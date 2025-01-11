@@ -52,6 +52,13 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         if (getConfig().getBoolean("afk-chunk-limiter")) {
             scheduleAfkChecker();
         }
+
+        try {
+            Class.forName("net.luckperms.api.LuckPerms");
+            plugin.getLogger().info("LuckPerms detected!");
+        } catch (ClassNotFoundException ex) {
+            plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
+        }
     }
 
 

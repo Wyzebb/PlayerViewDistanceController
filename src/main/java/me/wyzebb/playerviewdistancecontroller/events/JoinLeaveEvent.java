@@ -25,10 +25,8 @@ public class JoinLeaveEvent implements Listener {
     private int getLuckpermsDistance(Player player) {
         try {
             Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
-            plugin.getLogger().info("LuckPerms detected!");
             return LuckPermsDataHandler.getLuckpermsDistance(player);
         } catch (ClassNotFoundException ex) {
-            plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
             return 32; // Return default distance if LuckPerms is not available
         } catch (Exception ex) {
             plugin.getLogger().warning("An unknown error occurred while accessing LuckPerms data: " + ex.getMessage());
