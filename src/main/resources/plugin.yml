@@ -11,12 +11,12 @@ softdepend:
   - LuckPerms
 
 commands:
-  viewdistance:
+  pvdc:
     description: Base command for PVDC plugin
     usage: "Use /pvdc help for usage information"
     aliases:
-      - pvdc
       - vd
+      - viewdistance
 
 permissions:
   pvdc.set-others:

@@ -43,8 +43,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new NotAfkEvents(), this);
 
         // Register commands and tab completer
-        Objects.requireNonNull(getCommand("viewdistance")).setExecutor(new CommandManager());
-        Objects.requireNonNull(getCommand("viewdistance")).setTabCompleter(new CommandManager());
+        Objects.requireNonNull(getCommand("pvdc")).setExecutor(new CommandManager());
+        Objects.requireNonNull(getCommand("pvdc")).setTabCompleter(new CommandManager());
 
         // Check for updates if enabled in the config
         if (getConfig().getBoolean("update-checker-enabled")) {

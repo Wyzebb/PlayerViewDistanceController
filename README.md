@@ -20,9 +20,9 @@ This plugin makes the maximum view distance of each player highly customisable.
 <br/>
 
 ## **Commands**
-### Base Command: `/viewdistance`
+### Base Command: `/pvdc`
 - **Usage:** `/<command> <subcommand>`
-- **Aliases:** `pvdc`, `pvdc`
+- **Aliases:** `vd`, `viewdistance`
 ### Subcommands
 #### - `set`
 - **Usage:** `/<pvdc> <set> <chunks> [player]`
