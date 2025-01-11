@@ -75,11 +75,7 @@ public class JoinLeaveEvent implements Listener {
         amountOthers = ClampAmountUtility.clampChunkValue(amountOthers);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-        int finalChunks = amount;
-
-        if (amount > luckpermsDistance) {
-            finalChunks = luckpermsDistance;
-        }
+        int finalChunks = Math.min(amount, luckpermsDistance);
 
         if (amountOthers > finalChunks) {
             finalChunks = amountOthers;
