@@ -3,8 +3,6 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.command.CommandSender;
 
-import java.io.File;
-
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class ReloadCommand extends SubCommand {

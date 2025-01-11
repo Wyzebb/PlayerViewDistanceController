@@ -20,9 +20,9 @@ import java.util.UUID;
 
 public final class PlayerViewDistanceController extends JavaPlugin {
     public static PlayerViewDistanceController plugin;
-    public static Map<UUID, Integer> playerAfkMap = new HashMap<>();
+    public static final Map<UUID, Integer> playerAfkMap = new HashMap<>();
 
-    FoliaLib foliaLib = new FoliaLib(this);
+    private final FoliaLib foliaLib = new FoliaLib(this);
 
     @Override
     public void onEnable() {

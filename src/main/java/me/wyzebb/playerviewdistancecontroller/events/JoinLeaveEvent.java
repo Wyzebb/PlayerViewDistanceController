@@ -60,11 +60,6 @@ public class JoinLeaveEvent implements Listener {
 
         // Get max distances from LuckPerms
         int luckpermsDistance = getLuckpermsDistance(e.getPlayer());
-//        if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
-//            if (luckpermsDistance < amount) {
-//                amount = luckpermsDistance;
-//            }
-//        }
 
         amount = ClampAmountUtility.clampChunkValue(amount);
         amountOthers = ClampAmountUtility.clampChunkValue(amountOthers);
