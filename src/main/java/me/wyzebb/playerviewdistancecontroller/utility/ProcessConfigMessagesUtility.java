@@ -1,6 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+import me.wyzebb.playerviewdistancecontroller.UpdateChecker;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -11,14 +11,14 @@ public class ProcessConfigMessagesUtility {
     public static void processMessage(String configPath, CommandSender commandSender) {
         String msg = plugin.getConfig().getString(configPath);
 
+        msg = getProcessedConfigMessage(msg);
+
         if (!(commandSender instanceof Player)) {
-            assert msg != null;
             msg = msg.replaceAll("§.", "");
             plugin.getLogger().info(msg);
         }
 
         if (!(commandSender instanceof ConsoleCommandSender)) {
-            assert msg != null;
             commandSender.sendMessage(msg);
         }
     }
@@ -70,6 +70,12 @@ public class ProcessConfigMessagesUtility {
 
     public static String getProcessedConfigMessage(String msg, int amount) {
         msg = msg.replace("{chunks}", String.valueOf(amount));
+        return msg;
+    }
+
+    public static String getProcessedConfigMessage(String msg) {
+        msg = msg.replace("{current}", plugin.getDescription().getVersion());
+        msg = msg.replace("{latest}", UpdateChecker.getLatestVersion());
         return msg;
     }
 
