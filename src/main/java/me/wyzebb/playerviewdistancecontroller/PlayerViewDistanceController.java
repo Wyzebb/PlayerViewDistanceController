@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public final class PlayerViewDistanceController extends JavaPlugin {
+    public static PlayerViewDistanceController plugin;
     private FileConfiguration prefixesConfig;
     public static Map<UUID, Integer> playerAfkMap = new HashMap<>();
 
@@ -30,6 +31,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Plugin started!");
+        plugin = this;
 
         // Config
         saveDefaultConfig();
