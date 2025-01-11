@@ -6,6 +6,7 @@ import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -22,11 +23,11 @@ public class JoinLeaveEvent implements Listener {
         this.plugin = plugin;
     }
 
-    private int getLuckpermsDistance(PlayerJoinEvent e) {
+    private int getLuckpermsDistance(Player player) {
         try {
             Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
             plugin.getLogger().info("LuckPerms detected!");
-            return LuckPermsDataHandler.getLuckpermsDistance(e, plugin);
+            return LuckPermsDataHandler.getLuckpermsDistance(player, plugin);
         } catch (ClassNotFoundException ex) {
             plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
             return 32; // Return default distance if LuckPerms is not available
@@ -67,7 +68,7 @@ public class JoinLeaveEvent implements Listener {
         boolean save = true;
 
         // Get max distances from LuckPerms
-        int luckpermsDistance = getLuckpermsDistance(e);
+        int luckpermsDistance = getLuckpermsDistance(e.getPlayer());
         if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
             if (luckpermsDistance > amount) {
                 amount = luckpermsDistance;
