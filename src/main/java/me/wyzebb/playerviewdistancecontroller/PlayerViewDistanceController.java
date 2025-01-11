@@ -8,6 +8,7 @@ import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -76,6 +77,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             int lastMoved = playerAfkMap.getOrDefault(playerId, currentTime);
 
             if ((currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) && playerAfkMap.get(playerId) != 0) {
+                if (getConfig().getBoolean("spectators-can-afk") && player.getGameMode() == GameMode.SPECTATOR) {
+                    continue;
+                }
+
                 player.setViewDistance(2);
                 playerAfkMap.put(playerId, 0);
 
