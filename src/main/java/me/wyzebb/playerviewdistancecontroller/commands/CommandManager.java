@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands;
 
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.*;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,9 +29,15 @@ public class CommandManager implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (args.length > 0){
+            boolean found = false;
             for (int i = 0; i < getSubcommands().size(); i++){
                 if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
                     getSubcommands().get(i).performCommand(commandSender, args);
+                    found = true;
+                } else {
+                    if (i == getSubcommands().size() - 1 && !found) {
+                        ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    }
                 }
             }
         } else {
