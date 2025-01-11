@@ -48,7 +48,7 @@ public class JoinLeaveEvent implements Listener {
         }
 
         // Get an instance of the player data handler for the specific player
-//        PlayerDataHandler dataHandler = new PlayerDataHandler();
+        PlayerDataHandler dataHandler = new PlayerDataHandler();
         PlayerUtility playerDataHandler = new PlayerUtility();
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
 
@@ -71,7 +71,9 @@ public class JoinLeaveEvent implements Listener {
             finalChunks = amountOthers;
         }
 
-//        dataHandler.setChunks(amount);
+        dataHandler.setChunks(amount);
+        dataHandler.setChunksOthers(amountOthers);
+
         e.getPlayer().setViewDistance(finalChunks);
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
@@ -83,7 +85,7 @@ public class JoinLeaveEvent implements Listener {
                 ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), finalChunks);
             }
         }
-//        PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
+        PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
     }
 
     @EventHandler
