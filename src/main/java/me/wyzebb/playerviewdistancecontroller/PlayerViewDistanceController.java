@@ -113,7 +113,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     private void createPrefixesConfig() {
         File prefixesConfigFile = new File(getDataFolder(), "prefixes.yml");
         if (!prefixesConfigFile.exists()) {
-            prefixesConfigFile.getParentFile().mkdirs();
             saveResource("prefixes.yml", false);
         }
 
