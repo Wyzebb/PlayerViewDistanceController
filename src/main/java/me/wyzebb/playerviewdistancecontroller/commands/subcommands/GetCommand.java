@@ -46,7 +46,8 @@ public class GetCommand extends SubCommand {
                     sendToSelf(commandSender);
 
                 } else {
-                    if (commandSender.hasPermission("pvdc.get")) {
+                    if (commandSender.hasPermission("pvdc.get-others")) {
+                        //TODO GET BIGGEST OF 3 values
                         ProcessConfigMessagesUtility.processMessage("view-distance-get-msg", PlayerUtility.getPlayerDataHandler(target).getChunks(), target, commandSender);
                     } else {
                         ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
