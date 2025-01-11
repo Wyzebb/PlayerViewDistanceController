@@ -42,12 +42,15 @@ public class JoinLeaveEvent implements Listener {
             ProcessConfigMessagesUtility.processMessage("update-available-msg", e.getPlayer());
         }
 
-
         int amount = plugin.getConfig().getInt("default-distance");
         int amountOthers = 32;
 
+        if (e.getPlayer().getName().startsWith(".")) {
+            amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("bedrock-default-distance"));
+        }
+
         // Get an instance of the player data handler for the specific player
-        PlayerDataHandler dataHandler = new PlayerDataHandler();
+//        PlayerDataHandler dataHandler = new PlayerDataHandler();
         PlayerUtility playerDataHandler = new PlayerUtility();
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
 

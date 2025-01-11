@@ -6,6 +6,7 @@ set-default-distance: true
 
 # Default view distance for anyone who joins the server (Must be between 2 and 32)
 default-distance: 32
+bedrock-default-distance: 32
 
 # Maximum view distance for anyone (Cannot exceed 32)
 max-distance: 32
