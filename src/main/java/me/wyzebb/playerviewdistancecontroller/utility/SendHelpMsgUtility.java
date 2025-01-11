@@ -39,12 +39,11 @@ public class SendHelpMsgUtility {
         ArrayList<String> messageLines = new ArrayList<>();
 
         messageLines.add("");
-        messageLines.add("§c§l----------------- PVDC Help -----------------");
+        messageLines.add("§c§l-------------- PVDC Command Help --------------");
         for (SubCommand subcommand : subcommands) {
             messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
         }
-        messageLines.add("§eMost options in config.yml     //     v" + plugin.getDescription().getVersion());
-        messageLines.add("§c§l---------------------------------------------");
+        messageLines.add("§e  Most options in config.yml   //         v" + plugin.getDescription().getVersion());
         return messageLines;
     }
 }
