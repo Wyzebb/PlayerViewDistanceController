@@ -43,7 +43,7 @@ public class SendHelpMsgUtility {
         for (SubCommand subcommand : subcommands) {
             messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
         }
-        messageLines.add("§e  Most options in config.yml   //         v" + plugin.getDescription().getVersion());
+        messageLines.add("§e  Most options in config.yml  //  v" + plugin.getDescription().getVersion());
         return messageLines;
     }
 }
