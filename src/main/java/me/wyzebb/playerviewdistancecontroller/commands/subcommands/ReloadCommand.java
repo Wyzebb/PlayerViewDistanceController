@@ -6,13 +6,9 @@ import org.bukkit.command.CommandSender;
 
 import java.io.File;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class ReloadCommand extends SubCommand {
-
-    private final PlayerViewDistanceController plugin;
-
-    public ReloadCommand(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public String getName() {

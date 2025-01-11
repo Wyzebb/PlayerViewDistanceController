@@ -9,12 +9,6 @@ import org.bukkit.entity.Player;
 
 public class SetCommand extends SubCommand {
 
-    private final PlayerViewDistanceController plugin;
-
-    public SetCommand(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     public String getName() {
         return "set";
@@ -39,7 +33,7 @@ public class SetCommand extends SubCommand {
 
             try {
                 amount = Integer.parseInt(args[1]);
-                amount = ClampAmountUtility.clampChunkValue(amount, plugin);
+                amount = ClampAmountUtility.clampChunkValue(amount);
             } catch (Exception e) {
                 ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
             }
@@ -76,7 +70,7 @@ public class SetCommand extends SubCommand {
 
     private void setSelf(CommandSender commandSender, int amount) {
         if (commandSender.hasPermission("pvdc.set-self")) {
-            int luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance((Player) commandSender, plugin);
+            int luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance((Player) commandSender);
             if (luckpermsMax > amount || commandSender.hasPermission("pvdc.bypass")) {
                 ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
                 DataProcessorUtility.processData((Player) commandSender, amount);

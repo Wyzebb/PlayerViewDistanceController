@@ -15,19 +15,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.io.File;
 import java.io.IOException;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class JoinLeaveEvent implements Listener {
-
-    private final PlayerViewDistanceController plugin;
-
-    public JoinLeaveEvent(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
-    }
 
     private int getLuckpermsDistance(Player player) {
         try {
             Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
             plugin.getLogger().info("LuckPerms detected!");
-            return LuckPermsDataHandler.getLuckpermsDistance(player, plugin);
+            return LuckPermsDataHandler.getLuckpermsDistance(player);
         } catch (ClassNotFoundException ex) {
             plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
             return 32; // Return default distance if LuckPerms is not available
@@ -43,7 +39,7 @@ public class JoinLeaveEvent implements Listener {
 
         // Get an instance of the player data handler for the specific player
         PlayerDataHandler dataHandler = new PlayerDataHandler();
-        PlayerUtility playerDataHandler = new PlayerUtility(plugin);
+        PlayerUtility playerDataHandler = new PlayerUtility();
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
 
         if (playerDataFile.exists()) {
@@ -52,13 +48,13 @@ public class JoinLeaveEvent implements Listener {
 
             if (amount == plugin.getConfig().getInt("default-distance")) {
                 // Default so check to prefixes
-                int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler, plugin);
+                int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler);
                 if (!(errorCheck == 1000)) {
                     amount = errorCheck;
                 }
             }
         } else {
-            int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler, plugin);
+            int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler);
             if (!(errorCheck == 1000)) {
                 amount = errorCheck;
             }
@@ -76,7 +72,7 @@ public class JoinLeaveEvent implements Listener {
             }
         }
 
-        amount = ClampAmountUtility.clampChunkValue(amount, plugin);
+        amount = ClampAmountUtility.clampChunkValue(amount);
 
         dataHandler.setChunks(amount);
         dataHandler.setSaveChunks(save);
@@ -97,7 +93,7 @@ public class JoinLeaveEvent implements Listener {
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent e) {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(e.getPlayer());
-        PlayerUtility playerDataHandler = new PlayerUtility(plugin);
+        PlayerUtility playerDataHandler = new PlayerUtility();
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
         cfg.set("chunks", dataHandler.getChunks());

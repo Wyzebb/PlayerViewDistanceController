@@ -5,9 +5,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class ProcessConfigMessagesUtility {
     public static void processMessage(String configPath, CommandSender commandSender) {
-        PlayerViewDistanceController plugin = PlayerViewDistanceController.getPlugin(PlayerViewDistanceController.class);
         String msg = plugin.getConfig().getString(configPath);
 
         if (!(commandSender instanceof Player)) {
@@ -23,7 +24,6 @@ public class ProcessConfigMessagesUtility {
     }
 
     public static void processMessage(String configPath, CommandSender commandSender, int amount) {
-        PlayerViewDistanceController plugin = PlayerViewDistanceController.getPlugin(PlayerViewDistanceController.class);
         String msg = plugin.getConfig().getString(configPath);
 
         msg = getProcessedConfigMessage(msg, amount);
@@ -39,7 +39,6 @@ public class ProcessConfigMessagesUtility {
     }
 
     public static void processMessage(String configPath, int amount, Player target, CommandSender toSendTo) {
-        PlayerViewDistanceController plugin = PlayerViewDistanceController.getPlugin(PlayerViewDistanceController.class);
         String msg = plugin.getConfig().getString(configPath);
 
         msg = getProcessedConfigMessage(msg, amount, target);
@@ -55,7 +54,6 @@ public class ProcessConfigMessagesUtility {
     }
 
     public static void processMessage(String configPath, Player target, CommandSender toSendTo) {
-        PlayerViewDistanceController plugin = PlayerViewDistanceController.getPlugin(PlayerViewDistanceController.class);
         String msg = plugin.getConfig().getString(configPath);
 
         msg = getProcessedConfigMessage(msg, target);

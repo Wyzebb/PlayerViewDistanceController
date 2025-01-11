@@ -39,12 +39,12 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         createPrefixesConfig();
 
         // Register join and leave events
-        getServer().getPluginManager().registerEvents(new JoinLeaveEvent(this), this);
-        getServer().getPluginManager().registerEvents(new NotAfkEvents(this), this);
+        getServer().getPluginManager().registerEvents(new JoinLeaveEvent(), this);
+        getServer().getPluginManager().registerEvents(new NotAfkEvents(), this);
 
         // Register commands and tab completer
-        Objects.requireNonNull(getCommand("viewdistance")).setExecutor(new CommandManager(this));
-        Objects.requireNonNull(getCommand("viewdistance")).setTabCompleter(new CommandManager(this));
+        Objects.requireNonNull(getCommand("viewdistance")).setExecutor(new CommandManager());
+        Objects.requireNonNull(getCommand("viewdistance")).setTabCompleter(new CommandManager());
 
         // Start AFK checker if enabled in the config
         if (getConfig().getBoolean("afk-chunk-limiter")) {

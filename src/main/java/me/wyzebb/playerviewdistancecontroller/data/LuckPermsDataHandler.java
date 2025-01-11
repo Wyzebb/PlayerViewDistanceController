@@ -11,9 +11,11 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class LuckPermsDataHandler {
 
-    public static int getLuckpermsDistance(Player player, PlayerViewDistanceController plugin) {
+    public static int getLuckpermsDistance(Player player) {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
 
             if (provider == null) {

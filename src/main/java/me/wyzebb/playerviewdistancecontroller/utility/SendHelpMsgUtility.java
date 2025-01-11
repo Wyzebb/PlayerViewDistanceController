@@ -11,10 +11,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class SendHelpMsgUtility {
 
-    public static void sendHelpMessage(CommandSender commandSender, PlayerViewDistanceController plugin) {
-        ArrayList<String> messageLines = getStrings(plugin);
+    public static void sendHelpMessage(CommandSender commandSender) {
+        ArrayList<String> messageLines = getStrings();
 
         if (commandSender instanceof Player p) {
             for (String line : messageLines) {
@@ -31,8 +33,8 @@ public class SendHelpMsgUtility {
         }
     }
 
-    private static @NotNull ArrayList<String> getStrings(PlayerViewDistanceController plugin) {
-        CommandManager cmdManager = new CommandManager(plugin);
+    private static @NotNull ArrayList<String> getStrings() {
+        CommandManager cmdManager = new CommandManager();
         List<SubCommand> subcommands = cmdManager.getSubcommands();
 
         ArrayList<String> messageLines = new ArrayList<>();

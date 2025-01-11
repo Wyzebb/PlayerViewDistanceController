@@ -9,13 +9,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class SetOnlineCommand extends SubCommand {
-
-    private final PlayerViewDistanceController plugin;
-
-    public SetOnlineCommand(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public String getName() {
@@ -43,7 +39,7 @@ public class SetOnlineCommand extends SubCommand {
 
                 try {
                     amount = Integer.parseInt(args[1]);
-                    amount = ClampAmountUtility.clampChunkValue(amount, plugin);
+                    amount = ClampAmountUtility.clampChunkValue(amount);
                 } catch (Exception e) {
                     ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
                 }

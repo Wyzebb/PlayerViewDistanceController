@@ -1,6 +1,5 @@
 package me.wyzebb.playerviewdistancecontroller.commands;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.*;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
 import org.bukkit.Bukkit;
@@ -17,14 +16,12 @@ import java.util.List;
 public class CommandManager implements TabExecutor {
 
     private final ArrayList<SubCommand> subcommands = new ArrayList<>();
-    private final PlayerViewDistanceController plugin;
 
-    public CommandManager(PlayerViewDistanceController plugin){
-        this.plugin = plugin;
-        subcommands.add(new SetCommand(plugin));
-        subcommands.add(new SetOnlineCommand(plugin));
-        subcommands.add(new ReloadCommand(plugin));
-        subcommands.add(new HelpCommand(plugin));
+    public CommandManager(){
+        subcommands.add(new SetCommand());
+        subcommands.add(new SetOnlineCommand());
+        subcommands.add(new ReloadCommand());
+        subcommands.add(new HelpCommand());
         subcommands.add(new GetCommand());
     }
 
@@ -37,7 +34,7 @@ public class CommandManager implements TabExecutor {
                 }
             }
         } else {
-            SendHelpMsgUtility.sendHelpMessage(commandSender, plugin);
+            SendHelpMsgUtility.sendHelpMessage(commandSender);
         }
         return true;
     }

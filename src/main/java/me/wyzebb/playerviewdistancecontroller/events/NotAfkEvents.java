@@ -5,12 +5,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
 
-public class NotAfkEvents implements Listener {
-    private final PlayerViewDistanceController plugin;
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
-    public NotAfkEvents(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
-    }
+public class NotAfkEvents implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {

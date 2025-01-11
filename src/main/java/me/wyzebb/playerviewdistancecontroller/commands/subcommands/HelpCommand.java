@@ -7,12 +7,6 @@ import org.bukkit.command.CommandSender;
 
 public class HelpCommand extends SubCommand {
 
-    private final PlayerViewDistanceController plugin;
-
-    public HelpCommand(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
-    }
-
     @Override
     public String getName() {
         return "help";
@@ -30,6 +24,6 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
-        SendHelpMsgUtility.sendHelpMessage(commandSender, plugin);
+        SendHelpMsgUtility.sendHelpMessage(commandSender);
     }
 }

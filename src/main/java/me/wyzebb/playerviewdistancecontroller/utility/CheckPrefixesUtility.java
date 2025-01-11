@@ -7,9 +7,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.Objects;
 import java.util.Set;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class CheckPrefixesUtility {
 
-    public static int checkPrefixes(int amount, PlayerJoinEvent event, PlayerDataHandler dataHandler, PlayerViewDistanceController plugin) {
+    public static int checkPrefixes(int amount, PlayerJoinEvent event, PlayerDataHandler dataHandler) {
         Set<String> keys = Objects.requireNonNull(plugin.getPrefixesConfig().getConfigurationSection("prefixes")).getKeys(false);
         if (!keys.isEmpty()) {
             for (String key : keys) {
@@ -19,7 +21,7 @@ public class CheckPrefixesUtility {
                 if (event.getPlayer().getName().toLowerCase().startsWith(key.toLowerCase())) {
                     // Name starts with prefix
                     amount = plugin.getPrefixesConfig().getInt(("prefixes." + key));
-                    amount = ClampAmountUtility.clampChunkValue(amount, plugin);
+                    amount = ClampAmountUtility.clampChunkValue(amount);
 
                     dataHandler.setChunks(amount);
                     event.getPlayer().setViewDistance(amount);
