@@ -24,7 +24,7 @@ public class ResetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Resets a player's saved max view distance so that just Luckperms permissions are used";
+        return "Resets a player's max view distance";
     }
 
     @Override
