@@ -1,7 +1,9 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.*;
+import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

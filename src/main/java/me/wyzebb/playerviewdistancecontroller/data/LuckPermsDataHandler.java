@@ -1,6 +1,5 @@
 package me.wyzebb.playerviewdistancecontroller.data;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.query.QueryOptions;
