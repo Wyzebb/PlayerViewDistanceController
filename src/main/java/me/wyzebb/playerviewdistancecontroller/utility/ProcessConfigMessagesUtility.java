@@ -11,8 +11,6 @@ public class ProcessConfigMessagesUtility {
     public static void processMessage(String configPath, CommandSender commandSender) {
         String msg = plugin.getConfig().getString(configPath);
 
-        msg = getProcessedConfigMessage(msg);
-
         if (!(commandSender instanceof Player)) {
             msg = msg.replaceAll("§.", "");
             plugin.getLogger().info(msg);
@@ -70,12 +68,6 @@ public class ProcessConfigMessagesUtility {
 
     public static String getProcessedConfigMessage(String msg, int amount) {
         msg = msg.replace("{chunks}", String.valueOf(amount));
-        return msg;
-    }
-
-    public static String getProcessedConfigMessage(String msg) {
-        msg = msg.replace("{current}", plugin.getDescription().getVersion());
-        msg = msg.replace("{latest}", UpdateChecker.getLatestVersion());
         return msg;
     }
 

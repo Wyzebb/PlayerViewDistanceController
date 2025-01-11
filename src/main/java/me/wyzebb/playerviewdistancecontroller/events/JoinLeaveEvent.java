@@ -7,6 +7,8 @@ import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -21,6 +23,12 @@ import java.io.IOException;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class JoinLeaveEvent implements Listener {
+
+    private final MiniMessage mm;
+
+    public JoinLeaveEvent() {
+        this.mm = MiniMessage.miniMessage();
+    }
 
     private int getLuckpermsDistance(Player player) {
         try {
@@ -37,7 +45,9 @@ public class JoinLeaveEvent implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
         if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
-            ProcessConfigMessagesUtility.processMessage("update-available-msg", e.getPlayer());
+            Component updateMsg = mm.deserialize("<yellow><b>(!)</b> <u><click:open_url:'https://modrinth.com/plugin/pvdc'><hover:show_text:'<green>Click to go to the plugin page</green>'>New PVDC update available</hover></click></u>! Update from <red><b>v" + plugin.getDescription().getVersion() + "</b></red> to <green><b>v" + UpdateChecker.getLatestVersion() + "</b></green> to get the best experience!</yellow>");
+
+            e.getPlayer().sendMessage(updateMsg);
         }
 
         int amount = plugin.getConfig().getInt("default-distance");
