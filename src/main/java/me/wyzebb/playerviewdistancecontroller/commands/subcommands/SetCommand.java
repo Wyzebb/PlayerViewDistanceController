@@ -55,7 +55,7 @@ public class SetCommand extends SubCommand {
                     setSelf(commandSender, amount);
 
                 } else {
-                    if (commandSender.hasPermission("pvdc.others")) {
+                    if (commandSender.hasPermission("pvdc.set-others")) {
                         ProcessConfigMessagesUtility.processMessage("sender-view-distance-change-msg", amount, target, commandSender);
                         ProcessConfigMessagesUtility.processMessage("target-view-distance-change-msg", amount, target, target);
                         DataProcessorUtility.processData(target, amount);
