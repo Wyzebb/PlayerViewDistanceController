@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -75,8 +76,14 @@ public class SetCommand extends SubCommand {
 
     private void setSelf(CommandSender commandSender, int amount) {
         if (commandSender.hasPermission("pvdc.set-self")) {
-            ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
-            DataProcessorUtility.processData((Player) commandSender, amount);
+            int luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance((Player) commandSender, plugin);
+            if (luckpermsMax > amount) {
+                ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                DataProcessorUtility.processData((Player) commandSender, amount);
+            } else {
+                ProcessConfigMessagesUtility.processMessage("chunks-too-high", commandSender, luckpermsMax);
+            }
+
         } else {
             ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
         }
