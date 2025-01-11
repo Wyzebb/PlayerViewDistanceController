@@ -2,11 +2,10 @@ package me.wyzebb.playerviewdistancecontroller.events;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.UpdateChecker;
+import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -30,7 +29,7 @@ public class JoinLeaveEvent implements Listener {
         this.mm = MiniMessage.miniMessage();
     }
 
-    private int getLuckpermsDistance(Player player) {
+    public static int getLuckpermsDistance(Player player) {
         try {
             Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
             return LuckPermsDataHandler.getLuckpermsDistance(player);
@@ -50,52 +49,7 @@ public class JoinLeaveEvent implements Listener {
             e.getPlayer().sendMessage(updateMsg);
         }
 
-        int amount = plugin.getConfig().getInt("default-distance");
-        int amountOthers = 32;
-
-        if (e.getPlayer().getName().startsWith(".")) {
-            amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("bedrock-default-distance"));
-        }
-
-        // Get an instance of the player data handler for the specific player
-        PlayerDataHandler dataHandler = new PlayerDataHandler();
-        PlayerUtility playerDataHandler = new PlayerUtility();
-        File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
-
-        if (playerDataFile.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
-            amount = cfg.getInt("chunks");
-            amountOthers = cfg.getInt("chunksOthers");
-        }
-
-        // Get max distances from LuckPerms
-        int luckpermsDistance = getLuckpermsDistance(e.getPlayer());
-
-        amount = ClampAmountUtility.clampChunkValue(amount);
-        amountOthers = ClampAmountUtility.clampChunkValue(amountOthers);
-        luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
-
-        int finalChunks = Math.min(amount, luckpermsDistance);
-
-        if (amountOthers > finalChunks) {
-            finalChunks = amountOthers;
-        }
-
-        dataHandler.setChunks(amount);
-        dataHandler.setChunksOthers(amountOthers);
-
-        e.getPlayer().setViewDistance(finalChunks);
-
-        if (plugin.getConfig().getBoolean("display-msg-on-join")) {
-            if (finalChunks == plugin.getConfig().getInt("max-distance") || finalChunks == ClampAmountUtility.getMaxPossible())  {
-                if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), finalChunks);
-                }
-            } else {
-                ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), finalChunks);
-            }
-        }
-        PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
+        VdCalculator.calcVdAndSet(e.getPlayer());
     }
 
     @EventHandler
