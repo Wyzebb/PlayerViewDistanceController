@@ -1,6 +1,5 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -47,8 +46,7 @@ public class GetCommand extends SubCommand {
 
                 } else {
                     if (commandSender.hasPermission("pvdc.get-others")) {
-                        //TODO GET BIGGEST OF 3 values
-                        ProcessConfigMessagesUtility.processMessage("view-distance-get-msg", PlayerUtility.getPlayerDataHandler(target).getChunks(), target, commandSender);
+                        ProcessConfigMessagesUtility.processMessage("view-distance-get-msg", target.getViewDistance(), target, commandSender);
                     } else {
                         ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
                     }
@@ -59,7 +57,8 @@ public class GetCommand extends SubCommand {
 
     private void sendToSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.get-self")) {
-            ProcessConfigMessagesUtility.processMessage("self-view-distance-get-msg", commandSender, PlayerUtility.getPlayerDataHandler((Player) commandSender).getChunks());
+            Player player = (Player) commandSender;
+            ProcessConfigMessagesUtility.processMessage("self-view-distance-get-msg", commandSender, player.getViewDistance());
         } else {
             ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
         }
