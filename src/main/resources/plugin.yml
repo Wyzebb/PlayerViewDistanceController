@@ -13,7 +13,7 @@ softdepend:
 commands:
   viewdistance:
     description: Base command for PVDC plugin
-    usage: "Use /vd help for usage information"
+    usage: "Use /pvdc help for usage information"
     aliases:
       - pvdc
       - vd
@@ -46,6 +46,10 @@ permissions:
   pvdc.maxdistance:
     description: Allows max view distance to be set via luckperms eg pvdc.maxdistance.3
 
+  pvdc.bypass:
+    description: Allows you to bypass any max distances set for you
+    default: op
+
   pvdc.*:
     description: Grants all permissions for PVDC
     default: op
@@ -56,3 +60,4 @@ permissions:
       pvdc.get-others: true
       pvdc.get-self: true
       pvdc.reload: true
+      pvdc.bypass: true
