@@ -20,9 +20,9 @@ public class CommandManager implements TabExecutor {
     public CommandManager(){
         subcommands.add(new SetCommand());
         subcommands.add(new SetOnlineCommand());
+        subcommands.add(new GetCommand());
         subcommands.add(new ReloadCommand());
         subcommands.add(new HelpCommand());
-        subcommands.add(new GetCommand());
     }
 
     @Override
