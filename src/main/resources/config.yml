@@ -26,6 +26,9 @@ afk-chunk-limiter: true
 # After how many seconds the plugin will consider a player AFK
 afkTime: 20
 
+# The view distance of an AFK player
+afkChunks: 2
+
 # Whether players in spectator mode bypass AFK checks
 spectators-can-afk: true
 
