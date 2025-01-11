@@ -46,6 +46,13 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         Objects.requireNonNull(getCommand("viewdistance")).setExecutor(new CommandManager());
         Objects.requireNonNull(getCommand("viewdistance")).setTabCompleter(new CommandManager());
 
+        // Check for updates if enabled in the config
+        if (getConfig().getBoolean("update-checker-enabled")) {
+            UpdateChecker updateChecker = new UpdateChecker();
+            Thread updateCheck = new Thread(updateChecker, "Update Check Thread");
+            updateCheck.start();
+        }
+
         // Start AFK checker if enabled in the config
         if (getConfig().getBoolean("afk-chunk-limiter")) {
             scheduleAfkChecker();
