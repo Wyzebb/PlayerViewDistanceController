@@ -70,21 +70,17 @@ public class JoinLeaveEvent implements Listener {
 
         }
 
-        boolean save = true;
-
         // Get max distances from LuckPerms
         int luckpermsDistance = getLuckpermsDistance(e.getPlayer());
         if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
             if (luckpermsDistance < amount) {
                 amount = luckpermsDistance;
-                save = false;
             }
         }
 
         amount = ClampAmountUtility.clampChunkValue(amount);
 
         dataHandler.setChunks(amount);
-        dataHandler.setSaveChunks(save);
         e.getPlayer().setViewDistance(amount);
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
@@ -103,17 +99,17 @@ public class JoinLeaveEvent implements Listener {
     private void onPlayerQuit(PlayerQuitEvent e) {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(e.getPlayer());
         PlayerUtility playerDataHandler = new PlayerUtility();
+
         File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+
         cfg.set("chunks", dataHandler.getChunks());
-        boolean save = dataHandler.getSaveChunks();
+        cfg.set("chunksOthers", dataHandler.getChunksOthers());
 
         try {
-            if (save) {
-                plugin.getLogger().info("Attempting to save player data for: " + e.getPlayer().getName());
-                cfg.save(playerDataFile);
-                plugin.getLogger().info("Player data saved successfully for: " + e.getPlayer().getName());
-            }
+            plugin.getLogger().info("Attempting to save player data for: " + e.getPlayer().getName());
+            cfg.save(playerDataFile);
+            plugin.getLogger().info("Player data saved successfully for: " + e.getPlayer().getName());
         } catch (IOException ioException) {
             plugin.getLogger().severe("IOException occurred while saving player view distance data for " + e.getPlayer().getName() + ": " + ioException.getMessage());
             ioException.printStackTrace(); // Print the stack trace for detailed debugging

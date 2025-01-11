@@ -47,7 +47,7 @@ public class SetOnlineCommand extends SubCommand {
                     for (Player p : plugin.getServer().getOnlinePlayers()) {
                         ProcessConfigMessagesUtility.processMessage("all-online-change-msg", p, amount);
 
-                        DataProcessorUtility.processData(p, amount);
+                        DataProcessorUtility.processDataOthers(p, amount);
                     }
                 } catch (Exception e) {
                     ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
