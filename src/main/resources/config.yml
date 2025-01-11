@@ -39,7 +39,7 @@ update-checker-enabled: true
 
 join-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
 
-afk-msg: "§c§l(!) §cYou're AFK, so your view distance has been restricted!"
+afk-msg: "§e§l(!) §eYou're AFK, so your view distance has been restricted!"
 
 afk-msg-console: "(!) Player {target-player} is AFK and their view distance has been restricted!"
 
@@ -48,8 +48,6 @@ afk-return-msg-console: "(!) Player {target-player} is no longer AFK and their v
 afk-return-msg: "§a§l(!) §aYour view distance has been returned to normal!"
 
 chunks-too-high: "§c§l(!) §cYou may only set your view distance to a value below or equal to {chunks} chunks!"
-
-update-available-msg: "§a§l(!) §aAn update for PVDC is available. Update from v{current} to v{latest} for the best experience!"
 
 self-view-distance-change-msg: "§a§l(!) §aYou changed your maximum view distance to {chunks} chunks"
 
