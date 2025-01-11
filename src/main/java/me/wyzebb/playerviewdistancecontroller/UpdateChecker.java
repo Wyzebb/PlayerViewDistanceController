@@ -42,9 +42,8 @@ public class UpdateChecker implements Runnable {
                 plugin.getLogger().warning("Unable to check for updates! HTTP response code: " + connection.getResponseCode());
             }
 
-        } catch (IOException e) {
-            plugin.getLogger().warning("Error while checking for updates!");
-            e.printStackTrace();
+        } catch (IOException exception) {
+            plugin.getLogger().warning("Error while checking for updates: " + exception.getMessage());
         }
     }
 
