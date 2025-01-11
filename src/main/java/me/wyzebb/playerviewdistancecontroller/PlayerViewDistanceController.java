@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public final class PlayerViewDistanceController extends JavaPlugin {
     private FileConfiguration prefixesConfig;
-    private Map<UUID, Integer> playerAfkMap = new HashMap<>();
+    public static Map<UUID, Integer> playerAfkMap = new HashMap<>();
 
     FoliaLib foliaLib = new FoliaLib(this);
 
