@@ -39,7 +39,7 @@ public class ReloadCommand extends SubCommand {
     private void createPrefixesConfig() {
         File prefixesConfigFile = new File(plugin.getDataFolder(), "prefixes.yml");
         if (!prefixesConfigFile.exists()) {
-            prefixesConfigFile.getParentFile().mkdirs();
+            boolean createFolders = prefixesConfigFile.getParentFile().mkdirs();
             plugin.saveResource("prefixes.yml", false);
         }
     }
