@@ -20,7 +20,7 @@ public class GetCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/vd get [player]";
+        return "/pvdc get [player]";
     }
 
     @Override

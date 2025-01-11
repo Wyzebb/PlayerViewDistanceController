@@ -22,26 +22,26 @@ This plugin makes the maximum view distance of each player highly customisable.
 ## **Commands**
 ### Base Command: `/viewdistance`
 - **Usage:** `/<command> <subcommand>`
-- **Aliases:** `vd`, `pvdc`
+- **Aliases:** `pvdc`, `pvdc`
 ### Subcommands
 #### - `set`
-- **Usage:** `/<vd> <set> <chunks> [player]`
+- **Usage:** `/<pvdc> <set> <chunks> [player]`
 - Sets the maximum view distance of yourself or another online player
 
 #### - `setonline`
-- **Usage:** `/<vd> <setonline> <chunks>`
+- **Usage:** `/<pvdc> <setonline> <chunks>`
 - Sets the maximum view distance of all online players
 
 #### - `reload`
-- **Usage:** `/<vd> <reload>`
+- **Usage:** `/<pvdc> <reload>`
 - Reloads the plugin config files
 
 #### - `get`
-- **Usage:** `/<vd> <get>`
+- **Usage:** `/<pvdc> <get>`
 - Get your own max view distance or the max view distance of another player
 
 #### - `help`
-- **Usage:** `/<vd> <help>`
+- **Usage:** `/<pvdc> <help>`
 - Displays the plugin help message
 
 <br/>

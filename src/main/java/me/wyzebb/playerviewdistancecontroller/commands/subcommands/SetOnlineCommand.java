@@ -29,7 +29,7 @@ public class SetOnlineCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/vd setonline <chunks>";
+        return "/pvdc setonline <chunks>";
     }
 
     @Override

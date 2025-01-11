@@ -26,7 +26,7 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/vd reload";
+        return "/pvdc reload";
     }
 
     @Override

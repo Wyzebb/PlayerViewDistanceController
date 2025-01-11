@@ -25,7 +25,7 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/vd help";
+        return "/pvdc help";
     }
 
     @Override

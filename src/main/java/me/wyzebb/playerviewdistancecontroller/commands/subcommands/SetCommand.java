@@ -27,7 +27,7 @@ public class SetCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/vd set <chunks> [player]";
+        return "/pvdc set <chunks> [player]";
     }
 
     @Override
