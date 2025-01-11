@@ -45,6 +45,7 @@ public class JoinLeaveEvent implements Listener {
 
 
         int amount = plugin.getConfig().getInt("default-distance");
+        int amountOthers = 32;
 
         // Get an instance of the player data handler for the specific player
         PlayerDataHandler dataHandler = new PlayerDataHandler();
@@ -54,45 +55,49 @@ public class JoinLeaveEvent implements Listener {
         if (playerDataFile.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = cfg.getInt("chunks");
+            amountOthers = cfg.getInt("chunksOthers");
+        }
 
-            if (amount == plugin.getConfig().getInt("default-distance")) {
-                // Default so check to prefixes
-                int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler);
-                if (!(errorCheck == 1000)) {
-                    amount = errorCheck;
-                }
-            }
-        } else {
-            int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler);
-            if (!(errorCheck == 1000)) {
-                amount = errorCheck;
-            }
-
+        int errorCheck = CheckPrefixesUtility.checkPrefixes(amount, e, dataHandler);
+        if (!(errorCheck == 1000)) {
+            amount = errorCheck;
         }
 
         // Get max distances from LuckPerms
         int luckpermsDistance = getLuckpermsDistance(e.getPlayer());
-        if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
-            if (luckpermsDistance < amount) {
-                amount = luckpermsDistance;
-            }
-        }
+//        if (luckpermsDistance != ClampAmountUtility.getMaxPossible()) {
+//            if (luckpermsDistance < amount) {
+//                amount = luckpermsDistance;
+//            }
+//        }
 
         amount = ClampAmountUtility.clampChunkValue(amount);
+        amountOthers = ClampAmountUtility.clampChunkValue(amount);
+        luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-        dataHandler.setChunks(amount);
-        e.getPlayer().setViewDistance(amount);
+        int finalChunks = amount;
+
+        if (amount > luckpermsDistance) {
+            finalChunks = luckpermsDistance;
+        }
+
+        if (amountOthers > finalChunks) {
+            finalChunks = amountOthers;
+        }
+
+//        dataHandler.setChunks(amount);
+        e.getPlayer().setViewDistance(finalChunks);
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
-            if (amount == plugin.getConfig().getInt("max-distance") || amount == ClampAmountUtility.getMaxPossible())  {
+            if (finalChunks == plugin.getConfig().getInt("max-distance") || finalChunks == ClampAmountUtility.getMaxPossible())  {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), amount);
+                    ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), finalChunks);
                 }
             } else {
-                ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), amount);
+                ProcessConfigMessagesUtility.processMessage("join-msg", e.getPlayer(), finalChunks);
             }
         }
-        PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
+//        PlayerUtility.setPlayerDataHandler(e.getPlayer(), dataHandler);
     }
 
     @EventHandler
