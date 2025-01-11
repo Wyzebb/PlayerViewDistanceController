@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.events;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+import me.wyzebb.playerviewdistancecontroller.UpdateChecker;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.*;
@@ -35,6 +36,11 @@ public class JoinLeaveEvent implements Listener {
 
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
+        if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
+            ProcessConfigMessagesUtility.processMessage("update-available-msg", e.getPlayer());
+        }
+
+
         int amount = plugin.getConfig().getInt("default-distance");
 
         // Get an instance of the player data handler for the specific player
