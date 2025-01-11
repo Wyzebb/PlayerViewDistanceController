@@ -26,9 +26,4 @@ public class NotAfkEvents implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         plugin.updateLastMoved(event.getPlayer());
     }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        plugin.updateLastMoved(event.getPlayer());
-    }
 }
