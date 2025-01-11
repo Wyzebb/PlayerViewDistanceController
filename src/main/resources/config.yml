@@ -43,9 +43,9 @@ afk-msg: "§e§l(!) §eYou're AFK, so your view distance has been restricted!"
 
 afk-msg-console: "(!) Player {target-player} is AFK and their view distance has been restricted!"
 
-afk-return-msg-console: "(!) Player {target-player} is no longer AFK and their view distance has been returned to the previous value!"
+afk-return-msg-console: "(!) Player {target-player} is no longer AFK and their view distance has returned to normal!"
 
-afk-return-msg: "§a§l(!) §aYour view distance has been returned to normal!"
+afk-return-msg: "§a§l(!) §aYour view distance has returned to normal!"
 
 chunks-too-high: "§c§l(!) §cYou can only set your view distance to a value less than or equal to {chunks} chunks!"
 
