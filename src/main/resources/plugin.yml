@@ -46,8 +46,12 @@ permissions:
   pvdc.maxdistance:
     description: Allows max view distance to be set via luckperms eg pvdc.maxdistance.3
 
-  pvdc.bypass:
+  pvdc.bypass-maxdistance:
     description: Allows you to bypass any max distances set for you
+    default: op
+
+  pvdc.bypass-afk:
+    description: Allows you to bypass afk checks
     default: op
 
   pvdc.*:
@@ -60,4 +64,4 @@ permissions:
       pvdc.get-others: true
       pvdc.get-self: true
       pvdc.reload: true
-      pvdc.bypass: true
+      pvdc.bypass-maxdistance: true
