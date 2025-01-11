@@ -18,7 +18,6 @@ public class LuckPermsDataHandler {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
 
             if (provider == null) {
-                plugin.getLogger().warning("LuckPerms not found: it is optional, but it extends the plugin's functionality!");
                 return 32; // Return default distance if LuckPerms is not available
             }
 
