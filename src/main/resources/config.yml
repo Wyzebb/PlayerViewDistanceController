@@ -26,6 +26,9 @@ afk-chunk-limiter: true
 # After how many seconds the plugin will consider a player AFK
 afkTime: 20
 
+# Whether players in spectator mode bypass AFK checks
+spectators-can-afk: true
+
 ################## Messages ##################
 # Color codes may be used for this section using the '§' symbol
 
