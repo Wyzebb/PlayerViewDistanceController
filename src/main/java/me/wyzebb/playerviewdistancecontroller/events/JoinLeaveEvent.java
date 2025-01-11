@@ -116,6 +116,7 @@ public class JoinLeaveEvent implements Listener {
             plugin.getLogger().severe("An unexpected error occurred saving the player view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
             ex.printStackTrace(); // Print the stack trace for unexpected errors
         } finally {
+            PlayerViewDistanceController.playerAfkMap.remove(e.getPlayer().getUniqueId());
             PlayerUtility.setPlayerDataHandler(e.getPlayer(), null);
         }
     }
