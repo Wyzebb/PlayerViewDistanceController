@@ -35,11 +35,11 @@ spectators-can-afk: true
 update-checker-enabled: true
 
 ################## Messages ##################
-# Color codes may be used for this section using the '§' symbol
+# Colour codes may be used for this section using the '§' symbol
 
 join-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
 
-afk-msg: "§e§l(!) §eYou're AFK, so your view distance has been restricted!"
+afk-msg: "§e§l(!) §eYou're AFK, so your view distance has been restricted to {chunks} chunks!"
 
 afk-msg-console: "(!) Player {target-player} is AFK and their view distance has been restricted!"
 
