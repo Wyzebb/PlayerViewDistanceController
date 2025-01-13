@@ -8,7 +8,8 @@ import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -25,6 +26,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public static final Map<UUID, Integer> playerAfkMap = new HashMap<>();
 
     private final FoliaLib foliaLib = new FoliaLib(this);
+
+    private LanguageManager languageManager;
 
     private LuckPerms luckPerms;
 
@@ -73,6 +76,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
     }
 
+    public LanguageManager getLanguageManager() {
+        return languageManager;
+    }
+
 
     public void updateLastMoved(Player player) {
         final UUID playerId = player.getUniqueId();
@@ -82,8 +89,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
                 player.setViewDistance(dataHandler.getChunks());
 
-                ProcessConfigMessagesUtility.processMessage("afk-return-msg", player);
-                ProcessConfigMessagesUtility.processMessage("afk-return-msg-console", player, getServer().getConsoleSender());
+                MessageProcessor.processMessage("afk-return-msg", 2, null, 0, player);
+                MessageProcessor.processMessage("afk-return-msg", 2, null, 0, getServer().getConsoleSender());
             }
         }
 
@@ -114,8 +121,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 player.setViewDistance(afkChunks);
                 playerAfkMap.put(playerId, 0);
 
-                ProcessConfigMessagesUtility.processMessage("afk-msg", player);
-                ProcessConfigMessagesUtility.processMessage("afk-msg-console", player, getServer().getConsoleSender());
+                MessageProcessor.processMessage("afk-msg", 2, null, afkChunks, player);
+                MessageProcessor.processMessage("afk-msg", 2, null, afkChunks, getServer().getConsoleSender());
             }
         }
     }
