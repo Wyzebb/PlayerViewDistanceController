@@ -3,7 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,13 +35,13 @@ public class ResetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+            MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     resetSelf(commandSender);
                 } else {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
                 }
 
             } else {
@@ -49,16 +49,16 @@ public class ResetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
+                    MessageProcessor.processMessage("player-offline-msg", 1, null, 0, commandSender);
 
                 } else if (commandSender == target) {
                     resetSelf(commandSender);
 
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others")) {
-                        ProcessConfigMessagesUtility.processMessage("reset-msg", target, commandSender);
+                        MessageProcessor.processMessage("reset-msg", 2, target, 0, commandSender);
                     } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+                        MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
                     }
                 }
             }
@@ -96,9 +96,9 @@ public class ResetCommand extends SubCommand {
 
 
 
-            ProcessConfigMessagesUtility.processMessage("self-reset-msg", commandSender);
+            MessageProcessor.processMessage("self-reset-msg", 2, null, 0, commandSender);
         } else {
-            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+            MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
         }
     }
 }

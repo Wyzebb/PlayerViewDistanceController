@@ -2,7 +2,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +32,7 @@ public class SetOnlineCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.setonline")) {
 
             if (args.length != 2) {
-                ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
             } else {
                 int amount = ClampAmountUtility.getMaxPossible();
 
@@ -40,25 +40,25 @@ public class SetOnlineCommand extends SubCommand {
                     amount = Integer.parseInt(args[1]);
                     amount = ClampAmountUtility.clampChunkValue(amount);
                 } catch (Exception e) {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
                 }
 
                 try {
                     for (Player p : plugin.getServer().getOnlinePlayers()) {
-                        ProcessConfigMessagesUtility.processMessage("all-online-change-msg", p, amount);
+                        MessageProcessor.processMessage("all-online-change-msg", 2, null, amount, p);
 
                         DataProcessorUtility.processDataOthers(p, amount);
                     }
                 } catch (Exception e) {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
                 }
 
                 if (commandSender instanceof ConsoleCommandSender) {
-                    ProcessConfigMessagesUtility.processMessage("all-online-change-msg", commandSender, amount);
+                    MessageProcessor.processMessage("all-online-change-msg", 2, null, amount, commandSender);
                 }
             }
         } else {
-            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+            MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
         }
     }
 }

@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,13 +26,13 @@ public class GetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+            MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     sendToSelf(commandSender);
                 } else {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
                 }
 
             } else {
@@ -39,16 +40,16 @@ public class GetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
+                    MessageProcessor.processMessage("player-offline-msg", 1, null, 0, commandSender);
 
                 } else if (commandSender == target) {
                     sendToSelf(commandSender);
 
                 } else {
                     if (commandSender.hasPermission("pvdc.get-others")) {
-                        ProcessConfigMessagesUtility.processMessage("view-distance-get-msg", target.getViewDistance(), target, commandSender);
+                        MessageProcessor.processMessage("view-distance-get-msg", 2, target, VdCalculator.calcVdAndGet(target), commandSender);
                     } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+                        MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
                     }
                 }
             }
@@ -58,9 +59,9 @@ public class GetCommand extends SubCommand {
     private void sendToSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.get-self")) {
             Player player = (Player) commandSender;
-            ProcessConfigMessagesUtility.processMessage("self-view-distance-get-msg", commandSender, player.getViewDistance());
+            MessageProcessor.processMessage("self-view-distance-get-msg", 3, player, VdCalculator.calcVdAndGet(player), commandSender);
         } else {
-            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+            MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
         }
     }
 }

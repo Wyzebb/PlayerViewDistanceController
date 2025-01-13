@@ -3,7 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class SetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 2 || args.length > 3) {
-            ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+            MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
         } else {
             int amount = ClampAmountUtility.getMaxPossible();
 
@@ -36,14 +36,14 @@ public class SetCommand extends SubCommand {
                 amount = Integer.parseInt(args[1]);
                 amount = ClampAmountUtility.clampChunkValue(amount);
             } catch (Exception e) {
-                ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
             }
 
             if (args.length == 2) {
                 if (commandSender instanceof Player) {
                     setSelf(commandSender, amount);
                 } else {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
                 }
 
             } else {
@@ -51,18 +51,18 @@ public class SetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
+                    MessageProcessor.processMessage("player-offline-msg", 1, null, 0, commandSender);
 
                 } else if (commandSender == target) {
                     setSelf(commandSender, amount);
 
                 } else {
                     if (commandSender.hasPermission("pvdc.set-others")) {
-                        ProcessConfigMessagesUtility.processMessage("sender-view-distance-change-msg", amount, target, commandSender);
-                        ProcessConfigMessagesUtility.processMessage("target-view-distance-change-msg", amount, target, target);
+                        MessageProcessor.processMessage("sender-view-distance-change-msg", 2, target, amount, commandSender);
+                        MessageProcessor.processMessage("target-view-distance-change-msg", 2, target, amount, target);
                         DataProcessorUtility.processDataOthers(target, amount);
                     } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+                        MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
                     }
                 }
             }
@@ -73,14 +73,14 @@ public class SetCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.set-self")) {
             int luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance((Player) commandSender);
             if (luckpermsMax >= amount || commandSender.hasPermission("pvdc.bypass-maxdistance")) {
-                ProcessConfigMessagesUtility.processMessage("self-view-distance-change-msg", commandSender, amount);
+                MessageProcessor.processMessage("self-view-distance-change-msg", 2, null, amount, commandSender);
                 DataProcessorUtility.processData((Player) commandSender, amount);
             } else {
-                ProcessConfigMessagesUtility.processMessage("chunks-too-high", commandSender, luckpermsMax);
+                MessageProcessor.processMessage("chunks-too-high", 1, null, luckpermsMax, commandSender);
             }
 
         } else {
-            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+            MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
         }
     }
 }

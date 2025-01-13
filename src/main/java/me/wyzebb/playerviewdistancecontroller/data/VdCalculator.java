@@ -3,7 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.data;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -56,10 +56,10 @@ public class VdCalculator {
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
             if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible())  {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    ProcessConfigMessagesUtility.processMessage("join-msg", player, finalChunks);
+                    MessageProcessor.processMessage("join-msg", 3, null, finalChunks, player);
                 }
             } else {
-                ProcessConfigMessagesUtility.processMessage("join-msg", player, finalChunks);
+                MessageProcessor.processMessage("join-msg", 3, null, finalChunks, player);
             }
         }
         PlayerUtility.setPlayerDataHandler(player, dataHandler);
