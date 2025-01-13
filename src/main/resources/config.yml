@@ -1,6 +1,10 @@
-# Configurations for individual players can be found in the players directory
-
 ################## Main settings ##################
+
+language: en_US
+colour: "§e§l(!) §e"
+error-colour: "§c§l(!) §c"
+success-colour: "§a§l(!) §a"
+
 
 set-default-distance: true
 
@@ -33,45 +37,3 @@ afkChunks: 2
 spectators-can-afk: true
 
 update-checker-enabled: true
-
-################## Messages ##################
-# Colour codes may be used for this section using the '§' symbol
-
-join-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
-
-afk-msg: "§e§l(!) §eYou're AFK, so your view distance has been restricted to {chunks} chunks!"
-
-afk-msg-console: "(!) Player {target-player} is AFK and their view distance has been restricted!"
-
-afk-return-msg-console: "(!) Player {target-player} is no longer AFK and their view distance has returned to normal!"
-
-afk-return-msg: "§a§l(!) §aYour view distance has returned to normal!"
-
-chunks-too-high: "§c§l(!) §cYou can only set your view distance to a value less than or equal to {chunks} chunks!"
-
-self-view-distance-change-msg: "§a§l(!) §aYou changed your maximum view distance to {chunks} chunks"
-
-player-offline-msg: "§c§l(!) §cThat player is not online!"
-
-# The message displayed for the command sender when they change someone else's maximum view distance
-sender-view-distance-change-msg: "§a§l(!) §a{target-player}'s maximum view distance was changed to {chunks} chunks"
-
-# The message displayed for a player when their maximum view distance has been changed
-target-view-distance-change-msg: "§a§l(!) §aYour maximum view distance has been changed to {chunks} chunks"
-
-# The message displayed when there are not enough arguments or the arguments are invalid
-incorrect-args: "§c§l(!) §cIncorrect arguments - Use /pvdc help for help"
-
-reset-msg: "§a§l(!) §aYou reset {target-player}'s saved view distance!"
-
-self-reset-msg: "§a§l(!) §aYou reset your saved view distance!"
-
-all-online-change-msg: "§a§l(!) §aThe maximum view distance of all online players has been set to {chunks} chunks"
-
-reload-config-msg: "§a§l(!) §aThe PVDC config files have been successfully reloaded"
-
-no-permission: "§c§l(!) §cYou do not have permission to execute this command!"
-
-self-view-distance-get-msg: "§e§l(!) §eYour maximum view distance is currently set to {chunks} chunks"
-
-view-distance-get-msg: "§e§l(!) §e{target-player}'s maximum view distance is currently set to {chunks} chunks"
