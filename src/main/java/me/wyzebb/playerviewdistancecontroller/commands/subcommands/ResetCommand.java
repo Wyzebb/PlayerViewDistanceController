@@ -24,7 +24,7 @@ public class ResetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Resets a player's max view distance";
+        return "commands.reset";
     }
 
     @Override
@@ -35,13 +35,13 @@ public class ResetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     resetSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
                 }
 
             } else {
@@ -49,16 +49,16 @@ public class ResetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    MessageProcessor.processMessage("player-offline-msg", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.player-offline", 1, null, 0, commandSender);
 
                 } else if (commandSender == target) {
                     resetSelf(commandSender);
 
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others")) {
-                        MessageProcessor.processMessage("reset-msg", 2, target, 0, commandSender);
+                        MessageProcessor.processMessage("messages.reset", 2, target, 0, commandSender);
                     } else {
-                        MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
+                        MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
                     }
                 }
             }
@@ -96,9 +96,9 @@ public class ResetCommand extends SubCommand {
 
 
 
-            MessageProcessor.processMessage("self-reset-msg", 2, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.self-reset", 2, null, 0, commandSender);
         } else {
-            MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
         }
     }
 }

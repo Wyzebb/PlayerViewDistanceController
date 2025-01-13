@@ -55,11 +55,11 @@ public class VdCalculator {
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
             if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible())  {
-                if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    MessageProcessor.processMessage("join-msg", 3, null, finalChunks, player);
+                if (plugin.getConfig().getBoolean("display-max-join")) {
+                    MessageProcessor.processMessage("messages.join", 3, null, finalChunks, player);
                 }
             } else {
-                MessageProcessor.processMessage("join-msg", 3, null, finalChunks, player);
+                MessageProcessor.processMessage("messages.join", 3, null, finalChunks, player);
             }
         }
         PlayerUtility.setPlayerDataHandler(player, dataHandler);

@@ -13,7 +13,7 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Displays the plugin's help message";
+        return "commands.help";
     }
 
     @Override

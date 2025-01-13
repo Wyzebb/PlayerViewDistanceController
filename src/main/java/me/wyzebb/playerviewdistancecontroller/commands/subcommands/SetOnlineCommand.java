@@ -19,7 +19,7 @@ public class SetOnlineCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Sets the max view distance of all online players";
+        return "commands.setonline";
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SetOnlineCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.setonline")) {
 
             if (args.length != 2) {
-                MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
+                MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
             } else {
                 int amount = ClampAmountUtility.getMaxPossible();
 
@@ -40,25 +40,25 @@ public class SetOnlineCommand extends SubCommand {
                     amount = Integer.parseInt(args[1]);
                     amount = ClampAmountUtility.clampChunkValue(amount);
                 } catch (Exception e) {
-                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
                 }
 
                 try {
                     for (Player p : plugin.getServer().getOnlinePlayers()) {
-                        MessageProcessor.processMessage("all-online-change-msg", 2, null, amount, p);
+                        MessageProcessor.processMessage("messages.all-online-change", 2, null, amount, p);
 
                         DataProcessorUtility.processDataOthers(p, amount);
                     }
                 } catch (Exception e) {
-                    MessageProcessor.processMessage("incorrect-args", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
                 }
 
                 if (commandSender instanceof ConsoleCommandSender) {
-                    MessageProcessor.processMessage("all-online-change-msg", 2, null, amount, commandSender);
+                    MessageProcessor.processMessage("messages.all-online-change", 2, null, amount, commandSender);
                 }
             }
         } else {
-            MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
         }
     }
 }

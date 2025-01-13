@@ -14,7 +14,7 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Reload the plugin's config.yml";
+        return "commands.reload";
     }
 
     @Override
@@ -27,9 +27,9 @@ public class ReloadCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.reload")) {
             plugin.getConfig().options().copyDefaults(true);
             plugin.reloadConfig();
-            MessageProcessor.processMessage("reload-config-msg", 2, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.reload-config", 2, null, 0, commandSender);
         } else {
-            MessageProcessor.processMessage("no-permission", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
         }
     }
 }
