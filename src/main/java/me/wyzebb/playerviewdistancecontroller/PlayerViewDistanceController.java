@@ -36,6 +36,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         getLogger().info("Plugin started!");
         plugin = this;
 
+        languageManager = new LanguageManager();
+
         try {
             this.luckPerms = getServer().getServicesManager().load(LuckPerms.class);
         } catch (Exception e) {
