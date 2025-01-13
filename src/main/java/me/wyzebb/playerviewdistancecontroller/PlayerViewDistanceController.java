@@ -4,10 +4,12 @@ import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
+import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -24,10 +26,18 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     private final FoliaLib foliaLib = new FoliaLib(this);
 
+    private LuckPerms luckPerms;
+
     @Override
     public void onEnable() {
         getLogger().info("Plugin started!");
         plugin = this;
+
+        try {
+            this.luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         // Config
         saveDefaultConfig();
@@ -52,6 +62,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         if (getConfig().getBoolean("afk-chunk-limiter")) {
             scheduleAfkChecker();
         }
+
+        new LuckPermsEvents(this.luckPerms).register();
 
         try {
             Class.forName("net.luckperms.api.LuckPerms");
