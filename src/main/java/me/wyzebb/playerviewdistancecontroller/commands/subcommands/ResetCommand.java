@@ -74,7 +74,7 @@ public class ResetCommand extends SubCommand {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
             cfg.set("chunks", 32);
-            cfg.set("chunksOthers", 32);
+            cfg.set("chunksOthers", -1);
 
             try {
                 plugin.getLogger().info("Attempting to reset player data for: " + commandSender.getName());
@@ -91,7 +91,7 @@ public class ResetCommand extends SubCommand {
                 PlayerUtility.setPlayerDataHandler(player, null);
             }
 
-            VdCalculator.calcVdAndSet(player);
+            VdCalculator.calcVdAndSetNew(player);
 
 
 
