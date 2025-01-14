@@ -64,9 +64,9 @@ public class JoinLeaveEvent implements Listener {
         cfg.set("chunksOthers", dataHandler.getChunksOthers());
 
         try {
-            plugin.getLogger().info("Attempting to save player data for: " + e.getPlayer().getName());
+//            plugin.getLogger().info("Attempting to save player data for: " + e.getPlayer().getName());
             cfg.save(playerDataFile);
-            plugin.getLogger().info("Player data saved successfully for: " + e.getPlayer().getName());
+//            plugin.getLogger().info("Player data saved successfully for: " + e.getPlayer().getName());
         } catch (IOException ioException) {
             plugin.getLogger().severe("IOException occurred while saving player view distance data for " + e.getPlayer().getName() + ": " + ioException.getMessage());
             ioException.printStackTrace(); // Print the stack trace for detailed debugging

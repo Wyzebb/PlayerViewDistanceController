@@ -75,7 +75,7 @@ public class VdCalculator {
 
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-        plugin.getLogger().warning("FINAL CHUNKS " + luckpermsDistance);
+//        plugin.getLogger().warning("FINAL CHUNKS " + luckpermsDistance);
 
         dataHandler.setChunks(32);
         dataHandler.setChunksOthers(-1);
@@ -119,13 +119,13 @@ public class VdCalculator {
     public static int calcVdAndGet(Player player) {
         // Get max distances from LuckPerms
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
-        plugin.getLogger().warning("LPD: " + luckpermsDistance);
+//        plugin.getLogger().warning("LPD: " + luckpermsDistance);
 
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
         int finalChunks = Math.min(PlayerUtility.getPlayerDataHandler(player).getChunks(), luckpermsDistance);
 
-        plugin.getLogger().warning("final: " + finalChunks);
+//        plugin.getLogger().warning("final: " + finalChunks);
 
         if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() != -1) {
             if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() > finalChunks) {
@@ -133,7 +133,7 @@ public class VdCalculator {
             }
         }
 
-        plugin.getLogger().warning("final2: " + finalChunks);
+//        plugin.getLogger().warning("final2: " + finalChunks);
 
         return finalChunks;
     }
