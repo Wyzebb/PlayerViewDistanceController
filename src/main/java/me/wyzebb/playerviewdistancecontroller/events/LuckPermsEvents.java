@@ -23,30 +23,18 @@ public class LuckPermsEvents {
         EventBus eventBus = this.luckPerms.getEventBus();
 
         eventBus.subscribe(plugin, NodeAddEvent.class, e -> {
-            if (!e.isUser()) {
-                return;
-            }
-
             if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
                 VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
             }
         });
 
         eventBus.subscribe(plugin, NodeRemoveEvent.class, e -> {
-            if (!e.isUser()) {
-                return;
-            }
-
             if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
                 VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
             }
         });
 
         eventBus.subscribe(plugin, NodeClearEvent.class, e -> {
-            if (!e.isUser()) {
-                return;
-            }
-
             for (int i = 1; i <= e.getDataBefore().size(); i++) {
                 if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
                     VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
