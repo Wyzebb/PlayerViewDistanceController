@@ -1,11 +1,18 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.command.CommandSender;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class ReloadCommand extends SubCommand {
+
+    private final LanguageManager languageManager;
+
+    public ReloadCommand() {
+        this.languageManager = plugin.getLanguageManager();
+    }
 
     @Override
     public String getName() {
@@ -14,7 +21,7 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "commands.reload";
+        return languageManager.getLanguageFile().getString("commands.reload");
     }
 
     @Override
@@ -27,9 +34,9 @@ public class ReloadCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.reload")) {
             plugin.getConfig().options().copyDefaults(true);
             plugin.reloadConfig();
-            MessageProcessor.processMessage("messages.reload-config", 2, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.reload-config", 2, 0, commandSender);
         } else {
-            MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
     }
 }

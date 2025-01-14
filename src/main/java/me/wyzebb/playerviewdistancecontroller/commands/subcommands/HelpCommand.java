@@ -1,10 +1,19 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import org.bukkit.command.CommandSender;
+
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 
 public class HelpCommand extends SubCommand {
+
+    private final LanguageManager languageManager;
+
+    public HelpCommand() {
+        this.languageManager = plugin.getLanguageManager();
+    }
 
     @Override
     public String getName() {
@@ -13,7 +22,7 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "commands.help";
+        return languageManager.getLanguageFile().getString("commands.help");
     }
 
     @Override

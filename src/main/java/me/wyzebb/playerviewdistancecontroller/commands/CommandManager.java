@@ -37,7 +37,7 @@ public class CommandManager implements TabExecutor {
                     found = true;
                 } else {
                     if (i == getSubcommands().size() - 1 && !found) {
-                        MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
+                        MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                     }
                 }
             }

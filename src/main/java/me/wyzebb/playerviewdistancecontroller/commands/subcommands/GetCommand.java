@@ -1,12 +1,21 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class GetCommand extends SubCommand {
+
+    private final LanguageManager languageManager;
+
+    public GetCommand() {
+        this.languageManager = plugin.getLanguageManager();
+    }
 
     @Override
     public String getName() {
@@ -15,7 +24,7 @@ public class GetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "commands.get";
+        return languageManager.getLanguageFile().getString("commands.get");
     }
 
     @Override
@@ -26,13 +35,13 @@ public class GetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     sendToSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
 
             } else {
@@ -40,7 +49,7 @@ public class GetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
 
                 } else if (commandSender == target) {
                     sendToSelf(commandSender);
@@ -49,7 +58,7 @@ public class GetCommand extends SubCommand {
                     if (commandSender.hasPermission("pvdc.get-others")) {
                         MessageProcessor.processMessage("messages.view-distance-get", 2, target, VdCalculator.calcVdAndGet(target), commandSender);
                     } else {
-                        MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
+                        MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
                     }
                 }
             }
@@ -61,7 +70,7 @@ public class GetCommand extends SubCommand {
             Player player = (Player) commandSender;
             MessageProcessor.processMessage("messages.self-view-distance-get", 3, player, VdCalculator.calcVdAndGet(player), commandSender);
         } else {
-            MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
     }
 }

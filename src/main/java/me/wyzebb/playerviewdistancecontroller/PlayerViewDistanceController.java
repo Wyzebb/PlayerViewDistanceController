@@ -90,7 +90,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
                 player.setViewDistance(dataHandler.getChunks());
 
-                MessageProcessor.processMessage("messages.afk-return", 2, null, 0, player);
+                MessageProcessor.processMessage("messages.afk-return", 2, 0, player);
             }
         }
 
@@ -121,7 +121,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 player.setViewDistance(afkChunks);
                 playerAfkMap.put(playerId, 0);
 
-                MessageProcessor.processMessage("messages.afk", 2, null, afkChunks, player);
+                MessageProcessor.processMessage("messages.afk", 2, afkChunks, player);
             }
         }
     }

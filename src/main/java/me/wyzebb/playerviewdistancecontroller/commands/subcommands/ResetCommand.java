@@ -3,6 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,12 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public class ResetCommand extends SubCommand {
 
+    private final LanguageManager languageManager;
+
+    public ResetCommand() {
+        this.languageManager = plugin.getLanguageManager();
+    }
+
     @Override
     public String getName() {
         return "reset";
@@ -24,7 +31,7 @@ public class ResetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "commands.reset";
+        return languageManager.getLanguageFile().getString("commands.reset");
     }
 
     @Override
@@ -35,13 +42,13 @@ public class ResetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     resetSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("messages.incorrect-args", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
 
             } else {
@@ -49,7 +56,7 @@ public class ResetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, null, 0, commandSender);
+                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
 
                 } else if (commandSender == target) {
                     resetSelf(commandSender);
@@ -58,7 +65,7 @@ public class ResetCommand extends SubCommand {
                     if (commandSender.hasPermission("pvdc.reset-others")) {
                         MessageProcessor.processMessage("messages.reset", 2, target, 0, commandSender);
                     } else {
-                        MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
+                        MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
                     }
                 }
             }
@@ -96,9 +103,9 @@ public class ResetCommand extends SubCommand {
 
 
 
-            MessageProcessor.processMessage("messages.self-reset", 2, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
         } else {
-            MessageProcessor.processMessage("messages.no-permission", 1, null, 0, commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
     }
 }
