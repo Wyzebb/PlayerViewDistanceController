@@ -2,6 +2,7 @@ package me.wyzebb.playerviewdistancecontroller;
 
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
+import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
@@ -29,19 +30,26 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     private LanguageManager languageManager;
 
-    private LuckPerms luckPerms;
+    public static boolean luckPermsDetected = false;
 
     @Override
     public void onEnable() {
         getLogger().info("Plugin started!");
         plugin = this;
 
+        luckPermsDetected = LuckPermsDetector.detectLuckPerms();
+
         languageManager = new LanguageManager();
 
-        try {
-            this.luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (luckPermsDetected) {
+            LuckPerms luckPerms;
+            try {
+                luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            new LuckPermsEvents(luckPerms).register();
         }
 
         // Config
@@ -66,15 +74,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         // Start AFK checker if enabled in the config
         if (getConfig().getBoolean("afk-chunk-limiter")) {
             scheduleAfkChecker();
-        }
-
-        new LuckPermsEvents(this.luckPerms).register();
-
-        try {
-            Class.forName("net.luckperms.api.LuckPerms");
-            plugin.getLogger().info("LuckPerms detected!");
-        } catch (ClassNotFoundException ex) {
-            plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
         }
     }
 
