@@ -6,7 +6,7 @@ public class LuckPermsDetector {
     public static boolean detectLuckPerms() {
         try {
             Class.forName("net.luckperms.api.LuckPerms");
-            plugin.getLogger().info("LuckPerms detected!");
+            plugin.getLogger().info("Enabling LuckPerms Hook");
             return true;
 
         } catch (Exception ex) {
