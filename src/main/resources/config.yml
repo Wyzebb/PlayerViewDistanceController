@@ -5,9 +5,6 @@ colour: "§e§l(!) §e"
 error-colour: "§c§l(!) §c"
 success-colour: "§a§l(!) §a"
 
-
-set-default-distance: true
-
 # Default view distance for anyone who joins the server (Must be between 2 and 32)
 default-distance: 32
 bedrock-default-distance: 32
