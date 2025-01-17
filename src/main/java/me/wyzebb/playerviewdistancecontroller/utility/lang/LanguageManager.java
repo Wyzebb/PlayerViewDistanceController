@@ -28,7 +28,7 @@ public class LanguageManager {
     }
 
     private void copyDefaultLanguages() {
-        String[] languages = {"en_US.yml"}; // List of all languages provided
+        String[] languages = {"en_US.yml", "ru_RU.yml"}; // List of all languages provided
 
         File languagesFolder = new File(plugin.getDataFolder(), "lang");
         if (!languagesFolder.exists()) {
