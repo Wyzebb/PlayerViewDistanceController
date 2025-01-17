@@ -8,6 +8,7 @@ import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.PlaceholderAPIExpansion;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
@@ -74,6 +75,11 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         // Start AFK checker if enabled in the config
         if (getConfig().getBoolean("afk-chunk-limiter")) {
             scheduleAfkChecker();
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            plugin.getLogger().info("Enabling PlaceholderAPI Hook");
+            PlaceholderAPIExpansion.registerHook();
         }
     }
 
