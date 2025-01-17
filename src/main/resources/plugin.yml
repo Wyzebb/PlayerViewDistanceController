@@ -7,6 +7,12 @@ description: This plugin makes the maximum view distance of each player highly c
 prefix: PVDC
 folia-supported: true
 
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+
 softdepend:
   - LuckPerms
 
