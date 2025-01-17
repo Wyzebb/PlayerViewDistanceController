@@ -9,6 +9,7 @@ import net.luckperms.api.event.node.NodeRemoveEvent;
 import net.luckperms.api.node.NodeType;
 import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
@@ -23,21 +24,39 @@ public class LuckPermsEvents {
         EventBus eventBus = this.luckPerms.getEventBus();
 
         eventBus.subscribe(plugin, NodeAddEvent.class, e -> {
-            if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
-                VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
+            if (e.isUser()) {
+                if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
+                    VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
+                }
+            } else {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    VdCalculator.calcVdAndSetNoReset(player);
+                }
             }
         });
 
         eventBus.subscribe(plugin, NodeRemoveEvent.class, e -> {
-            if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
-                VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
+            if (e.isUser()) {
+                if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
+                    VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
+                }
+            } else {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    VdCalculator.calcVdAndSetNoReset(player);
+                }
             }
         });
 
         eventBus.subscribe(plugin, NodeClearEvent.class, e -> {
-            for (int i = 1; i <= e.getDataBefore().size(); i++) {
-                if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
-                    VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
+            if (e.isUser()) {
+                for (int i = 1; i <= e.getDataBefore().size(); i++) {
+                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
+                        VdCalculator.calcVdAndSetNoReset(Bukkit.getPlayer(e.getTarget().getFriendlyName()));
+                    }
+                }
+            } else {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    VdCalculator.calcVdAndSetNoReset(player);
                 }
             }
 
