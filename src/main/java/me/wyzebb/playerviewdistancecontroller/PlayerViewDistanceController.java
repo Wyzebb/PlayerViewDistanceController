@@ -13,6 +13,8 @@ import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import net.luckperms.api.LuckPerms;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -37,6 +39,15 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Plugin started!");
         plugin = this;
+
+
+        int pluginId = 24498;
+        Metrics metrics = new Metrics(this, pluginId);
+
+        metrics.addCustomChart(new SimplePie("used_language", () -> {
+            return getConfig().getString("language", "en_US");
+        }));
+
 
         luckPermsDetected = LuckPermsDetector.detectLuckPermsWithMsg();
 
