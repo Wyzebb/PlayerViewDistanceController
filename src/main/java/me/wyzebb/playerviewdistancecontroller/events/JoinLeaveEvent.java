@@ -44,7 +44,7 @@ public class JoinLeaveEvent implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
         if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
-            Component updateMsg = mm.deserialize("<yellow><b>(!)</b> <u><click:open_url:'https://modrinth.com/plugin/pvdc'><hover:show_text:'<green>Click to go to the plugin page</green>'>New PVDC update available</hover></click></u>! Update from <red><b>v" + plugin.getDescription().getVersion() + "</b></red> to <green><b>v" + UpdateChecker.getLatestVersion() + "</b></green> to get the best experience!</yellow>");
+            Component updateMsg = mm.deserialize("<yellow><b>(!)</b> <click:open_url:'https://modrinth.com/plugin/pvdc'><hover:show_text:'<green>Click to go to the plugin page</green>'>PVDC update available: <red><b>v" + plugin.getDescription().getVersion() + " -> <green>v" + UpdateChecker.getLatestVersion() + "</b></green></hover></click></yellow>");
 
             e.getPlayer().sendMessage(updateMsg);
         }
