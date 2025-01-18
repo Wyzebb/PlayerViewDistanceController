@@ -84,9 +84,7 @@ public class ResetCommand extends SubCommand {
             cfg.set("chunksOthers", -1);
 
             try {
-//                plugin.getLogger().info("Attempting to reset player data for: " + commandSender.getName());
                 cfg.save(playerDataFile);
-//                plugin.getLogger().info("Player data saved successfully for: " + commandSender.getName());
             } catch (IOException ioException) {
                 plugin.getLogger().severe("IOException occurred while resetting player view distance data for " + commandSender.getName() + ": " + ioException.getMessage());
                 ioException.printStackTrace(); // Print the stack trace for detailed debugging
@@ -99,9 +97,6 @@ public class ResetCommand extends SubCommand {
             }
 
             VdCalculator.calcVdAndSetNew(player);
-
-
-
 
             MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
         } else {
