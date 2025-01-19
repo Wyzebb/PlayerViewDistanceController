@@ -15,7 +15,7 @@ This plugin makes the maximum view distance of each player highly customisable.
 - **Saves data persistently**: Automatically restores player view distances when they connect to the server, even across restarts.
 - **LuckPerms integration**: Max view distances can be set for groups or individual players via Luckperms (LuckPerms is not required).
 - **AFK view restriction**: AFK players can have their views restricted until they next move to improve server performance. This can be completely customised or disabled in the config.
-- **Highly configurable**: Control most features and messages in the plugin (default configs are below!)
+- **Highly configurable**: Control most features and messages in the plugin
 - **Bedrock support**: Full bedrock support and bedrock players can have custom default values.
 - **Very lightweight**: The plugin does not use much CPU or RAM at all and can even greatly improve performance as the server may have to send less chunk data to players!)
 - **Update checker**: As of v2.0.0, an update checker is built-in.
