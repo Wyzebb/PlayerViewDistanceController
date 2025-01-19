@@ -1,7 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.*;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -17,27 +17,32 @@ import java.util.List;
 public class CommandManager implements TabExecutor {
 
     private final ArrayList<SubCommand> subcommands = new ArrayList<>();
-    private final PlayerViewDistanceController plugin;
 
-    public CommandManager(PlayerViewDistanceController plugin){
-        this.plugin = plugin;
-        subcommands.add(new SetCommand(plugin));
-        subcommands.add(new SetOnlineCommand(plugin));
-        subcommands.add(new ReloadCommand(plugin));
-        subcommands.add(new HelpCommand(plugin));
+    public CommandManager(){
+        subcommands.add(new SetCommand());
+        subcommands.add(new SetOnlineCommand());
         subcommands.add(new GetCommand());
+        subcommands.add(new ResetCommand());
+        subcommands.add(new ReloadCommand());
+        subcommands.add(new HelpCommand());
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (args.length > 0){
+            boolean found = false;
             for (int i = 0; i < getSubcommands().size(); i++){
                 if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
                     getSubcommands().get(i).performCommand(commandSender, args);
+                    found = true;
+                } else {
+                    if (i == getSubcommands().size() - 1 && !found) {
+                        MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                    }
                 }
             }
         } else {
-            SendHelpMsgUtility.sendHelpMessage(commandSender, plugin);
+            SendHelpMsgUtility.sendHelpMessage(commandSender);
         }
         return true;
     }

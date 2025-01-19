@@ -1,6 +1,5 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.SubCommand;
 import org.bukkit.command.BlockCommandSender;
@@ -11,10 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class SendHelpMsgUtility {
 
-    public static void sendHelpMessage(CommandSender commandSender, PlayerViewDistanceController plugin) {
-        ArrayList<String> messageLines = getStrings(plugin);
+    public static void sendHelpMessage(CommandSender commandSender) {
+        ArrayList<String> messageLines = getStrings();
 
         if (commandSender instanceof Player p) {
             for (String line : messageLines) {
@@ -31,17 +32,17 @@ public class SendHelpMsgUtility {
         }
     }
 
-    private static @NotNull ArrayList<String> getStrings(PlayerViewDistanceController plugin) {
-        CommandManager cmdManager = new CommandManager(plugin);
+    private static @NotNull ArrayList<String> getStrings() {
+        CommandManager cmdManager = new CommandManager();
         List<SubCommand> subcommands = cmdManager.getSubcommands();
 
         ArrayList<String> messageLines = new ArrayList<>();
+
+        messageLines.add("§c§l---------- PVDC §e§lv" + plugin.getDescription().getVersion() + " §c§lCommand Help ----------");
         for (SubCommand subcommand : subcommands) {
             messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
         }
-        messageLines.add("");
-        messageLines.add("§cConfigure this plugin in config.yml");
-        messageLines.add("§ev" + plugin.getDescription().getVersion());
+
         return messageLines;
     }
 }

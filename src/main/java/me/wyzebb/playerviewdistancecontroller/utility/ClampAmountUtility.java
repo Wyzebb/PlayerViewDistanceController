@@ -1,6 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class ClampAmountUtility {
 
@@ -11,7 +11,7 @@ public class ClampAmountUtility {
         return MAX_POSSIBLE;
     }
 
-    public static int clampChunkValue(int amount, PlayerViewDistanceController plugin) {
+    public static int clampChunkValue(int amount) {
         amount = Math.min(MAX_POSSIBLE, amount);
         amount = Math.max(MIN_POSSIBLE, amount);
 

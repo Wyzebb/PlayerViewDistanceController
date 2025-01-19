@@ -7,16 +7,22 @@ description: This plugin makes the maximum view distance of each player highly c
 prefix: PVDC
 folia-supported: true
 
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+
 softdepend:
   - LuckPerms
 
 commands:
-  viewdistance:
+  pvdc:
     description: Base command for PVDC plugin
-    usage: "Use /vd help for usage information"
+    usage: "Use /pvdc help for usage information"
     aliases:
-      - pvdc
       - vd
+      - viewdistance
 
 permissions:
   pvdc.set-others:
@@ -46,13 +52,18 @@ permissions:
   pvdc.maxdistance:
     description: Allows max view distance to be set via luckperms eg pvdc.maxdistance.3
 
-  pvdc.*:
-    description: Grants all permissions for PVDC
+  pvdc.bypass-maxdistance:
+    description: Allows you to bypass any max distances set for you
     default: op
-    children:
-      pvdc.set-others: true
-      pvdc.set-self: true
-      pvdc.setonline: true
-      pvdc.get-others: true
-      pvdc.get-self: true
-      pvdc.reload: true
+
+  pvdc.bypass-afk:
+    description: Allows you to bypass afk checks
+    default: op
+
+  pvdc.reset-self:
+    description: Allows you to reset your own saved view distance, so only Luckperms permission values are used
+    default: op
+
+  pvdc.reset-others:
+    description: Allows you to reset a player's saved view distance, so only Luckperms permission values are used
+    default: op

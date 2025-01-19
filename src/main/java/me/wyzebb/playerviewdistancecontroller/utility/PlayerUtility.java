@@ -1,6 +1,5 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import org.bukkit.entity.Player;
 
@@ -8,13 +7,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class PlayerUtility {
-
-    private final PlayerViewDistanceController plugin;
-
-    public PlayerUtility(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
-    }
 
     private static final Map<String, PlayerDataHandler> PlayerDataHandlerMap = new HashMap<>();
 

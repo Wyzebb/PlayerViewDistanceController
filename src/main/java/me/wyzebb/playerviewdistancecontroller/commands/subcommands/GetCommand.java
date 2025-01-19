@@ -1,12 +1,21 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class GetCommand extends SubCommand {
+
+    private final LanguageManager languageManager;
+
+    public GetCommand() {
+        this.languageManager = plugin.getLanguageManager();
+    }
 
     @Override
     public String getName() {
@@ -15,24 +24,24 @@ public class GetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Displays a player's max view distance";
+        return languageManager.getLanguageFile().getString("commands.get");
     }
 
     @Override
     public String getSyntax() {
-        return "/vd get [player]";
+        return "/pvdc get [player]";
     }
 
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+            MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     sendToSelf(commandSender);
                 } else {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
 
             } else {
@@ -40,16 +49,16 @@ public class GetCommand extends SubCommand {
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
                 if (target == null) {
-                    ProcessConfigMessagesUtility.processMessage("player-offline-msg", commandSender);
+                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
 
                 } else if (commandSender == target) {
                     sendToSelf(commandSender);
 
                 } else {
-                    if (commandSender.hasPermission("pvdc.get")) {
-                        ProcessConfigMessagesUtility.processMessage("view-distance-get-msg", PlayerUtility.getPlayerDataHandler(target).getChunks(), target, commandSender);
+                    if (commandSender.hasPermission("pvdc.get-others")) {
+                        MessageProcessor.processMessage("messages.view-distance-get", 2, target, VdCalculator.calcVdAndGet(target), commandSender);
                     } else {
-                        ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+                        MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
                     }
                 }
             }
@@ -58,9 +67,10 @@ public class GetCommand extends SubCommand {
 
     private void sendToSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.get-self")) {
-            ProcessConfigMessagesUtility.processMessage("self-view-distance-get-msg", commandSender, PlayerUtility.getPlayerDataHandler((Player) commandSender).getChunks());
+            Player player = (Player) commandSender;
+            MessageProcessor.processMessage("messages.self-view-distance-get", 3, player, VdCalculator.calcVdAndGet(player), commandSender);
         } else {
-            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
     }
 }

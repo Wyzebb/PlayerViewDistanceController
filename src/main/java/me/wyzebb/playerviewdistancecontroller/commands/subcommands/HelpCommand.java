@@ -1,16 +1,18 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import org.bukkit.command.CommandSender;
+
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 
 public class HelpCommand extends SubCommand {
 
-    private final PlayerViewDistanceController plugin;
+    private final LanguageManager languageManager;
 
-    public HelpCommand(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
+    public HelpCommand() {
+        this.languageManager = plugin.getLanguageManager();
     }
 
     @Override
@@ -20,16 +22,16 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Displays the plugin's help message";
+        return languageManager.getLanguageFile().getString("commands.help");
     }
 
     @Override
     public String getSyntax() {
-        return "/vd help";
+        return "/pvdc help";
     }
 
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
-        SendHelpMsgUtility.sendHelpMessage(commandSender, plugin);
+        SendHelpMsgUtility.sendHelpMessage(commandSender);
     }
 }

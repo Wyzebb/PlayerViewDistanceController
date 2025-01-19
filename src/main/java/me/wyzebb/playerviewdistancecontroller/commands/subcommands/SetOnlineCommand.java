@@ -1,20 +1,22 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.ProcessConfigMessagesUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class SetOnlineCommand extends SubCommand {
 
-    private final PlayerViewDistanceController plugin;
+    private final LanguageManager languageManager;
 
-    public SetOnlineCommand(PlayerViewDistanceController plugin) {
-        this.plugin = plugin;
+    public SetOnlineCommand() {
+        this.languageManager = plugin.getLanguageManager();
     }
 
     @Override
@@ -24,12 +26,12 @@ public class SetOnlineCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Sets the max view distance of all online players";
+        return languageManager.getLanguageFile().getString("commands.setonline");
     }
 
     @Override
     public String getSyntax() {
-        return "/vd setonline <chunks>";
+        return "/pvdc setonline <chunks>";
     }
 
     @Override
@@ -37,33 +39,33 @@ public class SetOnlineCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.setonline")) {
 
             if (args.length != 2) {
-                ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
             } else {
                 int amount = ClampAmountUtility.getMaxPossible();
 
                 try {
                     amount = Integer.parseInt(args[1]);
-                    amount = ClampAmountUtility.clampChunkValue(amount, plugin);
+                    amount = ClampAmountUtility.clampChunkValue(amount);
                 } catch (Exception e) {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
 
                 try {
                     for (Player p : plugin.getServer().getOnlinePlayers()) {
-                        ProcessConfigMessagesUtility.processMessage("all-online-change-msg", p, amount);
+                        MessageProcessor.processMessage("messages.all-online-change", 2, amount, p);
 
-                        DataProcessorUtility.processData(p, amount);
+                        DataProcessorUtility.processDataOthers(p, amount);
                     }
                 } catch (Exception e) {
-                    ProcessConfigMessagesUtility.processMessage("incorrect-args", commandSender);
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
 
                 if (commandSender instanceof ConsoleCommandSender) {
-                    ProcessConfigMessagesUtility.processMessage("all-online-change-msg", commandSender, amount);
+                    MessageProcessor.processMessage("messages.all-online-change", 2, amount, commandSender);
                 }
             }
         } else {
-            ProcessConfigMessagesUtility.processMessage("no-permission", commandSender);
+            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
     }
 }

@@ -1,0 +1,40 @@
+messages:
+  join: "Your maximum view distance is currently set to {chunks} chunks"
+
+  player-offline: "That player is not online!"
+  no-permission: "You do not have permission to execute this command!"
+
+  # The message displayed when there are not enough arguments or the arguments are invalid
+  incorrect-args: "Incorrect arguments - Use /pvdc help for help"
+
+  afk: "You're AFK, so your view distance has been restricted to {chunks} chunks!"
+  afk-return: "Your view distance has returned to normal!"
+
+  chunks-too-high: "You can only set your view distance to a value less than or equal to {chunks} chunks!"
+
+  self-view-distance-change: "You changed your maximum view distance to {chunks} chunks"
+
+  # The message displayed for the command sender when they change someone else's maximum view distance
+  sender-view-distance-change: "{target-player}'s maximum view distance was changed to {chunks} chunks"
+
+  # The message displayed for a player when their maximum view distance has been changed
+  target-view-distance-change: "Your maximum view distance has been changed to {chunks} chunks"
+
+  reset: "You reset {target-player}'s saved view distance!"
+  self-reset: "You reset your saved view distance!"
+
+  reload-config: "The PVDC config files have been successfully reloaded"
+
+  all-online-change: "The maximum view distance of all online players has been set to {chunks} chunks"
+
+  view-distance-get: "{target-player}'s maximum view distance is currently set to {chunks} chunks"
+  self-view-distance-get: "Your maximum view distance is currently set to {chunks} chunks"
+
+
+commands:
+  get: "Displays a player's max view distance"
+  help: "Displays the plugin's help message"
+  reload: "Reload the plugin's config.yml"
+  reset: "Resets a player's max view distance"
+  set: "Set your own max view distance or the max view distance of another player"
+  setonline: "Sets the max view distance of all online players"
