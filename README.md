@@ -29,7 +29,7 @@ This plugin makes the maximum view distance of each player highly customisable.
 - Restriction distance and the time it takes to consider a player AFK are customisable.
 - There is a bypass permission to stop your view distance being restricted when AFK.
 - Spectator mode players can bypass AFK by default
-- All of the above is customisable in config.yml (see below for more information).
+- All of the above is customisable in config.yml.
 
 <br />
 
