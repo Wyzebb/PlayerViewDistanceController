@@ -14,8 +14,8 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public class VdCalculator {
     public static void calcVdAndSet(Player player) {
-        int amount = plugin.getConfig().getInt("default-distance");
-        int amountOthers = -1;
+        int amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("default-distance"));
+        int amountOthers = 0;
 
         if (player.getName().startsWith(".")) {
             amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("bedrock-default-distance"));
@@ -38,9 +38,15 @@ public class VdCalculator {
 
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-        int finalChunks = Math.min(amount, luckpermsDistance);
+        int finalChunks;
 
-        if (amountOthers != -1) {
+        if (player.hasPermission("pvdc.bypass-max-distance")) {
+            finalChunks = amount;
+        } else {
+            finalChunks = Math.min(amount, luckpermsDistance);
+        }
+
+        if (amountOthers != 0) {
             if (amountOthers > finalChunks) {
                 finalChunks = amountOthers;
             }
@@ -78,7 +84,7 @@ public class VdCalculator {
 //        plugin.getLogger().warning("FINAL CHUNKS " + luckpermsDistance);
 
         dataHandler.setChunks(32);
-        dataHandler.setChunksOthers(-1);
+        dataHandler.setChunksOthers(0);
 
         player.setViewDistance(luckpermsDistance);
 
@@ -87,7 +93,7 @@ public class VdCalculator {
 
     public static void calcVdAndSetNoReset(Player player) {
         int amount = 32;
-        int amountOthers = -1;
+        int amountOthers = 0;
 
         // Get an instance of the player data handler for the specific player
         PlayerUtility playerUtility = new PlayerUtility();
@@ -106,7 +112,7 @@ public class VdCalculator {
 
         int finalChunks = Math.min(amount, luckpermsDistance);
 
-        if (amountOthers != -1) {
+        if (amountOthers != 0) {
             if (amountOthers > finalChunks) {
                 finalChunks = amountOthers;
             }
@@ -127,7 +133,7 @@ public class VdCalculator {
 
 //        plugin.getLogger().warning("final: " + finalChunks);
 
-        if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() != -1) {
+        if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() != 0) {
             if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() > finalChunks) {
                 finalChunks = PlayerUtility.getPlayerDataHandler(player).getChunksOthers();
             }
