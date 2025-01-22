@@ -1,5 +1,3 @@
-################## Main settings ##################
-
 language: en_US
 colour: "§e§l(!) §e"
 error-colour: "§c§l(!) §c"
