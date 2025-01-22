@@ -1,5 +1,3 @@
-// Credit to Ferdzz on GitHub (https://github.com/Ferdzz) as this code is a modified version of their update checker
-
 package me.wyzebb.playerviewdistancecontroller;
 
 import java.io.BufferedReader;
@@ -11,7 +9,7 @@ import java.net.URL;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class UpdateChecker implements Runnable {
-    private static final boolean upToDate = false;
+    private static boolean upToDate = false;
     private static String latest = "";
 
     @Override
@@ -35,6 +33,7 @@ public class UpdateChecker implements Runnable {
 
                 if (pluginVersion.equals(latest)) {
                     plugin.getLogger().info("Plugin is up to date!");
+                    upToDate = true;
                 } else {
                     plugin.getLogger().warning("Plugin is out of date! Please update from v" + pluginVersion + " to v" + latest + "!");
                 }
