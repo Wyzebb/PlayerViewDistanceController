@@ -25,11 +25,17 @@ public class LuckPermsDataHandler {
             // Regular expression to match permissions like pvdc.maxdistance.7
             Pattern pattern = Pattern.compile("pvdc\\.maxdistance\\.(\\d+)");
 
-            return getMaxDistance(user, pattern);
+            int max = getMaxDistance(user, pattern);
+
+            if (max == 0) {
+                return 32;
+            } else {
+                return max;
+            }
     }
 
     private static int getMaxDistance(User user, Pattern pattern) {
-        int maxDistance = 32;
+        int maxDistance = 0;
 
         for (var node : user.resolveInheritedNodes(QueryOptions.nonContextual())) {
             String permission = node.getKey();
@@ -38,7 +44,7 @@ public class LuckPermsDataHandler {
             if (matcher.matches()) {
                 // Extract the number from the permission
                 int distance = Integer.parseInt(matcher.group(1));
-                if (distance < maxDistance) {
+                if (distance > maxDistance) {
                     maxDistance = distance;
                 }
             }
