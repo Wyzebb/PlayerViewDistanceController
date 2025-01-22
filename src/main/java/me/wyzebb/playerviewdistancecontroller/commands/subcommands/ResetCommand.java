@@ -81,7 +81,7 @@ public class ResetCommand extends SubCommand {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
             cfg.set("chunks", 32);
-            cfg.set("chunksOthers", -1);
+            cfg.set("chunksOthers", 0);
 
             try {
                 cfg.save(playerDataFile);
