@@ -21,7 +21,7 @@ The customisability of the plugin can make it a little confusing, so please refe
 - **Bedrock support**: Full bedrock support and bedrock players can have custom default values.
 - **Very lightweight**: The plugin does not use much CPU or RAM at all and can even greatly improve performance as the server may have to send less chunk data to players!)
 - **Update checker**: As of v2.0.0, an update checker is built-in.
-- **Multi-language support**: All messages are customisable and you can even add your own language by creating a file in the 'lang' folder and referencing that file in config.yml. If you wish, you could make a pull request with any more languages so the plugin can ship with them in the future.
+- **Multi-language support**: All messages are customisable and you can even add your own language by creating a file in the 'lang' folder and referencing that file in config.yml. If you wish, you could make a pull request with any more languages so the plugin can ship with them in the future. The plugin currently ships with English, Russian and Chinese.
 - **PlaceHolderAPI support**: Placeholders are now built in to see if players are AFK and to see a player's current max view distance.
 
 <br/>
