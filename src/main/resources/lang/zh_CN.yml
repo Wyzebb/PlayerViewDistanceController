@@ -1,0 +1,38 @@
+messages:
+  join: "您当前的最大视距设置为 {chunks} 区块"
+
+  player-offline: "该玩家不在线！"
+  no-permission: "您没有权限执行此命令！"
+
+  # 当参数不足或参数无效时显示的消息
+  incorrect-args: "参数错误 - 使用 /pvdc help 查看帮助"
+
+  afk: "您现在处于离开状态，视距已限制为 {chunks} 区块！"
+  afk-return: "您的视距已恢复正常！"
+
+  chunks-too-high: "您只能将视距设置为小于或等于 {chunks} 区块的值！"
+
+  self-view-distance-change: "您已将最大视距更改为 {chunks} 区块"
+
+  # 当指令输入者更改其他玩家的最大视距时显示的消息
+  sender-view-distance-change: "已将 {target-player} 的最大视距更改为 {chunks} 区块"
+
+  # 当玩家的最大视距被更改时显示的消息
+  target-view-distance-change: "您的最大视距已被更改为 {chunks} 区块"
+
+  reset: "您已重置 {target-player} 的视距！"
+  self-reset: "重置自己的视距！"
+
+  reload-config: "配置文件已成功重新加载"
+
+  all-online-change: "所有在线玩家的最大视距已设置为 {chunks} 区块"
+
+  view-distance-get: "{target-player} 的最大视距当前设置为 {chunks} 区块"
+  self-view-distance-get: "您的最大视距当前设置为 {chunks} 区块"
+commands:
+  get: "显示玩家的最大视距"
+  help: "显示插件的帮助信息"
+  reload: "重新加载插件的配置文件"
+  reset: "重置某个玩家的最大视距"
+  set: "设置自己的最大视距或其他玩家的最大视距"
+  setonline: "设置所有在线玩家的最大视距"
