@@ -40,7 +40,7 @@ public class VdCalculator {
 
         int finalChunks;
 
-        if (player.hasPermission("pvdc.bypass-max-distance")) {
+        if (player.hasPermission("pvdc.bypass-maxdistance")) {
             finalChunks = amount;
         } else {
             finalChunks = Math.min(amount, luckpermsDistance);
