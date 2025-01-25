@@ -85,12 +85,8 @@ public class ResetCommand extends SubCommand {
 
             try {
                 cfg.save(playerDataFile);
-            } catch (IOException ioException) {
-                plugin.getLogger().severe("IOException occurred while resetting player view distance data for " + commandSender.getName() + ": " + ioException.getMessage());
-                ioException.printStackTrace(); // Print the stack trace for detailed debugging
             } catch (Exception ex) {
-                plugin.getLogger().severe("An unexpected error occurred resetting the player view distance data for " + commandSender.getName() + ": " + ex.getMessage());
-                ex.printStackTrace(); // Print the stack trace for unexpected errors
+                plugin.getLogger().severe("An exception occurred when resetting view distance data for " + commandSender.getName() + ": " + ex.getMessage());
             } finally {
                 PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
                 PlayerUtility.setPlayerDataHandler(player, null);
