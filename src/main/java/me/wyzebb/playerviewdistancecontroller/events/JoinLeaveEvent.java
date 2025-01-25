@@ -43,10 +43,12 @@ public class JoinLeaveEvent implements Listener {
 
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
-        if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
-            Component updateMsg = mm.deserialize("<yellow><b>(!)</b> <click:open_url:'https://modrinth.com/plugin/pvdc'><hover:show_text:'<green>Click to go to the plugin page</green>'>PVDC update available: <b><red>v" + plugin.getDescription().getVersion() + "</red> -> <green>v" + UpdateChecker.getLatestVersion() + "</green></b></hover></click></yellow>");
+        if (plugin.getConfig().getBoolean("update-checker-enabled")) {
+            if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
+                Component updateMsg = mm.deserialize("<yellow><b>(!)</b> <click:open_url:'https://modrinth.com/plugin/pvdc'><hover:show_text:'<green>Click to go to the plugin page</green>'>PVDC update available: <b><red>v" + UpdateChecker.getPluginVersion() + "</red> -> <green>v" + UpdateChecker.getLatestVersion() + "</green></b></hover></click></yellow>");
 
-            e.getPlayer().sendMessage(updateMsg);
+                e.getPlayer().sendMessage(updateMsg);
+            }
         }
 
         VdCalculator.calcVdSet(e.getPlayer(), false);
@@ -65,12 +67,8 @@ public class JoinLeaveEvent implements Listener {
 
         try {
             cfg.save(playerDataFile);
-        } catch (IOException ioException) {
-            plugin.getLogger().severe("IOException occurred while saving player view distance data for " + e.getPlayer().getName() + ": " + ioException.getMessage());
-            ioException.printStackTrace(); // Print the stack trace for detailed debugging
         } catch (Exception ex) {
-            plugin.getLogger().severe("An unexpected error occurred saving the player view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
-            ex.printStackTrace(); // Print the stack trace for unexpected errors
+            plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
         } finally {
             PlayerViewDistanceController.playerAfkMap.remove(e.getPlayer().getUniqueId());
             PlayerUtility.setPlayerDataHandler(e.getPlayer(), null);
