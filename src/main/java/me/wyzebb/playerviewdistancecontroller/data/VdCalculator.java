@@ -13,11 +13,13 @@ import java.io.File;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class VdCalculator {
-    public static void calcVdAndSet(Player player) {
+    public static void calcVdSet(Player player, boolean luckPermsEvent) {
         int amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("default-distance"));
         int amountOthers = 0;
 
-        if (player.getName().startsWith(".")) {
+        final boolean bedrockPlayer = player.getName().startsWith(".");
+
+        if (bedrockPlayer) {
             amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("bedrock-default-distance"));
         }
 
@@ -25,17 +27,14 @@ public class VdCalculator {
         PlayerUtility playerUtility = new PlayerUtility();
         File playerDataFile = playerUtility.getPlayerDataFile(player);
 
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
-
         if (playerDataFile.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = cfg.getInt("chunks");
             amountOthers = cfg.getInt("chunksOthers");
         }
 
-        // Get max distances from LuckPerms
+        // Get max distance from LuckPerms
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
-
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
         int finalChunks;
@@ -52,12 +51,16 @@ public class VdCalculator {
             }
         }
 
-        dataHandler.setChunks(amount);
-        dataHandler.setChunksOthers(amountOthers);
+        if (!luckPermsEvent) {
+            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
+
+            dataHandler.setChunks(amount);
+            dataHandler.setChunksOthers(amountOthers);
+
+            PlayerUtility.setPlayerDataHandler(player, dataHandler);
+        }
 
         player.setViewDistance(finalChunks);
-
-        boolean bedrockPlayer = player.getName().startsWith(".");
 
         if (plugin.getConfig().getBoolean("display-msg-on-join")) {
             if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible())  {
@@ -68,20 +71,16 @@ public class VdCalculator {
                 MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
             }
         }
-        PlayerUtility.setPlayerDataHandler(player, dataHandler);
     }
 
 
-    public static void calcVdAndSetNew(Player player) {
+    public static void calcVdReset(Player player) {
         // Get an instance of the player data handler for the specific player
         PlayerDataHandler dataHandler = new PlayerDataHandler();
 
-        // Get max distances from LuckPerms
+        // Get max distance from LuckPerms
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
-
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
-
-//        plugin.getLogger().warning("FINAL CHUNKS " + luckpermsDistance);
 
         dataHandler.setChunks(32);
         dataHandler.setChunksOthers(0);
@@ -91,55 +90,19 @@ public class VdCalculator {
         PlayerUtility.setPlayerDataHandler(player, dataHandler);
     }
 
-    public static void calcVdAndSetNoReset(Player player) {
-        int amount = 32;
-        int amountOthers = 0;
 
-        // Get an instance of the player data handler for the specific player
-        PlayerUtility playerUtility = new PlayerUtility();
-        File playerDataFile = playerUtility.getPlayerDataFile(player);
-
-        if (playerDataFile.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
-            amount = cfg.getInt("chunks");
-            amountOthers = cfg.getInt("chunksOthers");
-        }
-
-        // Get max distances from LuckPerms
+    public static int calcVdGet(Player player) {
+        // Get max distance from LuckPerms
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
-
-        luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
-
-        int finalChunks = Math.min(amount, luckpermsDistance);
-
-        if (amountOthers != 0) {
-            if (amountOthers > finalChunks) {
-                finalChunks = amountOthers;
-            }
-        }
-
-        player.setViewDistance(finalChunks);
-    }
-
-
-    public static int calcVdAndGet(Player player) {
-        // Get max distances from LuckPerms
-        int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
-//        plugin.getLogger().warning("LPD: " + luckpermsDistance);
-
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
         int finalChunks = Math.min(PlayerUtility.getPlayerDataHandler(player).getChunks(), luckpermsDistance);
-
-//        plugin.getLogger().warning("final: " + finalChunks);
 
         if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() != 0) {
             if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() > finalChunks) {
                 finalChunks = PlayerUtility.getPlayerDataHandler(player).getChunksOthers();
             }
         }
-
-//        plugin.getLogger().warning("final2: " + finalChunks);
 
         return finalChunks;
     }
