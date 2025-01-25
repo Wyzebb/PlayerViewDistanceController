@@ -65,7 +65,7 @@ public class VdCalculator {
         if (!luckPermsEvent) {
             if (plugin.getConfig().getBoolean("display-msg-on-join")) {
                 if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
-                    if (plugin.getConfig().getBoolean("display-max-join")) {
+                    if (plugin.getConfig().getBoolean("display-max-join-msg")) {
                         MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
                     }
                 } else {
