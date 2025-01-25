@@ -36,16 +36,16 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
                 try {
                     Player target = Bukkit.getPlayer(playerName);
-                    return String.valueOf(VdCalculator.calcVdAndGet(target));
+                    return String.valueOf(VdCalculator.calcVdGet(target));
 
                 } catch (Exception e) {
                     MessageProcessor.processMessage("messages.player-offline", 1, 0, player);
                 }
 
 
-                return String.valueOf(VdCalculator.calcVdAndGet(player));
+                return String.valueOf(VdCalculator.calcVdGet(player));
             } else if (params.equalsIgnoreCase("chunks")) {
-                return String.valueOf(VdCalculator.calcVdAndGet(player));
+                return String.valueOf(VdCalculator.calcVdGet(player));
             } else if (params.contains("afk_")) {
                 String playerName = params.replace("afk_", "");
 

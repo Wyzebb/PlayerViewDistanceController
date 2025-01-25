@@ -49,7 +49,7 @@ public class JoinLeaveEvent implements Listener {
             e.getPlayer().sendMessage(updateMsg);
         }
 
-        VdCalculator.calcVdAndSet(e.getPlayer());
+        VdCalculator.calcVdSet(e.getPlayer(), false);
     }
 
     @EventHandler

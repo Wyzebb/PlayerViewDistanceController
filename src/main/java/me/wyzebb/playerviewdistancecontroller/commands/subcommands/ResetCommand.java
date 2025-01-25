@@ -96,7 +96,7 @@ public class ResetCommand extends SubCommand {
                 PlayerUtility.setPlayerDataHandler(player, null);
             }
 
-            VdCalculator.calcVdAndSetNew(player);
+            VdCalculator.calcVdReset(player);
 
             MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
         } else {
