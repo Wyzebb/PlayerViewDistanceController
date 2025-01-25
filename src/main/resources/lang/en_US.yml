@@ -10,7 +10,7 @@ messages:
   afk: "You're AFK, so your view distance has been restricted to {chunks} chunks!"
   afk-return: "Your view distance has returned to normal!"
 
-  chunks-too-high: "You can only set your view distance to a value less than or equal to {chunks} chunks!"
+  chunks-too-high: "You are only permitted to set your view distance to a maximum of {chunks} chunks!"
 
   self-view-distance-change: "You changed your maximum view distance to {chunks} chunks"
 
