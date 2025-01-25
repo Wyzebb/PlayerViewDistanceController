@@ -20,8 +20,6 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -46,9 +44,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         int pluginId = 24498;
         Metrics metrics = new Metrics(this, pluginId);
 
-        metrics.addCustomChart(new SimplePie("used_language", () -> {
-            return getConfig().getString("language", "en_US");
-        }));
+        metrics.addCustomChart(new SimplePie("used_language", () -> getConfig().getString("language", "en_US")));
 
 
         luckPermsDetected = LuckPermsDetector.detectLuckPermsWithMsg();
