@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import static me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents.lastUpdates;
+
 public final class PlayerViewDistanceController extends JavaPlugin {
     public static PlayerViewDistanceController plugin;
     public static final Map<UUID, Integer> playerAfkMap = new HashMap<>();
@@ -144,6 +146,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     @Override
     public void onDisable() {
         playerAfkMap.clear();
+        lastUpdates.clear();
 
         getLogger().info("Plugin shut down!");
     }
