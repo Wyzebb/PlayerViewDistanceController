@@ -20,7 +20,7 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public class LuckPermsEvents {
     private final LuckPerms luckPerms;
-    private static final Map<UUID, Integer> lastUpdates = new HashMap<>();
+    public static Map<UUID, Integer> lastUpdates = new HashMap<>();
 
     public LuckPermsEvents(LuckPerms luckPerms) {
         this.luckPerms = luckPerms;
@@ -28,17 +28,17 @@ public class LuckPermsEvents {
 
     private void messageIfNotAlready(UUID playerId) {
         int currentTime = (int) System.currentTimeMillis();
-        int lastMoved = lastUpdates.getOrDefault(playerId, 0);
+        int lastMoved = lastUpdates.getOrDefault(playerId, 10);
 
-        lastUpdates.put(playerId, currentTime);
-
-        if (currentTime - lastMoved > (1000)) {
+        if (currentTime - lastMoved > 1000) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerId);
 
             if (offlinePlayer.isOnline()) {
                 VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true);
             }
         }
+
+        lastUpdates.put(playerId, currentTime);
     }
 
     public void register() {
