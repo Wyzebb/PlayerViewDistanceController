@@ -15,11 +15,7 @@ public class UpdateChecker implements Runnable {
     public void run() {
         plugin.getLogger().info("Checking for updates...");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("currentVersion.txt"))) {
-            pluginVersion = reader.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        pluginVersion = plugin.getDescription().getVersion();
 
         String versionUrl = "https://raw.githubusercontent.com/Wyzebb/PlayerViewDistanceController/refs/heads/master/version.txt";
 
