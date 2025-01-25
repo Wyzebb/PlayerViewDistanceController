@@ -1,8 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -11,10 +9,17 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 public class UpdateChecker implements Runnable {
     private static boolean upToDate = false;
     private static String latest = "";
+    private static String pluginVersion = "";
 
     @Override
     public void run() {
         plugin.getLogger().info("Checking for updates...");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("currentVersion.txt"))) {
+            pluginVersion = reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         String versionUrl = "https://raw.githubusercontent.com/Wyzebb/PlayerViewDistanceController/refs/heads/master/version.txt";
 
@@ -28,8 +33,6 @@ public class UpdateChecker implements Runnable {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                     latest = reader.readLine();
                 }
-
-                String pluginVersion = plugin.getDescription().getVersion();
 
                 if (pluginVersion.equals(latest)) {
                     plugin.getLogger().info("Plugin is up to date!");
@@ -52,5 +55,9 @@ public class UpdateChecker implements Runnable {
 
     public static String getLatestVersion() {
         return latest;
+    }
+
+    public static String getPluginVersion() {
+        return pluginVersion;
     }
 }
