@@ -1,6 +1,5 @@
 package me.wyzebb.playerviewdistancecontroller;
 
-import com.tchristofferson.configupdater.ConfigUpdater;
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
@@ -50,26 +49,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         metrics.addCustomChart(new SimplePie("used_language", () -> {
             return getConfig().getString("language", "en_US");
         }));
-
-        // ConfigUpdater
-        saveDefaultConfig();
-        File configFile = new File(getDataFolder(), "config.yml");
-
-        File configFileEnUs = new File(getDataFolder(), "lang/en_US.yml");
-        File configFileRuRu = new File(getDataFolder(), "lang/ru_RU.yml");
-        File configFileZhCn = new File(getDataFolder(), "lang/zh_CN.yml");
-
-        try {
-            ConfigUpdater.update(plugin, "config.yml", configFile);
-
-            ConfigUpdater.update(plugin, "en_US.yml", configFileEnUs);
-            ConfigUpdater.update(plugin, "ru_RU.yml", configFileRuRu);
-            ConfigUpdater.update(plugin, "zh_CN.yml", configFileZhCn);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        reloadConfig();
 
 
         luckPermsDetected = LuckPermsDetector.detectLuckPermsWithMsg();
