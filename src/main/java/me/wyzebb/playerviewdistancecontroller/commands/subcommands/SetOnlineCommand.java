@@ -55,6 +55,7 @@ public class SetOnlineCommand extends SubCommand {
                         MessageProcessor.processMessage("messages.all-online-change", 2, amount, p);
 
                         DataProcessorUtility.processDataOthers(p, amount);
+                        p.setViewDistance(amount);
                     }
                 } catch (Exception e) {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
