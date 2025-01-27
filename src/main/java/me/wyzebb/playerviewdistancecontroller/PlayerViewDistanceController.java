@@ -138,7 +138,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 player.setViewDistance(afkChunks);
                 playerAfkMap.put(playerId, 0);
 
-                MessageProcessor.processMessage("messages.afk", 2, afkChunks, player);
+                MessageProcessor.processMessage("messages.afk", 3, afkChunks, player);
             }
         }
     }
