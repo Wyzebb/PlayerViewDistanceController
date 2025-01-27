@@ -57,6 +57,11 @@ public class SetCommand extends SubCommand {
                 }
 
             } else {
+
+                if (!ClampAmountUtility.isNumeric(args[1])) {
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                }
+
                 String targetName = args[2];
                 Player target = Bukkit.getServer().getPlayerExact(targetName);
 
@@ -71,6 +76,7 @@ public class SetCommand extends SubCommand {
                         MessageProcessor.processMessage("messages.sender-view-distance-change", 2, target, amount, commandSender);
                         MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, target);
                         DataProcessorUtility.processDataOthers(target, amount);
+                        target.setViewDistance(amount);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
                     }
@@ -82,6 +88,7 @@ public class SetCommand extends SubCommand {
     private void setSelf(CommandSender commandSender, int amount) {
         if (commandSender.hasPermission("pvdc.set-self")) {
             int luckpermsMax = 32;
+
             if (LuckPermsDetector.detectLuckPerms()) {
                 luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance((Player) commandSender);
             }
@@ -89,6 +96,8 @@ public class SetCommand extends SubCommand {
             if (luckpermsMax >= amount || commandSender.hasPermission("pvdc.bypass-maxdistance")) {
                 MessageProcessor.processMessage("messages.self-view-distance-change", 2, amount, commandSender);
                 DataProcessorUtility.processData((Player) commandSender, amount);
+
+                DataProcessorUtility.processDataOthers((Player) commandSender, amount);
             } else {
                 MessageProcessor.processMessage("messages.chunks-too-high", 1, luckpermsMax, commandSender);
             }
