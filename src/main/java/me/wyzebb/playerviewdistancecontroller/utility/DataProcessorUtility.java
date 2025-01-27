@@ -12,7 +12,6 @@ public class DataProcessorUtility {
     }
 
     public static void processDataOthers(Player target, int amountOthers) {
-        target.setViewDistance(amountOthers);
         PlayerDataHandler dataHandler = new PlayerDataHandler();
         dataHandler.setChunksOthers(amountOthers);
         PlayerUtility.setPlayerDataHandler(target, dataHandler);
