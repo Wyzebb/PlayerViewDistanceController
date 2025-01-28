@@ -56,7 +56,7 @@ public class GetCommand extends SubCommand {
 
                 } else {
                     if (commandSender.hasPermission("pvdc.get-others")) {
-                        MessageProcessor.processMessage("messages.view-distance-get", 2, target, VdCalculator.calcVdGet(target), commandSender);
+                        MessageProcessor.processMessage("messages.view-distance-get", 3, target, VdCalculator.calcVdGet(target), commandSender);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
                     }
@@ -68,7 +68,10 @@ public class GetCommand extends SubCommand {
     private void sendToSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.get-self")) {
             Player player = (Player) commandSender;
-            MessageProcessor.processMessage("messages.self-view-distance-get", 3, player, VdCalculator.calcVdGet(player), commandSender);
+
+            int amount = VdCalculator.calcVdGet(player);
+
+            MessageProcessor.processMessage("messages.self-view-distance-get", 3, player, amount, commandSender);
         } else {
             MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
