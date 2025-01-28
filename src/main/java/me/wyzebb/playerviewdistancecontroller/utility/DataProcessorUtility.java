@@ -5,15 +5,13 @@ import org.bukkit.entity.Player;
 
 public class DataProcessorUtility {
     public static void processData(Player target, int amount) {
-        target.setViewDistance(amount);
-        PlayerDataHandler dataHandler = new PlayerDataHandler();
+        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
         dataHandler.setChunks(amount);
-        PlayerUtility.setPlayerDataHandler(target, dataHandler);
+        target.setViewDistance(amount);
     }
 
     public static void processDataOthers(Player target, int amountOthers) {
-        PlayerDataHandler dataHandler = new PlayerDataHandler();
+        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
         dataHandler.setChunksOthers(amountOthers);
-        PlayerUtility.setPlayerDataHandler(target, dataHandler);
     }
 }
