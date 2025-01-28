@@ -4,21 +4,27 @@ import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class PlayerUtility {
 
-    private static final Map<String, PlayerDataHandler> PlayerDataHandlerMap = new HashMap<>();
+    private static final Map<String, PlayerDataHandler> PlayerDataHandlerMap = new ConcurrentHashMap<>();
 
     public static PlayerDataHandler getPlayerDataHandler(Player p) {
-        if (!(PlayerDataHandlerMap.containsKey(p.getUniqueId().toString()))) {
-            PlayerDataHandler m = new PlayerDataHandler();
-            PlayerDataHandlerMap.put(p.getUniqueId().toString(), m);
-            return m;
+        File dataFolder = new File(plugin.getDataFolder(), "players");
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
         }
+
+        if (!(PlayerDataHandlerMap.containsKey(p.getUniqueId().toString()))) {
+            PlayerDataHandler handler = new PlayerDataHandler();
+            PlayerDataHandlerMap.put(p.getUniqueId().toString(), handler);
+            return handler;
+        }
+
         return PlayerDataHandlerMap.get(p.getUniqueId().toString());
     }
 
