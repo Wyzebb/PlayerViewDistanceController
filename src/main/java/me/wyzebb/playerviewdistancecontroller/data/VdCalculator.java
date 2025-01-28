@@ -29,7 +29,7 @@ public class VdCalculator {
 
         if (playerDataFile.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
-            amount = cfg.getInt("chunks");
+            amount = ClampAmountUtility.clampChunkValue(cfg.getInt("chunks"));
             amountOthers = cfg.getInt("chunksOthers");
         }
 
@@ -46,9 +46,7 @@ public class VdCalculator {
         }
 
         if (amountOthers != 0) {
-            if (amountOthers > finalChunks) {
-                finalChunks = amountOthers;
-            }
+            finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
         }
 
         if (!luckPermsEvent) {
@@ -102,12 +100,12 @@ public class VdCalculator {
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-        int finalChunks = Math.min(PlayerUtility.getPlayerDataHandler(player).getChunks(), luckpermsDistance);
+        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
 
-        if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() != 0) {
-            if (PlayerUtility.getPlayerDataHandler(player).getChunksOthers() > finalChunks) {
-                finalChunks = PlayerUtility.getPlayerDataHandler(player).getChunksOthers();
-            }
+        int finalChunks = Math.min(dataHandler.getChunks(), luckpermsDistance);
+
+        if (dataHandler.getChunksOthers() != 0) {
+            finalChunks = PlayerUtility.getPlayerDataHandler(player).getChunksOthers();
         }
 
         return finalChunks;
