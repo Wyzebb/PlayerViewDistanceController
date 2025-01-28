@@ -85,7 +85,7 @@ public class SetCommand extends SubCommand {
         }
     }
 
-    private void setSelf(CommandSender commandSender, int amount) {
+    public static void setSelf(CommandSender commandSender, int amount) {
         if (commandSender.hasPermission("pvdc.set-self")) {
             int luckpermsMax = 32;
 
@@ -95,9 +95,10 @@ public class SetCommand extends SubCommand {
 
             if (luckpermsMax >= amount || commandSender.hasPermission("pvdc.bypass-maxdistance")) {
                 MessageProcessor.processMessage("messages.self-view-distance-change", 2, amount, commandSender);
+
                 DataProcessorUtility.processData((Player) commandSender, amount);
 
-                DataProcessorUtility.processDataOthers((Player) commandSender, amount);
+                DataProcessorUtility.processDataOthers((Player) commandSender, 0);
             } else {
                 MessageProcessor.processMessage("messages.chunks-too-high", 1, luckpermsMax, commandSender);
             }
