@@ -41,6 +41,7 @@ The customisability of the plugin can make it a little confusing, so please refe
 #### - `set`
 - **Usage:** `/pvdc set <chunks> [player]`
 - Sets the maximum view distance of yourself or another online player
+- You can do `/pvdc <chunks>` as a shortcut as of v2.1.0
 
 #### - `setonline`
 - **Usage:** `/pvdc setonline <chunks>`
