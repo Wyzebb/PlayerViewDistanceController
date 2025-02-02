@@ -45,7 +45,7 @@ public class VdCalculator {
             finalChunks = Math.min(amount, luckpermsDistance);
         }
 
-        if (amountOthers != 0) {
+        if (amountOthers != 0 && amountOthers != -1) {
             finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
         }
 
