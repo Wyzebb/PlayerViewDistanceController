@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.data;
 
+import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
@@ -79,6 +80,12 @@ public class VdCalculator {
 
 
     public static void calcVdReset(Player player) {
+
+        PlayerUtility playerUtility = new PlayerUtility();
+
+        File playerDataFile = playerUtility.getPlayerDataFile(player);
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+
         // Get an instance of the player data handler for the specific player
         PlayerDataHandler dataHandler = new PlayerDataHandler();
 
@@ -89,9 +96,21 @@ public class VdCalculator {
         dataHandler.setChunks(32);
         dataHandler.setChunksOthers(0);
 
+        cfg.set("chunks", 32);
+        cfg.set("chunksOthers", 0);
+
+        try {
+            cfg.save(playerDataFile);
+        } catch (Exception ex) {
+            plugin.getLogger().severe("An exception occurred when resetting view distance data for " + player.getName() + ": " + ex.getMessage());
+        } finally {
+            PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
+            PlayerUtility.setPlayerDataHandler(player, dataHandler);
+        }
+
         player.setViewDistance(luckpermsDistance);
 
-        PlayerUtility.setPlayerDataHandler(player, dataHandler);
+        MessageProcessor.processMessage("messages.target-view-distance-change", 3, luckpermsDistance, player);
     }
 
 
