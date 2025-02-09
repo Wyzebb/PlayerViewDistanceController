@@ -75,27 +75,11 @@ public class ResetCommand extends SubCommand {
 
     private void resetSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.reset-self")) {
-            PlayerUtility playerUtility = new PlayerUtility();
             Player player = (Player) commandSender;
 
-            File playerDataFile = playerUtility.getPlayerDataFile((Player) commandSender);
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
-
-            cfg.set("chunks", 32);
-            cfg.set("chunksOthers", 0);
-
-            try {
-                cfg.save(playerDataFile);
-            } catch (Exception ex) {
-                plugin.getLogger().severe("An exception occurred when resetting view distance data for " + commandSender.getName() + ": " + ex.getMessage());
-            } finally {
-                PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
-                PlayerUtility.setPlayerDataHandler(player, null);
-            }
+            MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
 
             VdCalculator.calcVdReset(player);
-
-            MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
         } else {
             MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
