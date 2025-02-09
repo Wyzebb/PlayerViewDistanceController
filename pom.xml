@@ -59,6 +59,7 @@
         <dependency>
             <groupId>com.github.technicallycoded</groupId>
             <artifactId>FoliaLib</artifactId>
+            <!--suppress MavenModelInspection -->
             <version>main-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
