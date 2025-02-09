@@ -7,6 +7,7 @@ import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -61,7 +62,7 @@ public class ResetCommand extends SubCommand {
                     resetSelf(commandSender);
 
                 } else {
-                    if (commandSender.hasPermission("pvdc.reset-others")) {
+                    if (commandSender.hasPermission("pvdc.reset-others") || commandSender instanceof ConsoleCommandSender) {
                         MessageProcessor.processMessage("messages.reset", 2, target, 0, commandSender);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
