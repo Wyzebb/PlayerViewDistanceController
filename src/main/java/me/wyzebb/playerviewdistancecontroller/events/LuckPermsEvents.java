@@ -4,10 +4,8 @@ import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.node.NodeAddEvent;
-import net.luckperms.api.event.node.NodeClearEvent;
 import net.luckperms.api.event.node.NodeRemoveEvent;
 import net.luckperms.api.node.NodeType;
-import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -29,17 +27,17 @@ public class LuckPermsEvents {
 
     private void messageIfNotAlready(UUID playerId) {
         int currentTime = (int) System.currentTimeMillis();
-        int lastMoved = lastUpdates.getOrDefault(playerId, 10);
+        int lastUpdated = lastUpdates.getOrDefault(playerId, 10);
 
-        if (currentTime - lastMoved > 1000) {
+        lastUpdates.put(playerId, currentTime);
+
+        if (currentTime - lastUpdated > 1000) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerId);
 
             if (offlinePlayer.isOnline()) {
                 VdCalculator.calcVdSet(Objects.requireNonNull(Bukkit.getPlayer(playerId)), true);
             }
         }
-
-        lastUpdates.put(playerId, currentTime);
     }
 
     public void register() {
@@ -47,15 +45,13 @@ public class LuckPermsEvents {
 
         eventBus.subscribe(plugin, NodeAddEvent.class, e -> {
             if (e.isUser()) {
-                if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
+                if (e.getNode().getType() == NodeType.PERMISSION && e.getNode().getKey().contains("pvdc")) {
                     messageIfNotAlready(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
                 }
             } else {
-                for (int i = 1; i <= e.getDataBefore().size(); i++) {
-                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            messageIfNotAlready(player.getUniqueId());
-                        }
+                if (e.getNode().getKey().contains("pvdc")) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        messageIfNotAlready(player.getUniqueId());
                     }
                 }
             }
@@ -63,38 +59,16 @@ public class LuckPermsEvents {
 
         eventBus.subscribe(plugin, NodeRemoveEvent.class, e -> {
             if (e.isUser()) {
-                if (e.getNode().getType() == NodeType.PERMISSION && ((PermissionNode) e.getNode()).getPermission().contains("pvdc")) {
+                if (e.getNode().getType() == NodeType.PERMISSION && e.getNode().getKey().contains("pvdc")) {
                     messageIfNotAlready(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
                 }
             } else {
-                for (int i = 1; i <= e.getDataBefore().size(); i++) {
-                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            messageIfNotAlready(player.getUniqueId());
-                        }
-                    }
-                }
-            }
-        });
-
-        eventBus.subscribe(plugin, NodeClearEvent.class, e -> {
-            if (e.isUser()) {
-                for (int i = 1; i <= e.getDataBefore().size(); i++) {
-                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
-                        messageIfNotAlready(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
-                    }
-                }
-            } else {
-                for (int i = 1; i <= e.getDataBefore().size(); i++) {
-                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            messageIfNotAlready(player.getUniqueId());
-                        }
+                if (e.getNode().getKey().contains("pvdc")) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        messageIfNotAlready(player.getUniqueId());
                     }
                 }
             }
         });
     }
-
-
 }
