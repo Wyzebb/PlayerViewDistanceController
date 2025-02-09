@@ -50,8 +50,12 @@ public class LuckPermsEvents {
                     messageIfNotAlready(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
                 }
             } else {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    messageIfNotAlready(player.getUniqueId());
+                for (int i = 1; i <= e.getDataBefore().size(); i++) {
+                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            messageIfNotAlready(player.getUniqueId());
+                        }
+                    }
                 }
             }
         });
@@ -62,8 +66,12 @@ public class LuckPermsEvents {
                     messageIfNotAlready(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
                 }
             } else {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    messageIfNotAlready(player.getUniqueId());
+                for (int i = 1; i <= e.getDataBefore().size(); i++) {
+                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            messageIfNotAlready(player.getUniqueId());
+                        }
+                    }
                 }
             }
         });
@@ -76,11 +84,14 @@ public class LuckPermsEvents {
                     }
                 }
             } else {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    messageIfNotAlready(player.getUniqueId());
+                for (int i = 1; i <= e.getDataBefore().size(); i++) {
+                    if (e.getDataBefore().stream().toList().get(i - 1).toString().contains("pvdc")) {
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            messageIfNotAlready(player.getUniqueId());
+                        }
+                    }
                 }
             }
-
         });
     }
 
