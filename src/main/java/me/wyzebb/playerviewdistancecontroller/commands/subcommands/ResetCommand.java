@@ -63,6 +63,7 @@ public class ResetCommand extends SubCommand {
 
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others") || commandSender instanceof ConsoleCommandSender) {
+                        VdCalculator.calcVdReset(target);
                         MessageProcessor.processMessage("messages.reset", 2, target, 0, commandSender);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
