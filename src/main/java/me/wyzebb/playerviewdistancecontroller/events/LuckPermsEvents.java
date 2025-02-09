@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
@@ -34,7 +35,7 @@ public class LuckPermsEvents {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerId);
 
             if (offlinePlayer.isOnline()) {
-                VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true);
+                VdCalculator.calcVdSet(Objects.requireNonNull(Bukkit.getPlayer(playerId)), true);
             }
         }
 
