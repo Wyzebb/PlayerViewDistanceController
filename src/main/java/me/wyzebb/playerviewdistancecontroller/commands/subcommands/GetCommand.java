@@ -5,6 +5,7 @@ import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
@@ -55,7 +56,7 @@ public class GetCommand extends SubCommand {
                     sendToSelf(commandSender);
 
                 } else {
-                    if (commandSender.hasPermission("pvdc.get-others")) {
+                    if (commandSender.hasPermission("pvdc.get-others") || commandSender instanceof ConsoleCommandSender) {
                         MessageProcessor.processMessage("messages.view-distance-get", 3, target, VdCalculator.calcVdGet(target), commandSender);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);

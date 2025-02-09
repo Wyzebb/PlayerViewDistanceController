@@ -36,7 +36,7 @@ public class SetOnlineCommand extends SubCommand {
 
     @Override
     public void performCommand(@NotNull CommandSender commandSender, @NotNull String[] args) {
-        if (commandSender.hasPermission("pvdc.setonline")) {
+        if (commandSender.hasPermission("pvdc.setonline") || commandSender instanceof ConsoleCommandSender) {
 
             if (args.length != 2) {
                 MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);

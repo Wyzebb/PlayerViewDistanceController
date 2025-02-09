@@ -8,6 +8,7 @@ import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
@@ -72,7 +73,7 @@ public class SetCommand extends SubCommand {
                     setSelf(commandSender, amount);
 
                 } else {
-                    if (commandSender.hasPermission("pvdc.set-others")) {
+                    if (commandSender.hasPermission("pvdc.set-others") || commandSender instanceof ConsoleCommandSender) {
                         MessageProcessor.processMessage("messages.sender-view-distance-change", 2, target, amount, commandSender);
                         MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, target);
                         DataProcessorUtility.processDataOthers(target, amount);
