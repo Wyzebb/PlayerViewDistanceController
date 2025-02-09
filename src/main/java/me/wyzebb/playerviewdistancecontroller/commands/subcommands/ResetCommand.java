@@ -1,18 +1,12 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-
-import java.io.File;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
