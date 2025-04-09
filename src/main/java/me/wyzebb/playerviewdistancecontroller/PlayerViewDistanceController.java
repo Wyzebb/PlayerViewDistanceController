@@ -8,6 +8,7 @@ import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PlaceholderAPIExpansion;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
@@ -88,6 +89,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             scheduleAfkChecker();
         }
 
+        startPingOptimiser();
+
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             plugin.getLogger().info("Enabling PlaceholderAPI Hook");
             PlaceholderAPIExpansion.registerHook();
@@ -116,6 +119,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     private void scheduleAfkChecker() {
         foliaLib.getScheduler().runTimer(this::checkAfk, 0, 20);
+    }
+
+    private void startPingOptimiser() {
+        foliaLib.getScheduler().runTimer(PingModeHandler::optimisePing, 0, 200);
     }
 
     private void checkAfk() {
