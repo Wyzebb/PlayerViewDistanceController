@@ -17,6 +17,8 @@ public class VdCalculator {
     public static void calcVdSet(Player player, boolean luckPermsEvent) {
         int amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("default-distance"));
         int amountOthers = 0;
+        boolean pingMode = false;
+        int amountPing = 0;
 
         final boolean bedrockPlayer = player.getName().startsWith(".");
 
@@ -32,6 +34,8 @@ public class VdCalculator {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = ClampAmountUtility.clampChunkValue(cfg.getInt("chunks"));
             amountOthers = cfg.getInt("chunksOthers");
+            pingMode = cfg.getBoolean("pingMode");
+            amountPing = cfg.getInt("chunksPing");
         }
 
         // Get max distance from LuckPerms
@@ -50,11 +54,17 @@ public class VdCalculator {
             finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
         }
 
+        if (amountPing != 0) {
+            finalChunks = ClampAmountUtility.clampChunkValue(amountPing);
+        }
+
         if (!luckPermsEvent) {
             PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
 
             dataHandler.setChunks(amount);
             dataHandler.setChunksOthers(amountOthers);
+            dataHandler.setPingMode(pingMode);
+            dataHandler.setChunksPing(amountPing);
 
             PlayerUtility.setPlayerDataHandler(player, dataHandler);
         }
