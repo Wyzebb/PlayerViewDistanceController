@@ -27,6 +27,7 @@ public class CommandManager implements TabExecutor {
         subcommands.add(new ResetCommand());
         subcommands.add(new ReloadCommand());
         subcommands.add(new HelpCommand());
+        subcommands.add(new PingCommand());
     }
 
     @Override
