@@ -14,4 +14,22 @@ public class DataProcessorUtility {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
         dataHandler.setChunksOthers(amountOthers);
     }
+
+    public static void processPingMode(Player target, boolean pingMode) {
+        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+        dataHandler.setPingMode(pingMode);
+
+        if (pingMode) {
+            PingModeHandler.optimisePingOnce(target);
+        }
+
+        target.sendMessage("PING MODE: " + pingMode);
+    }
+
+    public static void processPingChunks(Player target, int pingChunks) {
+        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+        dataHandler.setChunksPing(pingChunks);
+        target.sendMessage("PING CHUNKS: " + pingChunks);
+        target.setViewDistance(pingChunks);
+    }
 }
