@@ -67,3 +67,11 @@ permissions:
   pvdc.reset-others:
     description: Allows you to reset a player's saved view distance, so only Luckperms permission values are used
     default: op
+
+  pvdc.set-self-pingmode:
+    description: Allows you to toggle your ping mode
+    default: true
+
+  pvdc.set-others-pingmode:
+    description: Allows you to toggle other player ping modes
+    default: true
