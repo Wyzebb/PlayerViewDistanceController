@@ -63,6 +63,8 @@ public class JoinLeaveEvent implements Listener {
 
         cfg.set("chunks", dataHandler.getChunks());
         cfg.set("chunksOthers", dataHandler.getChunksOthers());
+        cfg.set("pingMode", dataHandler.isPingMode());
+        cfg.set("chunksPing", dataHandler.getChunksPing());
 
         try {
             cfg.save(playerDataFile);
