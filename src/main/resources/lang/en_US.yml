@@ -30,6 +30,11 @@ messages:
   view-distance-get: "{target-player}'s maximum view distance is currently set to {chunks} chunks"
   self-view-distance-get: "Your maximum view distance is currently set to {chunks} chunks"
 
+  pingmode-change-self: "{pingMode} change self"
+  pingmode-change-others: "{pingMode} change others"
+  pingmode-change: "{pingMode} change"
+  ping-optimised: "Your view distance has been optimised for ping!"
+
 
 commands:
   get: "Displays a player's max view distance"
@@ -38,3 +43,4 @@ commands:
   reset: "Resets a player's max view distance"
   set: "Set your own max view distance or the max view distance of another player"
   setonline: "Sets the max view distance of all online players"
+  pingmode: "Toggles the ping mode"
