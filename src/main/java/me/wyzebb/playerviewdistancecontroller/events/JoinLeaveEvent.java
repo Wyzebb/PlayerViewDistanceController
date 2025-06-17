@@ -1,18 +1,24 @@
 package me.wyzebb.playerviewdistancecontroller.events;
 
+import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.UpdateChecker;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -51,6 +57,21 @@ public class JoinLeaveEvent implements Listener {
         }
 
         VdCalculator.calcVdSet(e.getPlayer(), false);
+
+        if (plugin.getConfig().getBoolean("afkOnJoin")) {
+            Player player = e.getPlayer();
+            FoliaLib foliaLib = new FoliaLib(plugin);
+
+            foliaLib.getScheduler().runLater(() -> {
+                int afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
+
+                if (!player.hasPermission("pvdc.bypass-afk")) {
+                    player.setViewDistance(afkChunks);
+                    PlayerViewDistanceController.playerAfkMap.put(player.getUniqueId(), 0);
+                    MessageProcessor.processMessage("messages.afk", 3, afkChunks, player);
+                }
+            }, 20L);
+        }
     }
 
     @EventHandler

@@ -22,6 +22,9 @@ display-max-join-msg: false
 # If chunks loaded will be limited for AFK players
 afk-chunk-limiter: true
 
+# Whether players should be set to the afk limit on join
+afkOnJoin: false
+
 # After how many seconds the plugin will consider a player AFK
 afkTime: 20
 
