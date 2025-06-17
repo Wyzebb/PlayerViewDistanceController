@@ -5,10 +5,10 @@ import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,43 +71,11 @@ public class CommandManager implements TabExecutor {
 
             return suggestions;
         } else if (args.length == 2 && args[0].equals("get")) {
-            ArrayList<String> playerNames = new ArrayList<>();
-            Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().toArray().length];
-            Bukkit.getServer().getOnlinePlayers().toArray(players);
-
-            if (args[1].isEmpty()) {
-                for (Player player : players) {
-                    playerNames.add(player.getName());
-                }
-
-            } else {
-                for (Player player : players) {
-                    if (player.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
-                        playerNames.add(player.getName());
-                    }
-                }
-
-            }
+            ArrayList<String> playerNames = getAllPlayers(args);
 
             return playerNames;
         } else if (args.length == 2 && args[0].equals("reset")) {
-            ArrayList<String> playerNames = new ArrayList<>();
-            Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().toArray().length];
-            Bukkit.getServer().getOnlinePlayers().toArray(players);
-
-            if (args[1].isEmpty()) {
-                for (Player player : players) {
-                    playerNames.add(player.getName());
-                }
-
-            } else {
-                for (Player player : players) {
-                    if (player.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
-                        playerNames.add(player.getName());
-                    }
-                }
-
-            }
+            ArrayList<String> playerNames = getAllPlayers(args);
 
             return playerNames;
         } else if (args.length == 2 && args[0].equals("setonline")) {
@@ -118,16 +86,15 @@ public class CommandManager implements TabExecutor {
 
         } else if (args.length == 3 && args[0].equals("set")) {
             ArrayList<String> playerNames = new ArrayList<>();
-            Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().toArray().length];
-            Bukkit.getServer().getOnlinePlayers().toArray(players);
+            OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
 
             if (args[2].isEmpty()) {
-                for (Player player : players) {
+                for (OfflinePlayer player : players) {
                     playerNames.add(player.getName());
                 }
 
             } else {
-                for (Player player : players) {
+                for (OfflinePlayer player : players) {
                     if (player.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
                         playerNames.add(player.getName());
                     }
@@ -139,5 +106,25 @@ public class CommandManager implements TabExecutor {
         }
 
         return new ArrayList<>() {};
+    }
+
+    private static @NotNull ArrayList<String> getAllPlayers(@NotNull String @NotNull [] args) {
+        ArrayList<String> playerNames = new ArrayList<>();
+        OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
+
+        if (args[1].isEmpty()) {
+            for (OfflinePlayer player : players) {
+                playerNames.add(player.getName());
+            }
+
+        } else {
+            for (OfflinePlayer player : players) {
+                if (player.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                    playerNames.add(player.getName());
+                }
+            }
+
+        }
+        return playerNames;
     }
 }
