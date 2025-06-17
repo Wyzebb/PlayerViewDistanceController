@@ -4,7 +4,7 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.query.QueryOptions;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.regex.Matcher;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class LuckPermsDataHandler {
 
-    public static int getLuckpermsDistance(Player player) {
+    public static int getLuckpermsDistance(OfflinePlayer player) {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
 
             if (provider == null) {
@@ -20,7 +20,7 @@ public class LuckPermsDataHandler {
             }
 
             LuckPerms api = provider.getProvider();
-            User user = api.getPlayerAdapter(Player.class).getUser(player);
+            User user = api.getPlayerAdapter(OfflinePlayer.class).getUser(player);
 
             // Regular expression to match permissions like pvdc.maxdistance.7
             Pattern pattern = Pattern.compile("pvdc\\.maxdistance\\.(\\d+)");
