@@ -1,7 +1,6 @@
 messages:
   join: "您当前的最大视距设置为 {chunks} 区块"
 
-  player-offline: "该玩家不在线！"
   no-permission: "您没有权限执行此命令！"
 
   # 当参数不足或参数无效时显示的消息
