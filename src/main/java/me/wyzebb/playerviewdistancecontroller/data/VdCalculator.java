@@ -5,6 +5,7 @@ import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -88,9 +89,7 @@ public class VdCalculator {
         }
     }
 
-
     public static void calcVdReset(Player player) {
-
         PlayerUtility playerUtility = new PlayerUtility();
 
         File playerDataFile = playerUtility.getPlayerDataFile(player);
@@ -124,16 +123,36 @@ public class VdCalculator {
     }
 
 
-    public static int calcVdGet(Player player) {
+    public static int calcVdGet(OfflinePlayer player) {
         // Get max distance from LuckPerms
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
+        PlayerDataHandler playerDataHandler;
 
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
+        if (!player.isOnline()) {
+            // Get an instance of the player data handler for the specific player
+            PlayerUtility playerUtility = new PlayerUtility();
+            File playerDataFile = playerUtility.getPlayerDataFile(player);
 
-        int finalChunks = Math.min(dataHandler.getChunks(), luckpermsDistance);
+            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
 
-        if (dataHandler.getChunksOthers() != 0) {
+            if (playerDataFile.exists()) {
+                FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+
+                dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
+                dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
+                dataHandler.setPingMode(cfg.getBoolean("pingMode"));
+                dataHandler.setChunksPing(cfg.getInt("chunksPing"));
+            }
+
+            playerDataHandler = dataHandler;
+        } else {
+            playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
+        }
+
+        int finalChunks = Math.min(playerDataHandler.getChunks(), luckpermsDistance);
+
+        if (playerDataHandler.getChunksOthers() != 0) {
             finalChunks = PlayerUtility.getPlayerDataHandler(player).getChunksOthers();
         }
 
