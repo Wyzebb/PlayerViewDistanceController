@@ -2,14 +2,21 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
+import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
+import java.io.File;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
@@ -64,20 +71,57 @@ public class SetCommand extends SubCommand {
                 }
 
                 String targetName = args[2];
-                Player target = Bukkit.getServer().getPlayerExact(targetName);
+                OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
 
-                if (target == null) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
-
-                } else if (commandSender == target) {
+                if (commandSender == target) {
                     setSelf(commandSender, amount);
-
                 } else {
                     if (commandSender.hasPermission("pvdc.set-others") || commandSender instanceof ConsoleCommandSender) {
-                        MessageProcessor.processMessage("messages.sender-view-distance-change", 2, target, amount, commandSender);
-                        MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, target);
+                        if (!target.isOnline()) {
+                            PlayerUtility playerUtility = new PlayerUtility();
+                            File playerDataFile = playerUtility.getPlayerDataFile(target);
+
+                            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+
+                            if (playerDataFile.exists()) {
+                                FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+
+                                dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
+                                dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
+                                dataHandler.setPingMode(cfg.getBoolean("pingMode"));
+                                dataHandler.setChunksPing(cfg.getInt("chunksPing"));
+                            }
+
+                            PlayerUtility.setPlayerDataHandler(target, dataHandler);
+                        }
+
                         DataProcessorUtility.processDataOthers(target, amount);
-                        target.setViewDistance(amount);
+                        MessageProcessor.processMessage("messages.sender-view-distance-change", 2, target, amount, commandSender);
+
+                        if (target.isOnline()) {
+                            ((Player) target).setViewDistance(amount);
+                            MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, (Player) target);
+                        } else {
+                            // Remove the data handler from memory and save
+                            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+                            PlayerUtility playerDataHandler = new PlayerUtility();
+
+                            File playerDataFile = playerDataHandler.getPlayerDataFile(target);
+                            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+
+                            cfg.set("chunks", dataHandler.getChunks());
+                            cfg.set("chunksOthers", dataHandler.getChunksOthers());
+                            cfg.set("pingMode", dataHandler.isPingMode());
+                            cfg.set("chunksPing", dataHandler.getChunksPing());
+
+                            try {
+                                cfg.save(playerDataFile);
+                            } catch (Exception ex) {
+                                plugin.getLogger().severe("An exception occurred when setting view distance data for " + target.getName() + ": " + ex.getMessage());
+                            } finally {
+                                PlayerUtility.setPlayerDataHandler(target, null);
+                            }
+                        }
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
                     }
