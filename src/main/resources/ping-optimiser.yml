@@ -1,0 +1,14 @@
+# Min and max view distances when using ping optimiser
+min: 2
+max: 32
+
+interval: 200  # (in seconds)
+
+# Players with ping above the value will have their ping reduced every interval by the chunks specified
+
+# Format:
+# {PING}: {CHUNKS}
+
+pings:
+  200: 1
+  400: 1
