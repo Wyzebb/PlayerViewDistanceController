@@ -8,9 +8,9 @@ import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -28,7 +28,7 @@ public class JoinLeaveEvent implements Listener {
         this.mm = MiniMessage.miniMessage();
     }
 
-    public static int getLuckpermsDistance(Player player) {
+    public static int getLuckpermsDistance(OfflinePlayer player) {
         try {
             Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
             return LuckPermsDataHandler.getLuckpermsDistance(player);

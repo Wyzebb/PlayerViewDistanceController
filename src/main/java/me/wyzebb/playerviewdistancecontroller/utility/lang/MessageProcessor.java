@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.utility.lang;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -7,7 +8,7 @@ import org.bukkit.entity.Player;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class MessageProcessor {
-    public static void processMessage(String langPath, int status, Player target, int amount, CommandSender sendTo) {
+    public static void processMessage(String langPath, int status, OfflinePlayer target, int amount, CommandSender sendTo) {
         String colour = plugin.getConfig().getString("colour");
         String errorColour = plugin.getConfig().getString("error-colour");
         String successColour = plugin.getConfig().getString("success-colour");
@@ -105,7 +106,7 @@ public class MessageProcessor {
 
 
 
-    private static String processPlaceholders(String msg, Player target, int amount) {
+    private static String processPlaceholders(String msg, OfflinePlayer target, int amount) {
         msg = msg.replace("{chunks}", String.valueOf(amount));
         msg = msg.replace("{target-player}", target.getName());
 

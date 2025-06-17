@@ -4,6 +4,7 @@ import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -47,14 +48,10 @@ public class GetCommand extends SubCommand {
 
             } else {
                 String targetName = args[1];
-                Player target = Bukkit.getServer().getPlayerExact(targetName);
+                OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
 
-                if (target == null) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
-
-                } else if (commandSender == target) {
+                if (commandSender == target) {
                     sendToSelf(commandSender);
-
                 } else {
                     if (commandSender.hasPermission("pvdc.get-others") || commandSender instanceof ConsoleCommandSender) {
                         MessageProcessor.processMessage("messages.view-distance-get", 3, target, VdCalculator.calcVdGet(target), commandSender);

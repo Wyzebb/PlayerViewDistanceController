@@ -1,7 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 import java.io.File;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class PlayerUtility {
 
     private static final Map<String, PlayerDataHandler> PlayerDataHandlerMap = new ConcurrentHashMap<>();
 
-    public static PlayerDataHandler getPlayerDataHandler(Player p) {
+    public static PlayerDataHandler getPlayerDataHandler(OfflinePlayer p) {
         File dataFolder = new File(plugin.getDataFolder(), "players");
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
@@ -28,7 +28,7 @@ public class PlayerUtility {
         return PlayerDataHandlerMap.get(p.getUniqueId().toString());
     }
 
-    public static void setPlayerDataHandler(Player p, PlayerDataHandler dataHandler) {
+    public static void setPlayerDataHandler(OfflinePlayer p, PlayerDataHandler dataHandler) {
         if (dataHandler == null) {
             PlayerDataHandlerMap.remove(p.getUniqueId().toString());
         } else {
@@ -36,7 +36,7 @@ public class PlayerUtility {
         }
     }
 
-    public File getPlayerDataFile(Player p) {
+    public File getPlayerDataFile(OfflinePlayer p) {
         File dataFolder = plugin.getDataFolder();
         return new File(dataFolder, "players/" + p.getUniqueId() + ".yml");
     }
