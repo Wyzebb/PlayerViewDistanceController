@@ -47,14 +47,12 @@ public class ResetCommand extends SubCommand {
 
             } else {
                 String targetName = args[1];
-                Player target = Bukkit.getServer().getPlayerExact(targetName);
+                Player target = Bukkit.getPlayer(targetName);
 
                 if (target == null) {
                     MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
-
                 } else if (commandSender == target) {
                     resetSelf(commandSender);
-
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others") || commandSender instanceof ConsoleCommandSender) {
                         VdCalculator.calcVdReset(target);

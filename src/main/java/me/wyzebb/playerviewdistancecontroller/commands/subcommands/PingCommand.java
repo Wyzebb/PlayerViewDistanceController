@@ -50,11 +50,10 @@ public class PingCommand extends SubCommand {
 
             } else if (args.length == 2) {
                 String targetName = args[1];
-                Player target = Bukkit.getServer().getPlayerExact(targetName);
+                Player target = Bukkit.getPlayer(targetName);
 
                 if (target == null) {
                     MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
-
                 } else if (commandSender == target) {
                     setSelfPingMode(commandSender, !(PlayerUtility.getPlayerDataHandler((Player) commandSender).isPingMode()));
                 } else {
@@ -71,11 +70,10 @@ public class PingCommand extends SubCommand {
                 boolean mode = Objects.equals(args[2], "on");
 
                 String targetName = args[1];
-                Player target = Bukkit.getServer().getPlayerExact(targetName);
+                Player target = Bukkit.getPlayer(targetName);
 
                 if (target == null) {
                     MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
-
                 } else if (commandSender == target) {
                     setSelfPingMode(commandSender, mode);
                 } else {
