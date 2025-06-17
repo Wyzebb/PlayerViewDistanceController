@@ -18,9 +18,12 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -31,6 +34,7 @@ import static me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents.last
 public final class PlayerViewDistanceController extends JavaPlugin {
     public static PlayerViewDistanceController plugin;
     public static final Map<UUID, Integer> playerAfkMap = new HashMap<>();
+    private FileConfiguration pingOptimiserConfig;
 
     private final FoliaLib foliaLib = new FoliaLib(this);
 
@@ -68,6 +72,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         // Config
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
+        createPingOptimiserConfig();
 
         // Register join and leave events
         getServer().getPluginManager().registerEvents(new JoinLeaveEvent(), this);
@@ -97,6 +102,20 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
     }
 
+    public FileConfiguration getPingOptimiserConfig() {
+        return this.pingOptimiserConfig;
+    }
+
+    private void createPingOptimiserConfig() {
+        File pingOptimiserConfigFile = new File(getDataFolder(), "ping-optimiser.yml");
+
+        if (!pingOptimiserConfigFile.exists()) {
+            saveResource("ping-optimiser.yml", false);
+        }
+
+        pingOptimiserConfig = YamlConfiguration.loadConfiguration(pingOptimiserConfigFile);
+    }
+
     public LanguageManager getLanguageManager() {
         return languageManager;
     }
@@ -122,7 +141,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     private void startPingOptimiser() {
-        foliaLib.getScheduler().runTimer(PingModeHandler::optimisePing, 0, 200);
+        foliaLib.getScheduler().runTimer(PingModeHandler::optimisePing, 0, getPingOptimiserConfig().getInt("interval"));
     }
 
     private void checkAfk() {
