@@ -1,16 +1,20 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public class DataProcessorUtility {
-    public static void processData(Player target, int amount) {
+    public static void processData(OfflinePlayer target, int amount) {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
         dataHandler.setChunks(amount);
-        target.setViewDistance(amount);
+
+        if (target.isOnline()) {
+            ((Player) target).setViewDistance(amount);
+        }
     }
 
-    public static void processDataOthers(Player target, int amountOthers) {
+    public static void processDataOthers(OfflinePlayer target, int amountOthers) {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
         dataHandler.setChunksOthers(amountOthers);
     }
