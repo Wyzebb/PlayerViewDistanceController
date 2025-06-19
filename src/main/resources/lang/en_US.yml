@@ -29,9 +29,9 @@ messages:
   view-distance-get: "{target-player}'s maximum view distance is currently set to {chunks} chunks"
   self-view-distance-get: "Your maximum view distance is currently set to {chunks} chunks"
 
-  pingmode-change-self: "{pingMode} change self"
-  pingmode-change-others: "{pingMode} change others"
-  pingmode-change: "{pingMode} change"
+  pingmode-change-self: "You turned {pingMode} ping mode!"
+  pingmode-change-others: "The player's ping mode is now {pingMode}!"
+  pingmode-change: "Your ping mode is now {pingMode}!"
   ping-optimised: "Your view distance has been optimised for ping!"
   ping-info: "Ping mode is turned {pingMode} for you!"
 
