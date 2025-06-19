@@ -22,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -42,21 +43,20 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public static boolean luckPermsDetected = false;
 
+    public static boolean dynamicModeEnabled = false;
+
     @Override
     public void onEnable() {
         getLogger().info("Plugin started!");
         plugin = this;
 
-
         int pluginId = 24498;
         Metrics metrics = new Metrics(this, pluginId);
-
         metrics.addCustomChart(new SimplePie("used_language", () -> getConfig().getString("language", "en_US")));
 
+        languageManager = new LanguageManager();
 
         luckPermsDetected = LuckPermsDetector.detectLuckPermsWithMsg();
-
-        languageManager = new LanguageManager();
 
         if (luckPermsDetected) {
             LuckPerms luckPerms;
@@ -133,6 +133,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
 
         dynamicModeConfig = YamlConfiguration.loadConfiguration(dynamicModeConfigFile);
+        dynamicModeEnabled = dynamicModeConfig.getBoolean("enabled");
     }
 
     public LanguageManager getLanguageManager() {
@@ -202,6 +203,15 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public void onDisable() {
         playerAfkMap.clear();
         lastUpdates.clear();
+
+        File dynamicModeConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
+        dynamicModeConfig.set("enabled", dynamicModeEnabled);
+
+        try {
+            dynamicModeConfig.save(dynamicModeConfigFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         getLogger().info("Plugin shut down!");
     }
