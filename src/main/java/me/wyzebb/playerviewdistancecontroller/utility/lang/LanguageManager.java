@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,8 @@ public class LanguageManager {
 
         for (String langFileName : languages) {
             File langFile = new File(languagesFolder, langFileName);
+
+            // Create file if it doesn't exist
             if (!langFile.exists()) {
                 try (InputStream in = plugin.getResource("lang/" + langFileName)) {
                     if (in != null) {
@@ -52,9 +55,25 @@ public class LanguageManager {
             } else {
                 plugin.getLogger().info(langFileName + " already exists, skipping copy.");
             }
+
+            // Load and apply keys
+            FileConfiguration langConfig = YamlConfiguration.loadConfiguration(langFile);
+
+            InputStream defaultStream = plugin.getResource("lang/" + langFileName);
+            if (defaultStream != null) {
+                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
+                langConfig.setDefaults(defaultConfig);
+                langConfig.options().copyDefaults(true);
+                try {
+                    langConfig.save(langFile);
+                    plugin.getLogger().info(langFileName + " added missing keys!");
+                } catch (IOException e) {
+                    plugin.getLogger().warning("Could not save merged language file: " + langFileName);
+                    e.printStackTrace();
+                }
+            }
         }
     }
-
 
     private void loadLanguages() {
         File languagesFolder = new File(plugin.getDataFolder(), "lang");
