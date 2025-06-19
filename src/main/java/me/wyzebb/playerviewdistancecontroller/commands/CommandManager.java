@@ -72,13 +72,9 @@ public class CommandManager implements TabExecutor {
 
             return suggestions;
         } else if (args.length == 2 && args[0].equals("get")) {
-            ArrayList<String> playerNames = getAllPlayers(args);
-
-            return playerNames;
+            return getAllPlayers(args);
         } else if (args.length == 2 && args[0].equals("reset")) {
-            ArrayList<String> playerNames = getAllPlayers(args);
-
-            return playerNames;
+            return getAllPlayers(args);
         } else if (args.length == 2 && args[0].equals("setonline")) {
             return Collections.singletonList("<chunks>");
 
@@ -86,6 +82,28 @@ public class CommandManager implements TabExecutor {
             return Collections.singletonList("<chunks>");
 
         } else if (args.length == 3 && args[0].equals("set")) {
+            ArrayList<String> playerNames = new ArrayList<>();
+            OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
+
+            if (args[2].isEmpty()) {
+                for (OfflinePlayer player : players) {
+                    playerNames.add(player.getName());
+                }
+
+            } else {
+                for (OfflinePlayer player : players) {
+                    if (player.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
+                        playerNames.add(player.getName());
+                    }
+                }
+
+            }
+
+            return playerNames;
+        } else if (args.length == 2 && args[0].equals("ping")) {
+            String[] suggestions = {"on", "off", "info"};
+            return List.of(suggestions);
+        } else if (args.length == 3 && args[0].equals("ping")) {
             ArrayList<String> playerNames = new ArrayList<>();
             OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
 
