@@ -4,13 +4,11 @@ import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
 import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
-import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.PlaceholderAPIExpansion;
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.*;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import net.luckperms.api.LuckPerms;
@@ -34,7 +32,9 @@ import static me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents.last
 public final class PlayerViewDistanceController extends JavaPlugin {
     public static PlayerViewDistanceController plugin;
     public static final Map<UUID, Integer> playerAfkMap = new HashMap<>();
+
     private FileConfiguration pingOptimiserConfig;
+    private FileConfiguration dynamicModeConfig;
 
     private final FoliaLib foliaLib = new FoliaLib(this);
 
@@ -73,6 +73,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         saveDefaultConfig();
         getConfig().options().copyDefaults(true);
         createPingOptimiserConfig();
+        createDynamicModeConfig();
 
         // Register join and leave events
         getServer().getPluginManager().registerEvents(new JoinLeaveEvent(), this);
@@ -96,6 +97,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         startPingOptimiser();
 
+        if (getDynamicModeConfig().getBoolean("enabled")) {
+            startDynamicMode();
+        }
+
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             plugin.getLogger().info("Enabling PlaceholderAPI Hook");
             PlaceholderAPIExpansion.registerHook();
@@ -106,6 +111,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         return this.pingOptimiserConfig;
     }
 
+    public FileConfiguration getDynamicModeConfig() {
+        return this.dynamicModeConfig;
+    }
+
     private void createPingOptimiserConfig() {
         File pingOptimiserConfigFile = new File(getDataFolder(), "ping-optimiser.yml");
 
@@ -114,6 +123,16 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
 
         pingOptimiserConfig = YamlConfiguration.loadConfiguration(pingOptimiserConfigFile);
+    }
+
+    private void createDynamicModeConfig() {
+        File dynamicModeConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
+
+        if (!dynamicModeConfigFile.exists()) {
+            saveResource("dynamic-mode.yml", false);
+        }
+
+        dynamicModeConfig = YamlConfiguration.loadConfiguration(dynamicModeConfigFile);
     }
 
     public LanguageManager getLanguageManager() {
@@ -142,6 +161,16 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     private void startPingOptimiser() {
         foliaLib.getScheduler().runTimer(PingModeHandler::optimisePing, 0, getPingOptimiserConfig().getInt("interval"));
+    }
+
+    public void startDynamicMode() {
+        foliaLib.getScheduler().runTimer(DynamicModeHandler::checkServerMSPT, 0, getDynamicModeConfig().getInt("interval"));
+    }
+
+    public void stopDynamicMode() {
+        for (Player p: Bukkit.getOnlinePlayers()) {
+            p.setViewDistance(VdCalculator.calcVdGet(p));
+        }
     }
 
     private void checkAfk() {
