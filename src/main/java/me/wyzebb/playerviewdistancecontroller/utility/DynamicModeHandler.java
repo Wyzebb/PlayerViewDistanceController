@@ -15,12 +15,13 @@ import java.io.File;
 import java.util.Objects;
 import java.util.Set;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.dynamicModeEnabled;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class DynamicModeHandler {
 
     public static void checkServerMSPT() {
-        if (plugin.getDynamicModeConfig().getBoolean("enabled")) {
+        if (dynamicModeEnabled) {
             double MSPT = Bukkit.getServer().getAverageTickTime();
 
             for (Player player : Bukkit.getOnlinePlayers()) {
