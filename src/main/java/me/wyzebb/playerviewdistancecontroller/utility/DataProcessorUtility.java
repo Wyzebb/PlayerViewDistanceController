@@ -26,8 +26,6 @@ public class DataProcessorUtility {
         if (pingMode) {
             PingModeHandler.optimisePingOnce(target);
         }
-
-        target.sendMessage("PING MODE: " + pingMode);
     }
 
     public static void processPingChunks(Player target, int pingChunks) {
