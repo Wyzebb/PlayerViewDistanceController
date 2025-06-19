@@ -6,12 +6,14 @@ import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Objects;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.dynamicModeEnabled;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class DynamicModeCommand extends SubCommand {
@@ -42,12 +44,17 @@ public class DynamicModeCommand extends SubCommand {
         if (args.length < 1 || args.length > 2) {
             MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else if (args.length == 1) {
-            setDynamicMode(!plugin.getDynamicModeConfig().getBoolean("enabled"));
+            setDynamicMode(!dynamicModeEnabled);
         } else {
-            final String[] OPTIONS = {"on", "off"};
+            final String[] OPTIONS = {"on", "off", "info"};
 
             if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
                 MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+            }
+
+            if (Objects.equals(args[1], "info")) {
+                MessageProcessor.processMessage("messages.dynamic-info", 2, dynamicModeEnabled, commandSender);
+                return;
             }
 
             boolean mode = Objects.equals(args[1], "on");
@@ -57,15 +64,17 @@ public class DynamicModeCommand extends SubCommand {
     }
 
     public static void setDynamicMode(boolean mode) {
-        for (Player p : plugin.getServer().getOnlinePlayers()) {
-            plugin.getDynamicModeConfig().set("enabled", mode);
+        dynamicModeEnabled = mode;
 
-            if (mode) {
-                plugin.startDynamicMode();
-            } else {
-                plugin.stopDynamicMode();
-            }
-            MessageProcessor.processMessage("messages.all-online-change", 2, 0, p);
+        if (mode) {
+            plugin.startDynamicMode();
+        } else {
+            plugin.stopDynamicMode();
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage("dynamic is now " + mode);
+            player.sendMessage("dynamic global is now " + dynamicModeEnabled);
         }
     }
 }
