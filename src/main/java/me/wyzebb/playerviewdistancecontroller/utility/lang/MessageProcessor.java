@@ -104,6 +104,38 @@ public class MessageProcessor {
         }
     }
 
+    public static void processMessage(String langPath, int status, CommandSender sendTo) {
+        String colour = plugin.getConfig().getString("colour");
+        String errorColour = plugin.getConfig().getString("error-colour");
+        String successColour = plugin.getConfig().getString("success-colour");
+
+        LanguageManager languageManager = plugin.getLanguageManager();
+        FileConfiguration langConfig = languageManager.getLanguageFile();
+
+        if (sendTo instanceof Player) {
+            String msg;
+            if (status == 1) {
+                msg = errorColour;
+            } else if (status == 2) {
+                msg = successColour;
+            } else {
+                msg = colour;
+            }
+
+            msg = msg + langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            sendTo.sendMessage(msg);
+
+        } else {
+            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+
+            if (status == 1) {
+                plugin.getLogger().warning(msg);
+            } else {
+                plugin.getLogger().info(msg);
+            }
+        }
+    }
+
 
 
     private static String processPlaceholders(String msg, OfflinePlayer target, int amount) {
@@ -120,7 +152,7 @@ public class MessageProcessor {
     }
 
     private static String processPlaceholders(String msg, boolean pingMode) {
-        msg = msg.replace("{pingMode}", String.valueOf(pingMode));
+        msg = msg.replace("{pingMode}", pingMode ? "on" : "off");
 
         return msg;
     }
