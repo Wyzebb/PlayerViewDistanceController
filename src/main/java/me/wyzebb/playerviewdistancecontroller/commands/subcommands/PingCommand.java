@@ -33,7 +33,7 @@ public class PingCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/pvdc ping [player] [on/off]";
+        return "/pvdc ping [on/off] [player]";
     }
 
     @Override
@@ -42,35 +42,49 @@ public class PingCommand extends SubCommand {
             MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
-                if (commandSender instanceof Player) {
-                    setSelfPingMode(commandSender, !(PlayerUtility.getPlayerDataHandler((Player) commandSender).isPingMode()));
+                if (commandSender instanceof Player player) {
+                    setSelfPingMode(commandSender, !(PlayerUtility.getPlayerDataHandler(player).isPingMode()));
                 } else {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
 
             } else if (args.length == 2) {
-                String targetName = args[1];
-                Player target = Bukkit.getPlayer(targetName);
-
-                if (target == null) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
-                } else if (commandSender == target) {
-                    setSelfPingMode(commandSender, !(PlayerUtility.getPlayerDataHandler((Player) commandSender).isPingMode()));
-                } else {
-                    setPingMode(commandSender, !(PlayerUtility.getPlayerDataHandler(target).isPingMode()), target);
+                if (!(commandSender instanceof Player)) {
+                    commandSender.sendMessage("must be player");
+                    return;
                 }
 
-            } else {
-                final String[] OPTIONS = {"on", "off"};
+                final String[] OPTIONS = {"on", "off", "info"};
 
-                if (!(Arrays.asList(OPTIONS).contains(args[2]))) {
+                if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
 
-                boolean mode = Objects.equals(args[2], "on");
+                if (Objects.equals(args[1], "info")) {
+                    MessageProcessor.processMessage("messages.ping-info", 2, true, commandSender);
+                    return;
+                }
 
-                String targetName = args[1];
+                boolean mode = Objects.equals(args[1], "on");
+
+                setSelfPingMode(commandSender, mode);
+
+            } else {
+                String targetName = args[2];
                 Player target = Bukkit.getPlayer(targetName);
+
+                final String[] OPTIONS = {"on", "off", "info"};
+
+                if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                }
+
+                if (Objects.equals(args[1], "info")) {
+                    MessageProcessor.processMessage("messages.ping-info", 2, true, commandSender);
+                    return;
+                }
+
+                boolean mode = Objects.equals(args[1], "on");
 
                 if (target == null) {
                     MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
