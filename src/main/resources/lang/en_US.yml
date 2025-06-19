@@ -33,6 +33,7 @@ messages:
   pingmode-change-others: "{pingMode} change others"
   pingmode-change: "{pingMode} change"
   ping-optimised: "Your view distance has been optimised for ping!"
+  ping-info: "Ping mode is turned {pingMode} for you!"
 
 
 commands:
