@@ -61,7 +61,7 @@ public class PingCommand extends SubCommand {
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("messages.ping-info", 2, true, commandSender);
+                    MessageProcessor.processMessage("messages.ping-info", 2, PlayerUtility.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
                     return;
                 }
 
@@ -80,7 +80,7 @@ public class PingCommand extends SubCommand {
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("messages.ping-info", 2, true, commandSender);
+                    MessageProcessor.processMessage("messages.ping-info", 2, PlayerUtility.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
                     return;
                 }
 
