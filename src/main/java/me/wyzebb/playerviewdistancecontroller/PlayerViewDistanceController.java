@@ -46,6 +46,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public static boolean dynamicModeEnabled = false;
     public static int dynamicReducedChunks = 0;
 
+    public static boolean pingModeDisabled = false;
+
     @Override
     public void onEnable() {
         getLogger().info("Plugin started!");
@@ -179,6 +181,13 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     public void stopDynamicMode() {
+        for (Player player: Bukkit.getOnlinePlayers()) {
+            VdCalculator.calcVdSet(player, true);
+        }
+    }
+
+    public void stopPingMode() {
+        pingModeDisabled = true;
         for (Player player: Bukkit.getOnlinePlayers()) {
             VdCalculator.calcVdSet(player, true);
         }
