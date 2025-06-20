@@ -125,10 +125,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     private void createPingOptimiserConfig() {
-        File pingOptimiserConfigFile = new File(getDataFolder(), "ping-optimiser.yml");
+        File pingOptimiserConfigFile = new File(getDataFolder(), "ping-mode.yml");
 
         if (!pingOptimiserConfigFile.exists()) {
-            saveResource("ping-optimiser.yml", false);
+            saveResource("ping-mode.yml", false);
         }
 
         pingOptimiserConfig = YamlConfiguration.loadConfiguration(pingOptimiserConfigFile);
