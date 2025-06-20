@@ -4,14 +4,16 @@ enabled: false
 min: 2
 max: 32
 
-interval: 200  # (in seconds)
+interval: 200  # (ticks)
 
-# All players will have their view distance reduced every interval by the chunks specified
+# MSPT is checked every interval and view distance is optimised as follows:
+# All players have their view distance reduced by the chunks specified from their max allowed view distance
+# Permission node 'pvdc.dynamic-mode-bypass' bypasses this.
 
 # Format:
 # {MSPT}: {CHUNKS}
 
 mspt:
-  75: 1
-  100: 3
-  125: 5
+  55: 1
+  65: 3
+  75: 5
