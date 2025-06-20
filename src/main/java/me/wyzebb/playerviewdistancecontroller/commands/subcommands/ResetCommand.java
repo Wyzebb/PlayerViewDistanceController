@@ -4,6 +4,8 @@ import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +41,7 @@ public class ResetCommand extends SubCommand {
             MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
-                if (commandSender instanceof Player) {
+                if (commandSender instanceof OfflinePlayer) {
                     resetSelf(commandSender);
                 } else {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
@@ -47,7 +49,7 @@ public class ResetCommand extends SubCommand {
 
             } else {
                 String targetName = args[1];
-                Player target = Bukkit.getPlayer(targetName);
+                OfflinePlayer target = Bukkit.getPlayer(targetName);
 
                 if (target == null) {
                     MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);

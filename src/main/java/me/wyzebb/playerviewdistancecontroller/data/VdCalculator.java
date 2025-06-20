@@ -3,9 +3,11 @@ package me.wyzebb.playerviewdistancecontroller.data;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -89,37 +91,56 @@ public class VdCalculator {
         }
     }
 
-    public static void calcVdReset(Player player) {
+    public static void calcVdReset(OfflinePlayer player) {
         PlayerUtility playerUtility = new PlayerUtility();
 
         File playerDataFile = playerUtility.getPlayerDataFile(player);
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
         // Get an instance of the player data handler for the specific player
-        PlayerDataHandler dataHandler = new PlayerDataHandler();
+        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
 
         // Get max distance from LuckPerms
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
+        if (!player.isOnline()) {
+            if (playerDataFile.exists()) {
+                dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
+                dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
+                dataHandler.setPingMode(cfg.getBoolean("pingMode"));
+                dataHandler.setChunksPing(cfg.getInt("chunksPing"));
+            }
+
+            PlayerUtility.setPlayerDataHandler(player, dataHandler);
+        }
+
         dataHandler.setChunks(32);
         dataHandler.setChunksOthers(0);
+        dataHandler.setPingMode(false);
+        dataHandler.setChunksPing(0);
 
         cfg.set("chunks", 32);
         cfg.set("chunksOthers", 0);
+        cfg.set("pingMode", false);
+        cfg.set("chunksPing", 0);
+
 
         try {
             cfg.save(playerDataFile);
         } catch (Exception ex) {
             plugin.getLogger().severe("An exception occurred when resetting view distance data for " + player.getName() + ": " + ex.getMessage());
         } finally {
-            PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
             PlayerUtility.setPlayerDataHandler(player, dataHandler);
         }
 
-        player.setViewDistance(luckpermsDistance);
-
-        MessageProcessor.processMessage("messages.target-view-distance-change", 3, luckpermsDistance, player);
+        if (player.isOnline()) {
+            PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
+            player.getPlayer().setViewDistance(luckpermsDistance);
+            MessageProcessor.processMessage("messages.target-view-distance-change", 3, luckpermsDistance, player.getPlayer());
+        } else {
+            PlayerUtility.setPlayerDataHandler(player, null);
+        }
     }
 
 
