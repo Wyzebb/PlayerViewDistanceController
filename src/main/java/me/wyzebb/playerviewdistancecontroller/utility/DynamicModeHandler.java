@@ -15,8 +15,7 @@ import java.io.File;
 import java.util.Objects;
 import java.util.Set;
 
-import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.dynamicModeEnabled;
-import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.*;
 
 public class DynamicModeHandler {
 
@@ -43,7 +42,7 @@ public class DynamicModeHandler {
 
                     player.setViewDistance(optimisedChunks);
                 } else {
-                    player.sendMessage("you bypassed dynamic mode");
+                    player.sendMessage("DEBUG: You bypassed dynamic mode");
                 }
             }
         }
@@ -65,7 +64,17 @@ public class DynamicModeHandler {
             return chunksToReduceBy;
         }
 
-        plugin.getLogger().severe("There are no MSPT keys in the dynamic mode config!");
+        plugin.getLogger().severe("There are no MSPT keys in the dynamic mode config! Dynamic mode will not work until you fix this!");
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            MessageProcessor.processMessage("messages.no-keys-dynamic", 1, player);
+        }
+
+        dynamicModeEnabled = false;
+        dynamicReducedChunks = 0;
+
+        plugin.stopDynamicMode();
+
         return chunksToReduceBy;
     }
 }
