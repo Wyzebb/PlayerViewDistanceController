@@ -8,6 +8,7 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public class UpdateChecker implements Runnable {
     private static boolean upToDate = false;
+    private static boolean experimental = false;
     private static String latest = "";
     private static String pluginVersion = "";
 
@@ -30,11 +31,17 @@ public class UpdateChecker implements Runnable {
                     latest = reader.readLine();
                 }
 
-                if (pluginVersion.equals(latest)) {
-                    plugin.getLogger().info("Plugin is up to date!");
-                    upToDate = true;
+                if (!pluginVersion.contains("-EXPERIMENTAL")) {
+                    if (pluginVersion.equals(latest)) {
+                        plugin.getLogger().info("Plugin is up to date!");
+                        upToDate = true;
+                    } else {
+                        plugin.getLogger().warning("Plugin is out of date! Please update from v" + pluginVersion + " to v" + latest + "!");
+                    }
                 } else {
-                    plugin.getLogger().warning("Plugin is out of date! Please update from v" + pluginVersion + " to v" + latest + "!");
+                    plugin.getLogger().warning("You are using an experimental version of PVDC. Proceed with caution!");
+                    experimental = true;
+                    upToDate = true;
                 }
             } else {
                 plugin.getLogger().warning("Unable to check for updates! HTTP response code: " + connection.getResponseCode());
@@ -47,6 +54,10 @@ public class UpdateChecker implements Runnable {
 
     public static boolean isUpToDate() {
         return upToDate;
+    }
+
+    public static boolean isExperimental() {
+        return experimental;
     }
 
     public static String getLatestVersion() {

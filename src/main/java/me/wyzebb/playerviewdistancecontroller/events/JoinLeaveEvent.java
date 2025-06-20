@@ -54,6 +54,11 @@ public class JoinLeaveEvent implements Listener {
 
                 e.getPlayer().sendMessage(updateMsg);
             }
+            if (e.getPlayer().isOp() && UpdateChecker.isExperimental()) {
+                Component updateMsg = mm.deserialize("<yellow><b>(!)</b> You are using an experimental version of PVDC. Proceed with caution!</yellow>");
+
+                e.getPlayer().sendMessage(updateMsg);
+            }
         }
 
         VdCalculator.calcVdSet(e.getPlayer(), false);
