@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -105,15 +106,14 @@ public class CommandManager implements TabExecutor {
             return List.of(suggestions);
         } else if (args.length == 3 && args[0].equals("ping")) {
             ArrayList<String> playerNames = new ArrayList<>();
-            OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
 
             if (args[2].isEmpty()) {
-                for (OfflinePlayer player : players) {
+                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     playerNames.add(player.getName());
                 }
 
             } else {
-                for (OfflinePlayer player : players) {
+                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (player.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
                         playerNames.add(player.getName());
                     }
