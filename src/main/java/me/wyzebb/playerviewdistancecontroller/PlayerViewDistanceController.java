@@ -44,6 +44,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public static boolean luckPermsDetected = false;
 
     public static boolean dynamicModeEnabled = false;
+    public static int dynamicReducedChunks = 0;
 
     @Override
     public void onEnable() {
@@ -95,10 +96,18 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             scheduleAfkChecker();
         }
 
-        startPingOptimiser();
+        if (getPingOptimiserConfig().getBoolean("enabled")) {
+            startPingOptimiser();
+            plugin.getLogger().warning("ping optimiser enabled");
+        } else {
+            plugin.getLogger().warning("ping optimiser disabled");
+        }
 
         if (getDynamicModeConfig().getBoolean("enabled")) {
             startDynamicMode();
+            plugin.getLogger().warning("dynamic optimiser enabled");
+        } else {
+            plugin.getLogger().warning("dynamic optimiser disabled");
         }
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -161,16 +170,17 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     private void startPingOptimiser() {
-        foliaLib.getScheduler().runTimer(PingModeHandler::optimisePing, 0, getPingOptimiserConfig().getInt("interval"));
+        foliaLib.getScheduler().runTimer(PingModeHandler::optimisePingPerPlayer, 0, getPingOptimiserConfig().getInt("interval"));
     }
 
     public void startDynamicMode() {
+        DynamicModeHandler.checkServerMSPT();
         foliaLib.getScheduler().runTimer(DynamicModeHandler::checkServerMSPT, 0, getDynamicModeConfig().getInt("interval"));
     }
 
     public void stopDynamicMode() {
-        for (Player p: Bukkit.getOnlinePlayers()) {
-            p.setViewDistance(VdCalculator.calcVdGet(p));
+        for (Player player: Bukkit.getOnlinePlayers()) {
+            VdCalculator.calcVdSet(player, true);
         }
     }
 
