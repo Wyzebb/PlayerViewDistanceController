@@ -22,6 +22,7 @@ public class DynamicModeHandler {
     public static void checkServerMSPT() {
         if (dynamicModeEnabled) {
             int chunksToReduceBy = checkChunksToReduceBy();
+            dynamicReducedChunks = chunksToReduceBy;
 
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!player.hasPermission("pvdc.dynamic-mode-bypass")) {
@@ -41,8 +42,6 @@ public class DynamicModeHandler {
                     optimisedChunks = Math.min(optimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
 
                     player.setViewDistance(optimisedChunks);
-                } else {
-                    player.sendMessage("DEBUG: You bypassed dynamic mode");
                 }
             }
         }
