@@ -25,7 +25,7 @@ public class DynamicModeHandler {
             int chunksToReduceBy = checkChunksToReduceBy();
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (!player.hasPermission("pvdc.bypass-dynamic-mode")) {
+                if (!player.hasPermission("pvdc.dynamic-mode-bypass")) {
                     int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
                     luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 

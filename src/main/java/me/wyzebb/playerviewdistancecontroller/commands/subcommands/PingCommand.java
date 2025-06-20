@@ -99,7 +99,7 @@ public class PingCommand extends SubCommand {
 
     public static void setSelfPingMode(CommandSender commandSender, boolean pingMode) {
         if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
-            if (commandSender.hasPermission("pvdc.set-self-ping-mode")) {
+            if (commandSender.hasPermission("pvdc.ping-mode-set-self")) {
                 MessageProcessor.processMessage("messages.ping-mode-change-self", 2, pingMode, commandSender);
 
                 DataProcessorUtility.processPingMode((Player) commandSender, pingMode);
@@ -114,7 +114,7 @@ public class PingCommand extends SubCommand {
 
     public static void setPingMode(CommandSender commandSender, boolean pingMode, Player target) {
         if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
-            if (commandSender.hasPermission("pvdc.set-others-ping-mode")) {
+            if (commandSender.hasPermission("pvdc.ping-mode-set-others")) {
                 MessageProcessor.processMessage("messages.ping-mode-change", 2, pingMode, target);
                 MessageProcessor.processMessage("messages.ping-mode-change-others", 2, pingMode, commandSender);
 
