@@ -68,10 +68,18 @@ permissions:
     description: Allows you to reset a player's saved view distance, so only Luckperms permission values are used
     default: op
 
-  pvdc.set-self-pingmode:
+  pvdc.ping-mode-set-self:
     description: Allows you to toggle your ping mode
     default: true
 
-  pvdc.set-others-pingmode:
+  pvdc.ping-mode-set-others:
     description: Allows you to toggle other player ping modes
-    default: true
+    default: op
+
+  pvdc.dynamic-mode-set:
+    description: Allows you to toggle dynamic mode for the server
+    default: op
+
+  pvdc.dynamic-mode-bypass:
+    description: Allows you to bypass dynamic mode changing your view distance
+    default: false
