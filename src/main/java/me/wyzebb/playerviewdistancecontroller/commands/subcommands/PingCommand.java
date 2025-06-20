@@ -50,7 +50,7 @@ public class PingCommand extends SubCommand {
 
             } else if (args.length == 2) {
                 if (!(commandSender instanceof Player)) {
-                    commandSender.sendMessage("must be player");
+                    MessageProcessor.processMessage("messages.not-player", 1, commandSender);
                     return;
                 }
 
@@ -108,7 +108,7 @@ public class PingCommand extends SubCommand {
                 MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
             }
         } else {
-            commandSender.sendMessage("ping optimiser not enabled on this server");
+            MessageProcessor.processMessage("messages.ping-mode-disabled", 1, commandSender);
         }
     }
 
@@ -124,7 +124,7 @@ public class PingCommand extends SubCommand {
                 MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
             }
         } else {
-            commandSender.sendMessage("ping optimiser not enabled on this server");
+            MessageProcessor.processMessage("messages.ping-mode-disabled", 1, commandSender);
         }
     }
 }
