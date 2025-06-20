@@ -98,25 +98,33 @@ public class PingCommand extends SubCommand {
     }
 
     public static void setSelfPingMode(CommandSender commandSender, boolean pingMode) {
-        if (commandSender.hasPermission("pvdc.set-self-pingmode")) {
-            MessageProcessor.processMessage("messages.pingmode-change-self", 2, pingMode, commandSender);
+        if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
+            if (commandSender.hasPermission("pvdc.set-self-ping-mode")) {
+                MessageProcessor.processMessage("messages.ping-mode-change-self", 2, pingMode, commandSender);
 
-            DataProcessorUtility.processPingMode((Player) commandSender, pingMode);
+                DataProcessorUtility.processPingMode((Player) commandSender, pingMode);
 
+            } else {
+                MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+            }
         } else {
-            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+            commandSender.sendMessage("ping optimiser not enabled on this server");
         }
     }
 
     public static void setPingMode(CommandSender commandSender, boolean pingMode, Player target) {
-        if (commandSender.hasPermission("pvdc.set-others-pingmode")) {
-            MessageProcessor.processMessage("messages.pingmode-change", 2, pingMode, target);
-            MessageProcessor.processMessage("messages.pingmode-change-others", 2, pingMode, commandSender);
+        if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
+            if (commandSender.hasPermission("pvdc.set-others-ping-mode")) {
+                MessageProcessor.processMessage("messages.ping-mode-change", 2, pingMode, target);
+                MessageProcessor.processMessage("messages.ping-mode-change-others", 2, pingMode, commandSender);
 
-            DataProcessorUtility.processPingMode(target, pingMode);
+                DataProcessorUtility.processPingMode(target, pingMode);
 
+            } else {
+                MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+            }
         } else {
-            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+            commandSender.sendMessage("ping optimiser not enabled on this server");
         }
     }
 }
