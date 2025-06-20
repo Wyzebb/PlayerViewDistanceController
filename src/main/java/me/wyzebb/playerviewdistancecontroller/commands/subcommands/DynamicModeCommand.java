@@ -46,20 +46,24 @@ public class DynamicModeCommand extends SubCommand {
         } else if (args.length == 1) {
             setDynamicMode(!dynamicModeEnabled);
         } else {
-            final String[] OPTIONS = {"on", "off", "info"};
+            if (commandSender.hasPermission("pvdc.dynamic-mode-set")) {
+                final String[] OPTIONS = {"on", "off", "info"};
 
-            if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
-                MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
+                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                }
+
+                if (Objects.equals(args[1], "info")) {
+                    MessageProcessor.processMessage("messages.dynamic-info", 2, dynamicModeEnabled, commandSender);
+                    return;
+                }
+
+                boolean mode = Objects.equals(args[1], "on");
+
+                setDynamicMode(mode);
+            } else {
+                MessageProcessor.processMessage("messages.no-permission", 1, commandSender);
             }
-
-            if (Objects.equals(args[1], "info")) {
-                MessageProcessor.processMessage("messages.dynamic-info", 2, dynamicModeEnabled, commandSender);
-                return;
-            }
-
-            boolean mode = Objects.equals(args[1], "on");
-
-            setDynamicMode(mode);
         }
     }
 
