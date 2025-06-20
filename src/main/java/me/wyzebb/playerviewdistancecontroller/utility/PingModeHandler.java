@@ -62,8 +62,6 @@ public class PingModeHandler {
                     DataProcessorUtility.processPingChunks(player, pingOptimisedChunks);
                     return;
                 }
-
-                player.sendMessage("DEBUG: Your ping was not optimised");
             }
         }
     }
