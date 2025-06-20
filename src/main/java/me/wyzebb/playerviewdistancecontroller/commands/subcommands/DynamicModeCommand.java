@@ -44,7 +44,11 @@ public class DynamicModeCommand extends SubCommand {
         if (args.length < 1 || args.length > 2) {
             MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else if (args.length == 1) {
-            setDynamicMode(!dynamicModeEnabled);
+            if (commandSender.hasPermission("pvdc.dynamic-mode-set")) {
+                setDynamicMode(!dynamicModeEnabled);
+            } else {
+                MessageProcessor.processMessage("messages.no-permission", 1, commandSender);
+            }
         } else {
             if (commandSender.hasPermission("pvdc.dynamic-mode-set")) {
                 final String[] OPTIONS = {"on", "off", "info"};
@@ -77,8 +81,7 @@ public class DynamicModeCommand extends SubCommand {
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage("dynamic is now " + mode);
-            player.sendMessage("dynamic global is now " + dynamicModeEnabled);
+            MessageProcessor.processMessage("messages.dynamic-mode-change", 2, mode, player);
         }
     }
 }
