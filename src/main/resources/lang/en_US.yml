@@ -34,6 +34,14 @@ messages:
   ping-mode-change: "Your ping mode is now {pingMode}!"
   ping-optimised: "Your view distance has been optimised for ping!"
   ping-info: "Ping mode is turned {pingMode} for you!"
+  ping-mode-disabled: "Ping mode is disabled on this server!"
+
+  dynamic-mode-change: "Dynamic mode is now {pingMode}!"
+
+  not-player: "You must be a player to do this!"
+
+  no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
+  no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
 
 
 commands:
