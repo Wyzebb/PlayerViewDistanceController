@@ -22,33 +22,35 @@ public class DynamicModeHandler {
 
     public static void checkServerMSPT() {
         if (dynamicModeEnabled) {
-            double MSPT = Bukkit.getServer().getAverageTickTime();
+            int chunksToReduceBy = checkChunksToReduceBy();
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
-                luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
+                if (!player.hasPermission("pvdc.bypass-dynamic-mode")) {
+                    int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
+                    luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-                PlayerDataHandler playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
-                int value = ClampAmountUtility.clampChunkValue(32);
+                    PlayerDataHandler playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
+                    int maxAllowed = ClampAmountUtility.clampChunkValue(32);
 
-                if (playerDataHandler.getChunksOthers() != 0) {
-                    value = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
+                    if (playerDataHandler.getChunksOthers() != 0) {
+                        maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
+                    }
+
+                    int optimisedChunks = ClampAmountUtility.clampChunkValue(maxAllowed - chunksToReduceBy);
+
+                    optimisedChunks = Math.max(optimisedChunks, plugin.getPingOptimiserConfig().getInt("min"));
+                    optimisedChunks = Math.min(optimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
+
+                    player.setViewDistance(optimisedChunks);
+                } else {
+                    player.sendMessage("you bypassed dynamic mode");
                 }
-
-                int newChunks = optimiseChunks(VdCalculator.calcVdGet(player), MSPT);
-
-                if (newChunks == 1000) return;
-
-                if (newChunks < value) {
-                    value = newChunks;
-                }
-
-                player.setViewDistance(value);
             }
         }
     }
 
-    public static int optimiseChunks(int chunks, double MSPT) {
+    public static int checkChunksToReduceBy() {
+        double MSPT = Bukkit.getServer().getAverageTickTime();
         Set<String> keys = Objects.requireNonNull(plugin.getDynamicModeConfig().getConfigurationSection("mspt")).getKeys(false);
         int chunksToReduceBy = 0;
 
@@ -60,13 +62,10 @@ public class DynamicModeHandler {
                 }
             }
 
-            int amount = ClampAmountUtility.clampChunkValue(chunks - chunksToReduceBy);
-
-            amount = Math.max(amount, plugin.getPingOptimiserConfig().getInt("min"));
-            amount = Math.min(amount, plugin.getPingOptimiserConfig().getInt("max"));
-
-            return amount;
+            return chunksToReduceBy;
         }
-        return 1000;
+
+        plugin.getLogger().severe("There are no MSPT keys in the dynamic mode config!");
+        return chunksToReduceBy;
     }
 }
