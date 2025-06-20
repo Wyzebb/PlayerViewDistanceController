@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -24,14 +25,14 @@ public class DataProcessorUtility {
         dataHandler.setPingMode(pingMode);
 
         if (pingMode) {
-            PingModeHandler.optimisePingOnce(target);
+            PingModeHandler.optimisePing(target);
         }
     }
 
     public static void processPingChunks(Player target, int pingChunks) {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
         dataHandler.setChunksPing(pingChunks);
-        target.sendMessage("PING CHUNKS: " + pingChunks);
+        MessageProcessor.processMessage("messages.ping-optimised", 2, pingChunks, target);
         target.setViewDistance(pingChunks);
     }
 }
