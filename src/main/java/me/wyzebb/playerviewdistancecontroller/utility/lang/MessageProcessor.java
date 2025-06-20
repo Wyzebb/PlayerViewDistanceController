@@ -17,25 +17,29 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg;
+            String col;
             if (status == 1) {
-                msg = errorColour;
+                col = errorColour;
             } else if (status == 2) {
-                msg = successColour;
+                col = successColour;
             } else {
-                msg = colour;
+                col = colour;
             }
 
-            msg = msg + langConfig.getString(langPath, "Message key not found. Please report to the developer!");
-            sendTo.sendMessage(processPlaceholders(msg, target, amount));
+            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            if (!msg.equals("none")) {
+                sendTo.sendMessage(processPlaceholders(col + msg, target, amount));
+            }
 
         } else {
             String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
 
-            if (status == 1) {
-                plugin.getLogger().warning(processPlaceholders(msg, target, amount));
-            } else {
-                plugin.getLogger().info(processPlaceholders(msg, target, amount));
+            if (!msg.equals("none")) {
+                if (status == 1) {
+                    plugin.getLogger().warning(processPlaceholders(msg, target, amount));
+                } else {
+                    plugin.getLogger().info(processPlaceholders(msg, target, amount));
+                }
             }
         }
     }
@@ -49,25 +53,29 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg;
+            String col;
             if (status == 1) {
-                msg = errorColour;
+                col = errorColour;
             } else if (status == 2) {
-                msg = successColour;
+                col = successColour;
             } else {
-                msg = colour;
+                col = colour;
             }
 
-            msg = msg + langConfig.getString(langPath, "Message key not found. Please report to the developer!");
-            sendTo.sendMessage(processPlaceholders(msg, amount));
+            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            if (!msg.equals("none")) {
+                sendTo.sendMessage(processPlaceholders(col + msg, amount));
+            }
 
         } else {
             String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
 
-            if (status == 1) {
-                plugin.getLogger().warning(processPlaceholders(msg, amount));
-            } else {
-                plugin.getLogger().info(processPlaceholders(msg, amount));
+            if (!msg.equals("none")) {
+                if (status == 1) {
+                    plugin.getLogger().warning(processPlaceholders(msg, amount));
+                } else {
+                    plugin.getLogger().info(processPlaceholders(msg, amount));
+                }
             }
         }
     }
@@ -81,25 +89,29 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg;
+            String col;
             if (status == 1) {
-                msg = errorColour;
+                col = errorColour;
             } else if (status == 2) {
-                msg = successColour;
+                col = successColour;
             } else {
-                msg = colour;
+                col = colour;
             }
 
-            msg = msg + langConfig.getString(langPath, "Message key not found. Please report to the developer!");
-            sendTo.sendMessage(processPlaceholders(msg, pingMode));
+            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            if (!msg.equals("none")) {
+                sendTo.sendMessage(processPlaceholders(col + msg, pingMode));
+            }
 
         } else {
             String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
 
-            if (status == 1) {
-                plugin.getLogger().warning(msg);
-            } else {
-                plugin.getLogger().info(msg);
+            if (!msg.equals("none")) {
+                if (status == 1) {
+                    plugin.getLogger().warning(processPlaceholders(msg, pingMode));
+                } else {
+                    plugin.getLogger().info(processPlaceholders(msg, pingMode));
+                }
             }
         }
     }
@@ -113,29 +125,32 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg;
+            String col;
             if (status == 1) {
-                msg = errorColour;
+                col = errorColour;
             } else if (status == 2) {
-                msg = successColour;
+                col = successColour;
             } else {
-                msg = colour;
+                col = colour;
             }
 
-            msg = msg + langConfig.getString(langPath, "Message key not found. Please report to the developer!");
-            sendTo.sendMessage(msg);
+            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            if (!msg.equals("none")) {
+                sendTo.sendMessage(col + msg);
+            }
 
         } else {
             String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
 
-            if (status == 1) {
-                plugin.getLogger().warning(msg);
-            } else {
-                plugin.getLogger().info(msg);
+            if (!msg.equals("none")) {
+                if (status == 1) {
+                    plugin.getLogger().warning(msg);
+                } else {
+                    plugin.getLogger().info(msg);
+                }
             }
         }
     }
-
 
 
     private static String processPlaceholders(String msg, OfflinePlayer target, int amount) {
