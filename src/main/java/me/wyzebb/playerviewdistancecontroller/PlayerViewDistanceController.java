@@ -100,16 +100,16 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         if (getPingOptimiserConfig().getBoolean("enabled")) {
             startPingOptimiser();
-            plugin.getLogger().warning("ping optimiser enabled");
+            plugin.getLogger().warning("Ping mode enabled");
         } else {
-            plugin.getLogger().warning("ping optimiser disabled");
+            plugin.getLogger().warning("Ping mode disabled");
         }
 
         if (getDynamicModeConfig().getBoolean("enabled")) {
             startDynamicMode();
-            plugin.getLogger().warning("dynamic optimiser enabled");
+            plugin.getLogger().warning("Dynamic mode enabled");
         } else {
-            plugin.getLogger().warning("dynamic optimiser disabled");
+            plugin.getLogger().warning("Dynamic mode disabled");
         }
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
