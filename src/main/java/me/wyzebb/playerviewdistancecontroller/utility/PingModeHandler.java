@@ -4,6 +4,7 @@ import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,53 +12,54 @@ import org.bukkit.entity.Player;
 import java.util.Objects;
 import java.util.Set;
 
-import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.*;
 
 public class PingModeHandler {
 
-    public static void optimisePing() {
+    public static void optimisePingPerPlayer() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
-            if (dataHandler.isPingMode()) {
-                int newChunks = comparePingToConfig(VdCalculator.calcVdGet(player), player.getPing());
-
-                if (newChunks == 1000) return;
-
-                int luckpermsMax = 32;
-
-                if (LuckPermsDetector.detectLuckPerms()) {
-                    luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance(player);
-                }
-
-                if (luckpermsMax >= newChunks || player.hasPermission("pvdc.bypass-maxdistance")) {
-                    MessageProcessor.processMessage("messages.ping-optimised", 2, newChunks, player);
-
-                    DataProcessorUtility.processPingChunks(player, newChunks);
-                } else {
-                    MessageProcessor.processMessage("messages.chunks-too-high", 1, luckpermsMax, player);
-                }
-            }
+            optimisePing(player);
         }
     }
 
-    public static void optimisePingOnce(Player player) {
-        int ping = player.getPing();
+    public static void optimisePing(Player player) {
+        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
+        if (dataHandler.isPingMode()) {
+            int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
+            luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-        if (ping > 20) {
-            int luckpermsMax = 32;
-            int amount = PlayerUtility.getPlayerDataHandler(player).getChunks() - 2;
+            PlayerDataHandler playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
+            int maxAllowed = ClampAmountUtility.clampChunkValue(32);
 
-            if (LuckPermsDetector.detectLuckPerms()) {
-                luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance(player);
+            if (playerDataHandler.getChunksOthers() != 0) {
+                maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
             }
 
-            if (luckpermsMax >= amount || player.hasPermission("pvdc.bypass-maxdistance")) {
-                MessageProcessor.processMessage("messages.ping-optimised", 2, amount, player);
+            int pingOptimisedChunks = comparePingToConfig(maxAllowed, player.getPing());
 
-                DataProcessorUtility.processPingChunks(player, amount);
-            } else {
-                MessageProcessor.processMessage("messages.chunks-too-high", 1, luckpermsMax, player);
+            if (dynamicModeEnabled) {
+                pingOptimisedChunks = comparePingToConfig(maxAllowed - dynamicReducedChunks, player.getPing());
             }
+
+            if (pingOptimisedChunks == 1000) {
+                player.sendMessage("Contact your admin. Ping error");
+                return;
+            }
+
+            pingOptimisedChunks = Math.max(pingOptimisedChunks, plugin.getPingOptimiserConfig().getInt("min"));
+            pingOptimisedChunks = Math.min(pingOptimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
+
+            if (dynamicModeEnabled && (maxAllowed - dynamicReducedChunks != pingOptimisedChunks)) {
+                DataProcessorUtility.processPingChunks(player, pingOptimisedChunks);
+                return;
+            }
+
+            if (!dynamicModeEnabled && (maxAllowed != pingOptimisedChunks)) {
+                DataProcessorUtility.processPingChunks(player, pingOptimisedChunks);
+                return;
+            }
+
+            player.sendMessage("not optimised");
         }
     }
 
@@ -80,6 +82,8 @@ public class PingModeHandler {
 
             return amount;
         }
+
+        plugin.getLogger().severe("There are no ping keys in the ping mode config!");
         return 1000;
     }
 }
