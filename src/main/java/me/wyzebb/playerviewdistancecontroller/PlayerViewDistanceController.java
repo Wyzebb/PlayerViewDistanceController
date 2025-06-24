@@ -36,6 +36,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     private FileConfiguration pingOptimiserConfig;
     private FileConfiguration dynamicModeConfig;
+    public FileConfiguration config;
 
     private final FoliaLib foliaLib = new FoliaLib(this);
 
@@ -48,6 +49,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public static boolean pingModeDisabled = false;
 
+    private ConfigLoader configLoader;
+
     @Override
     public void onEnable() {
         getLogger().info("Plugin started!");
@@ -55,7 +58,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         int pluginId = 24498;
         Metrics metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new SimplePie("used_language", () -> getConfig().getString("language", "en_US")));
+        metrics.addCustomChart(new SimplePie("used_language", () -> config.getString("language", "en_US")));
 
         languageManager = new LanguageManager();
 
@@ -73,10 +76,13 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
 
         // Config
-        saveDefaultConfig();
-        getConfig().options().copyDefaults(true);
-        createPingOptimiserConfig();
-        createDynamicModeConfig();
+        configLoader = new ConfigLoader(this);
+
+        config = configLoader.loadAndMerge("config.yml");
+        dynamicModeConfig = configLoader.loadAndMerge("dynamic-mode.yml");
+        pingOptimiserConfig = configLoader.loadAndMerge("ping-mode.yml");
+
+        dynamicModeEnabled = dynamicModeConfig.getBoolean("enabled");
 
         // Register join and leave events
         getServer().getPluginManager().registerEvents(new JoinLeaveEvent(), this);
@@ -87,14 +93,14 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         Objects.requireNonNull(getCommand("pvdc")).setTabCompleter(new CommandManager());
 
         // Check for updates if enabled in the config
-        if (getConfig().getBoolean("update-checker-enabled")) {
+        if (config.getBoolean("update-checker-enabled")) {
             UpdateChecker updateChecker = new UpdateChecker();
             Thread updateCheck = new Thread(updateChecker, "Update Check Thread");
             updateCheck.start();
         }
 
         // Start AFK checker if enabled in the config
-        if (getConfig().getBoolean("afk-chunk-limiter")) {
+        if (config.getBoolean("afk-chunk-limiter")) {
             scheduleAfkChecker();
         }
 
@@ -124,27 +130,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public FileConfiguration getDynamicModeConfig() {
         return this.dynamicModeConfig;
-    }
-
-    private void createPingOptimiserConfig() {
-        File pingOptimiserConfigFile = new File(getDataFolder(), "ping-mode.yml");
-
-        if (!pingOptimiserConfigFile.exists()) {
-            saveResource("ping-mode.yml", false);
-        }
-
-        pingOptimiserConfig = YamlConfiguration.loadConfiguration(pingOptimiserConfigFile);
-    }
-
-    private void createDynamicModeConfig() {
-        File dynamicModeConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
-
-        if (!dynamicModeConfigFile.exists()) {
-            saveResource("dynamic-mode.yml", false);
-        }
-
-        dynamicModeConfig = YamlConfiguration.loadConfiguration(dynamicModeConfigFile);
-        dynamicModeEnabled = dynamicModeConfig.getBoolean("enabled");
     }
 
     public LanguageManager getLanguageManager() {
@@ -199,8 +184,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             final UUID playerId = player.getUniqueId();
             int lastMoved = playerAfkMap.getOrDefault(playerId, currentTime);
 
-            if ((currentTime - lastMoved > (getConfig().getInt("afkTime")) * 1000) && playerAfkMap.get(playerId) != 0) {
-                if (getConfig().getBoolean("spectators-can-afk") && player.getGameMode() == GameMode.SPECTATOR) {
+            if ((currentTime - lastMoved > (config.getInt("afkTime")) * 1000) && playerAfkMap.get(playerId) != 0) {
+                if (config.getBoolean("spectators-can-afk") && player.getGameMode() == GameMode.SPECTATOR) {
                     continue;
                 }
 
@@ -208,7 +193,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                     continue;
                 }
 
-                int afkChunks = ClampAmountUtility.clampChunkValue(getConfig().getInt("afkChunks"));
+                int afkChunks = ClampAmountUtility.clampChunkValue(config.getInt("afkChunks"));
 
                 player.setViewDistance(afkChunks);
                 playerAfkMap.put(playerId, 0);
