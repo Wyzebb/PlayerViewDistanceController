@@ -167,7 +167,7 @@ public class MessageProcessor {
     }
 
     private static String processPlaceholders(String msg, boolean pingMode) {
-        msg = msg.replace("{pingMode}", pingMode ? "on" : "off");
+        msg = msg.replace("{mode}", pingMode ? "on" : "off");
 
         return msg;
     }

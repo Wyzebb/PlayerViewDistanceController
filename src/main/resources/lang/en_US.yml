@@ -3,7 +3,6 @@ messages:
 
   no-permission: "You do not have permission to execute this command!"
 
-  # The message displayed when there are not enough arguments or the arguments are invalid
   incorrect-args: "Incorrect arguments - Use /pvdc help for help"
 
   afk: "You're AFK, so your view distance has been restricted to {chunks} chunks!"
@@ -29,14 +28,14 @@ messages:
   view-distance-get: "{target-player}'s maximum view distance is currently set to {chunks} chunks"
   self-view-distance-get: "Your maximum view distance is currently set to {chunks} chunks"
 
-  ping-mode-change-self: "You turned {pingMode} ping mode!"
-  ping-mode-change-others: "The player's ping mode is now {pingMode}!"
-  ping-mode-change: "Your ping mode is now {pingMode}!"
+  ping-mode-change-self: "You turned {mode} ping mode!"
+  ping-mode-change-others: "The player's ping mode is now {mode}!"
+  ping-mode-change: "Your ping mode is now {mode}!"
   ping-optimised: "Your view distance has been optimised for ping!"
-  ping-info: "Ping mode is turned {pingMode} for you!"
+  ping-info: "Ping mode is turned {mode} for you!"
   ping-mode-disabled: "Ping mode is disabled on this server!"
 
-  dynamic-mode-change: "Dynamic mode is now {pingMode}!"
+  dynamic-mode-change: "Dynamic mode is now {mode}!"
 
   not-player: "You must be a player to do this!"
 
