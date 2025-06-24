@@ -33,7 +33,7 @@ public class ReloadCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (commandSender.hasPermission("pvdc.reload") || commandSender instanceof ConsoleCommandSender) {
-            plugin.config.options().copyDefaults(true);
+            plugin.getConfig().options().copyDefaults(true);
             plugin.reloadConfig();
             MessageProcessor.processMessage("messages.reload-config", 2, 0, commandSender);
         } else {

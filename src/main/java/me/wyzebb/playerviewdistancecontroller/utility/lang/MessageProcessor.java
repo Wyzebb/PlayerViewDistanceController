@@ -9,9 +9,9 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public class MessageProcessor {
     public static void processMessage(String langPath, int status, OfflinePlayer target, int amount, CommandSender sendTo) {
-        String colour = plugin.config.getString("colour");
-        String errorColour = plugin.config.getString("error-colour");
-        String successColour = plugin.config.getString("success-colour");
+        String colour = plugin.getConfig().getString("colour");
+        String errorColour = plugin.getConfig().getString("error-colour");
+        String successColour = plugin.getConfig().getString("success-colour");
 
         LanguageManager languageManager = plugin.getLanguageManager();
         FileConfiguration langConfig = languageManager.getLanguageFile();
@@ -45,9 +45,9 @@ public class MessageProcessor {
     }
 
     public static void processMessage(String langPath, int status, int amount, CommandSender sendTo) {
-        String colour = plugin.config.getString("colour");
-        String errorColour = plugin.config.getString("error-colour");
-        String successColour = plugin.config.getString("success-colour");
+        String colour = plugin.getConfig().getString("colour");
+        String errorColour = plugin.getConfig().getString("error-colour");
+        String successColour = plugin.getConfig().getString("success-colour");
 
         LanguageManager languageManager = plugin.getLanguageManager();
         FileConfiguration langConfig = languageManager.getLanguageFile();
@@ -81,9 +81,9 @@ public class MessageProcessor {
     }
 
     public static void processMessage(String langPath, int status, boolean pingMode, CommandSender sendTo) {
-        String colour = plugin.config.getString("colour");
-        String errorColour = plugin.config.getString("error-colour");
-        String successColour = plugin.config.getString("success-colour");
+        String colour = plugin.getConfig().getString("colour");
+        String errorColour = plugin.getConfig().getString("error-colour");
+        String successColour = plugin.getConfig().getString("success-colour");
 
         LanguageManager languageManager = plugin.getLanguageManager();
         FileConfiguration langConfig = languageManager.getLanguageFile();
@@ -117,9 +117,9 @@ public class MessageProcessor {
     }
 
     public static void processMessage(String langPath, int status, CommandSender sendTo) {
-        String colour = plugin.config.getString("colour");
-        String errorColour = plugin.config.getString("error-colour");
-        String successColour = plugin.config.getString("success-colour");
+        String colour = plugin.getConfig().getString("colour");
+        String errorColour = plugin.getConfig().getString("error-colour");
+        String successColour = plugin.getConfig().getString("success-colour");
 
         LanguageManager languageManager = plugin.getLanguageManager();
         FileConfiguration langConfig = languageManager.getLanguageFile();

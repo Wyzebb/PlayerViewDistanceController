@@ -24,7 +24,7 @@ public class LanguageManager {
     }
 
     private void loadConfig() {
-        FileConfiguration config = plugin.config;
+        FileConfiguration config = plugin.getConfig();
         defaultLanguage = config.getString("language", "en_US"); // Defaults to "en_US" if not set
     }
 
