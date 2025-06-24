@@ -70,7 +70,7 @@ permissions:
 
   pvdc.ping-mode-set-self:
     description: Allows you to toggle your ping mode
-    default: true
+    default: op
 
   pvdc.ping-mode-set-others:
     description: Allows you to toggle other player ping modes
