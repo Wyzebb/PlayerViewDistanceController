@@ -26,7 +26,6 @@ public class CommandManager implements TabExecutor {
         subcommands.add(new SetOnlineCommand());
         subcommands.add(new GetCommand());
         subcommands.add(new ResetCommand());
-        subcommands.add(new ReloadCommand());
         subcommands.add(new HelpCommand());
         subcommands.add(new PingCommand());
         subcommands.add(new DynamicModeCommand());
