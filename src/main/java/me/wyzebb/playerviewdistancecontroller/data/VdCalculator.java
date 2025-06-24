@@ -18,7 +18,7 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public class VdCalculator {
     public static void calcVdSet(Player player, boolean luckPermsEvent) {
-        int amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("default-distance"));
+        int amount = ClampAmountUtility.clampChunkValue(plugin.config.getInt("default-distance"));
         int amountOthers = 0;
         boolean pingMode = false;
         int amountPing = 0;
@@ -26,7 +26,7 @@ public class VdCalculator {
         final boolean bedrockPlayer = player.getName().startsWith(".");
 
         if (bedrockPlayer) {
-            amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("bedrock-default-distance"));
+            amount = ClampAmountUtility.clampChunkValue(plugin.config.getInt("bedrock-default-distance"));
         }
 
         // Get an instance of the player data handler for the specific player
@@ -75,9 +75,9 @@ public class VdCalculator {
         player.setViewDistance(finalChunks);
 
         if (!luckPermsEvent) {
-            if (plugin.getConfig().getBoolean("display-msg-on-join")) {
-                if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
-                    if (plugin.getConfig().getBoolean("display-max-join-msg")) {
+            if (plugin.config.getBoolean("display-msg-on-join")) {
+                if (finalChunks == plugin.config.getInt("max-distance") || (finalChunks == plugin.config.getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.config.getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
+                    if (plugin.config.getBoolean("display-max-join-msg")) {
                         MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
                     }
                 } else {

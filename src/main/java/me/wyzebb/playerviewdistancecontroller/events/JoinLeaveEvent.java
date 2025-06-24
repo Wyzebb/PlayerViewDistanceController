@@ -48,7 +48,7 @@ public class JoinLeaveEvent implements Listener {
 
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
-        if (plugin.getConfig().getBoolean("update-checker-enabled")) {
+        if (plugin.config.getBoolean("update-checker-enabled")) {
             if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
                 Component updateMsg = mm.deserialize("<yellow><b>(!)</b> <click:open_url:'https://modrinth.com/plugin/pvdc'><hover:show_text:'<green>Click to go to the plugin page</green>'>PVDC update available: <b><red>v" + UpdateChecker.getPluginVersion() + "</red> -> <green>v" + UpdateChecker.getLatestVersion() + "</green></b></hover></click></yellow>");
 
@@ -63,12 +63,12 @@ public class JoinLeaveEvent implements Listener {
 
         VdCalculator.calcVdSet(e.getPlayer(), false);
 
-        if (plugin.getConfig().getBoolean("afkOnJoin")) {
+        if (plugin.config.getBoolean("afkOnJoin")) {
             Player player = e.getPlayer();
             FoliaLib foliaLib = new FoliaLib(plugin);
 
             foliaLib.getScheduler().runLater(() -> {
-                int afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
+                int afkChunks = ClampAmountUtility.clampChunkValue(plugin.config.getInt("afkChunks"));
 
                 if (!player.hasPermission("pvdc.bypass-afk")) {
                     player.setViewDistance(afkChunks);

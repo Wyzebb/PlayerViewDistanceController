@@ -15,8 +15,8 @@ public class ClampAmountUtility {
         amount = Math.min(MAX_POSSIBLE, amount);
         amount = Math.max(MIN_POSSIBLE, amount);
 
-        amount = Math.min(plugin.getConfig().getInt("max-distance"), amount);
-        amount = Math.max(plugin.getConfig().getInt("min-distance"), amount);
+        amount = Math.min(plugin.config.getInt("max-distance"), amount);
+        amount = Math.max(plugin.config.getInt("min-distance"), amount);
 
         return amount;
     }
