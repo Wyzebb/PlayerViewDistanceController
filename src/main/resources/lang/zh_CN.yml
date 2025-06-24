@@ -3,7 +3,6 @@ messages:
 
   no-permission: "您没有权限执行此命令！"
 
-  # 当参数不足或参数无效时显示的消息
   incorrect-args: "参数错误 - 使用 /pvdc help 查看帮助"
 
   afk: "您现在处于离开状态，视距已限制为 {chunks} 区块！"
@@ -28,6 +27,22 @@ messages:
 
   view-distance-get: "{target-player} 的最大视距当前设置为 {chunks} 区块"
   self-view-distance-get: "您的最大视距当前设置为 {chunks} 区块"
+
+  ping-mode-change-self: "You turned {mode} ping mode!"
+  ping-mode-change-others: "The player's ping mode is now {mode}!"
+  ping-mode-change: "Your ping mode is now {mode}!"
+  ping-optimised: "Your view distance has been optimised for ping!"
+  ping-info: "Ping mode is turned {mode} for you!"
+  ping-mode-disabled: "Ping mode is disabled on this server!"
+
+  dynamic-mode-change: "Dynamic mode is now {mode}!"
+
+  not-player: "You must be a player to do this!"
+
+  no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
+  no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
+
+
 commands:
   get: "显示玩家的最大视距"
   help: "显示插件的帮助信息"
@@ -35,3 +50,5 @@ commands:
   reset: "重置某个玩家的最大视距"
   set: "设置自己的最大视距或其他玩家的最大视距"
   setonline: "设置所有在线玩家的最大视距"
+  ping-mode: "Toggles ping mode"
+  dynamic-mode: "Toggles dynamic mode"
