@@ -26,13 +26,13 @@ public class MessageProcessor {
                 col = colour;
             }
 
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
             if (!msg.equals("none")) {
                 sendTo.sendMessage(processPlaceholders(col + msg, target, amount));
             }
 
         } else {
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
 
             if (!msg.equals("none")) {
                 if (status == 1) {
@@ -62,13 +62,13 @@ public class MessageProcessor {
                 col = colour;
             }
 
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
             if (!msg.equals("none")) {
                 sendTo.sendMessage(processPlaceholders(col + msg, amount));
             }
 
         } else {
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
 
             if (!msg.equals("none")) {
                 if (status == 1) {
@@ -98,13 +98,13 @@ public class MessageProcessor {
                 col = colour;
             }
 
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
             if (!msg.equals("none")) {
                 sendTo.sendMessage(processPlaceholders(col + msg, pingMode));
             }
 
         } else {
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
 
             if (!msg.equals("none")) {
                 if (status == 1) {
@@ -134,13 +134,13 @@ public class MessageProcessor {
                 col = colour;
             }
 
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
             if (!msg.equals("none")) {
                 sendTo.sendMessage(col + msg);
             }
 
         } else {
-            String msg = langConfig.getString(langPath, "Message key not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
 
             if (!msg.equals("none")) {
                 if (status == 1) {
