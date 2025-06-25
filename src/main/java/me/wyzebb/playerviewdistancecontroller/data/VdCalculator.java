@@ -173,7 +173,7 @@ public class VdCalculator {
 
         int finalChunks = Math.min(playerDataHandler.getChunks(), luckpermsDistance);
 
-        if (playerDataHandler.getChunksOthers() != 0) {
+        if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {
             finalChunks = PlayerUtility.getPlayerDataHandler(player).getChunksOthers();
         }
 

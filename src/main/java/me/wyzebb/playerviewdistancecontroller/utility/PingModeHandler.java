@@ -34,7 +34,7 @@ public class PingModeHandler {
                 PlayerDataHandler playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
                 int maxAllowed = ClampAmountUtility.clampChunkValue(32);
 
-                if (playerDataHandler.getChunksOthers() != 0) {
+                if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {
                     maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
                 }
 
