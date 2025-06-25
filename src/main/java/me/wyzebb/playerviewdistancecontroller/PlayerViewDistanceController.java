@@ -56,9 +56,22 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         // Config
         saveDefaultConfig();
+
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdirs();
+        }
+
         File configFile = new File(getDataFolder(), "config.yml");
         File dynamicConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
         File pingConfigFile = new File(getDataFolder(), "ping-mode.yml");
+
+        try {
+            if (!configFile.exists()) configFile.createNewFile();
+            if (!dynamicConfigFile.exists()) dynamicConfigFile.createNewFile();
+            if (!pingConfigFile.exists()) pingConfigFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             ConfigUpdater.update(plugin, "config.yml", configFile);
