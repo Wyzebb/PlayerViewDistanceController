@@ -10,7 +10,7 @@ public class LuckPermsDetector {
             return true;
 
         } catch (Exception ex) {
-            plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but it extends the plugin's functionality!");
+            plugin.getLogger().warning("LuckPerms is not running on this server: it is optional, but recommended!");
             return false;
         }
     }
