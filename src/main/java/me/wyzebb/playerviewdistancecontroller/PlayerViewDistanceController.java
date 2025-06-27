@@ -47,7 +47,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public static boolean dynamicModeEnabled = false;
     public static int dynamicReducedChunks = 0;
 
-    public static boolean pingModeDisabled = false;
+    public static boolean pingModeDisabled = true;
 
     @Override
     public void onEnable() {
@@ -75,8 +75,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         try {
             ConfigUpdater.update(plugin, "config.yml", configFile);
-            ConfigUpdater.update(plugin, "dynamic-mode.yml", dynamicConfigFile);
-            ConfigUpdater.update(plugin, "ping-mode.yml", pingConfigFile);
+            ConfigUpdater.update(plugin, "dynamic-mode.yml", dynamicConfigFile, "mspt");
+            ConfigUpdater.update(plugin, "ping-mode.yml", pingConfigFile, "pings");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,6 +181,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     }
 
     private void startPingOptimiser() {
+        pingModeDisabled = false;
         foliaLib.getScheduler().runTimer(PingModeHandler::optimisePingPerPlayer, 0, getPingOptimiserConfig().getInt("interval"));
     }
 
