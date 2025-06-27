@@ -33,7 +33,7 @@ public class VdCalculator {
         PlayerUtility playerUtility = new PlayerUtility();
         File playerDataFile = playerUtility.getPlayerDataFile(player);
 
-        if (playerDataFile.exists()) {
+        if (playerDataFile.exists() && !luckPermsEvent) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = ClampAmountUtility.clampChunkValue(cfg.getInt("chunks"));
             amountOthers = cfg.getInt("chunksOthers");
@@ -57,7 +57,7 @@ public class VdCalculator {
             finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
         }
 
-        if (amountPing != 0) {
+        if (pingMode && amountPing != 0) {
             finalChunks = ClampAmountUtility.clampChunkValue(amountPing);
         }
 
@@ -86,7 +86,7 @@ public class VdCalculator {
             }
         }
 
-        if (luckPermsEvent) {
+        if (luckPermsEvent && finalChunks != calcVdGet(player)) {
             MessageProcessor.processMessage("messages.target-view-distance-change", 3, calcVdGet(player), player);
         }
     }
