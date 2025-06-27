@@ -4,6 +4,7 @@ import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
-import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.*;
 
 public class VdCalculator {
     public static void calcVdSet(Player player, boolean luckPermsEvent) {
@@ -57,8 +58,12 @@ public class VdCalculator {
             finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
         }
 
-        if (pingMode && amountPing != 0) {
-            finalChunks = ClampAmountUtility.clampChunkValue(amountPing);
+        if (dynamicModeEnabled) {
+            finalChunks -= dynamicReducedChunks;
+        }
+
+        if (pingMode) {
+            PingModeHandler.optimisePing(player);
         }
 
         if (!luckPermsEvent) {
@@ -100,46 +105,29 @@ public class VdCalculator {
         // Get an instance of the player data handler for the specific player
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
 
-        // Get max distance from LuckPerms
-        int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
-        luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
+        if (player.isOnline()) {
+            dataHandler.setChunks(32);
+            dataHandler.setChunksOthers(0);
+            dataHandler.setPingMode(false);
+            dataHandler.setChunksPing(0);
 
-        if (!player.isOnline()) {
-            if (playerDataFile.exists()) {
-                dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
-                dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
-                dataHandler.setPingMode(cfg.getBoolean("pingMode"));
-                dataHandler.setChunksPing(cfg.getInt("chunksPing"));
+            PlayerUtility.setPlayerDataHandler(player, dataHandler);
+        } else {
+            cfg.set("chunks", 32);
+            cfg.set("chunksOthers", 0);
+            cfg.set("pingMode", false);
+            cfg.set("chunksPing", 0);
+
+            try {
+                cfg.save(playerDataFile);
+            } catch (Exception ex) {
+                plugin.getLogger().severe("An exception occurred when resetting view distance data for " + player.getName() + ": " + ex.getMessage());
             }
-
-            PlayerUtility.setPlayerDataHandler(player, dataHandler);
-        }
-
-        dataHandler.setChunks(32);
-        dataHandler.setChunksOthers(0);
-        dataHandler.setPingMode(false);
-        dataHandler.setChunksPing(0);
-
-        cfg.set("chunks", 32);
-        cfg.set("chunksOthers", 0);
-        cfg.set("pingMode", false);
-        cfg.set("chunksPing", 0);
-
-
-        try {
-            cfg.save(playerDataFile);
-        } catch (Exception ex) {
-            plugin.getLogger().severe("An exception occurred when resetting view distance data for " + player.getName() + ": " + ex.getMessage());
-        } finally {
-            PlayerUtility.setPlayerDataHandler(player, dataHandler);
         }
 
         if (player.isOnline()) {
             PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
-            player.getPlayer().setViewDistance(luckpermsDistance);
-            MessageProcessor.processMessage("messages.target-view-distance-change", 3, luckpermsDistance, player.getPlayer());
-        } else {
-            PlayerUtility.setPlayerDataHandler(player, null);
+            VdCalculator.calcVdSet(player.getPlayer(), true);
         }
     }
 
