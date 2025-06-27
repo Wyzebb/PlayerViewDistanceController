@@ -34,13 +34,13 @@ messages:
   ping-mode-disabled: "Ping mode is disabled on this server!"
 
   dynamic-mode-change: "Dynamic mode is now {mode}!"
+  dynamic-info: "Dynamic mode is turned {mode}!"
 
   not-player: "You must be a player to do this!"
+  not-offline-cmd: "This command does not currently support offline players!"
 
   no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
   no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
-
-  not-offline-cmd: "This command does not currently support offline players!"
 
 
 commands:
@@ -49,5 +49,5 @@ commands:
   reset: "Сбрасывает максимальную дальность прорисовки игрока"
   set: "Устанавливает максимальную дальность прорисовки для вас или для другого игрока"
   setonline: "Устанавливает максимальную дальность прорисовки всех онлайн игроков"
-  ping-mode: "Toggles ping mode"
-  dynamic-mode: "Toggles dynamic mode"
+  ping: "Toggles ping mode"
+  dynamic: "Toggles dynamic mode"
