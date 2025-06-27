@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -26,6 +27,8 @@ public class DataProcessorUtility {
 
         if (pingMode) {
             PingModeHandler.optimisePing(target);
+        } else {
+            VdCalculator.calcVdSet(target, true);
         }
     }
 
