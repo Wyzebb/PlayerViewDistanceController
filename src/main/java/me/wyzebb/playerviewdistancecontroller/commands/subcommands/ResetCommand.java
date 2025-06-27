@@ -41,19 +41,17 @@ public class ResetCommand extends SubCommand {
             MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
-                if (commandSender instanceof OfflinePlayer) {
+                if (commandSender instanceof Player) {
                     resetSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("messages.not-player", 1, 0, commandSender);
                 }
 
             } else {
                 String targetName = args[1];
-                OfflinePlayer target = Bukkit.getPlayer(targetName);
+                OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
 
-                if (target == null) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
-                } else if (commandSender == target) {
+                if (commandSender == target) {
                     resetSelf(commandSender);
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others") || commandSender instanceof ConsoleCommandSender) {
@@ -69,11 +67,9 @@ public class ResetCommand extends SubCommand {
 
     private void resetSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.reset-self")) {
-            Player player = (Player) commandSender;
-
+            VdCalculator.calcVdReset((Player) commandSender);
             MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
 
-            VdCalculator.calcVdReset(player);
         } else {
             MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
