@@ -37,10 +37,6 @@ permissions:
     description: Allows view distance command for all online players
     default: op
 
-  pvdc.reload:
-    description: Allows view distance reload command
-    default: op
-
   pvdc.get-others:
     description: Allows you to get the max view distance of other players
     default: op
