@@ -91,7 +91,7 @@ public class VdCalculator {
             }
         }
 
-        if (luckPermsEvent && finalChunks != calcVdGet(player)) {
+        if (luckPermsEvent) {
             MessageProcessor.processMessage("messages.target-view-distance-change", 3, calcVdGet(player), player);
         }
     }
