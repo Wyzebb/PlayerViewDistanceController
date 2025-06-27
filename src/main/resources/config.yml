@@ -1,5 +1,6 @@
 language: "en_US"
 
+# These are prefixes added to the start of every PVDC message
 colour: "§e§l(!) §e"
 error-colour: "§c§l(!) §c"
 success-colour: "§a§l(!) §a"
