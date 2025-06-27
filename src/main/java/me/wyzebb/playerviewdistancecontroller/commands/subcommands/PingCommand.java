@@ -87,7 +87,7 @@ public class PingCommand extends SubCommand {
                 boolean mode = Objects.equals(args[1], "on");
 
                 if (target == null) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, 0, commandSender);
+                    MessageProcessor.processMessage("messages.not-offline-cmd", 1, 0, commandSender);
                 } else if (commandSender == target) {
                     setSelfPingMode(commandSender, mode);
                 } else {

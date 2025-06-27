@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.playerAfkMap;
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
     @Override
@@ -39,7 +40,7 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                     return String.valueOf(VdCalculator.calcVdGet(target));
 
                 } catch (Exception e) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, 0, player);
+                    plugin.getLogger().warning("Couldn't get info for placeholder: " + e);
                 }
 
 
@@ -59,7 +60,7 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                     }
 
                 } catch (Exception e) {
-                    MessageProcessor.processMessage("messages.player-offline", 1, 0, player);
+                    plugin.getLogger().warning("Couldn't get info for placeholder: " + e);
                 }
             } else if (params.equalsIgnoreCase("afk")) {
                 if (playerAfkMap.get(player.getUniqueId()) == 0) {
