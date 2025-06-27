@@ -7,7 +7,6 @@ import net.luckperms.api.event.node.NodeAddEvent;
 import net.luckperms.api.event.node.NodeRemoveEvent;
 import net.luckperms.api.node.NodeType;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -26,15 +25,13 @@ public class LuckPermsEvents {
     }
 
     private void messageIfNotAlready(UUID playerId) {
-        int currentTime = (int) System.currentTimeMillis();
-        int lastUpdated = lastUpdates.getOrDefault(playerId, 10);
+        if (Bukkit.getPlayer(playerId).isOnline()) {
+            int currentTime = (int) System.currentTimeMillis();
+            int lastUpdated = lastUpdates.getOrDefault(playerId, 10);
 
-        lastUpdates.put(playerId, currentTime);
+            lastUpdates.put(playerId, currentTime);
 
-        if (currentTime - lastUpdated > 1000) {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerId);
-
-            if (offlinePlayer.isOnline()) {
+            if (currentTime - lastUpdated > 1000) {
                 VdCalculator.calcVdSet(Objects.requireNonNull(Bukkit.getPlayer(playerId)), true);
             }
         }
