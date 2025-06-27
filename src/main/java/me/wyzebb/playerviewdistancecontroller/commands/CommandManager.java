@@ -121,6 +121,9 @@ public class CommandManager implements TabExecutor {
             }
 
             return playerNames;
+        } else if (args.length == 2 && args[0].equals("dynamic")) {
+            String[] suggestions = {"on", "off", "info"};
+            return List.of(suggestions);
         }
 
         return new ArrayList<>() {};
