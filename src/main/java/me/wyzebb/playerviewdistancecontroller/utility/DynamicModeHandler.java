@@ -42,6 +42,10 @@ public class DynamicModeHandler {
                     optimisedChunks = Math.min(optimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
 
                     player.setViewDistance(optimisedChunks);
+
+                    if (optimisedChunks != maxAllowed) {
+                        MessageProcessor.processMessage("messages.dynamic-mode-reduced", 2, player);
+                    }
                 }
             }
         }

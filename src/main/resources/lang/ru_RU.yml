@@ -35,6 +35,7 @@ messages:
 
   dynamic-mode-change: "Dynamic mode is now {mode}!"
   dynamic-info: "Dynamic mode is turned {mode}!"
+  dynamic-mode-reduced: "Your view distance has been reduced due to dynamic mode!"
 
   not-player: "You must be a player to do this!"
   not-offline-cmd: "This command does not currently support offline players!"
