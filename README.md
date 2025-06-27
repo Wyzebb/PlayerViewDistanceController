@@ -1,15 +1,17 @@
 ![Banner](https://i.ibb.co/p1fVk8s/Banner-min.webp)
 <p>
-    <a style="padding-right: 0.5rem" href="https://docs.wyzebb.dev/docs/pvdc/intro"><img alt="gitbook" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/gitbook_vector.svg" /></a>
-    <a style="padding-right: 0.5rem" href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_vector.svg" /></a>
+    <a style="padding-right: 0.5rem" href="https://docs.wyzebb.dev/docs/pvdc/intro"><img alt="generic" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/generic_vector.svg" /></a>
     <a style="padding-right: 0.5rem" href="https://modrinth.com/plugin/pvdc"><img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg" /></a>
-    <a style="padding-right: 0.5rem" href="https://github.com/sponsors/Wyzebb"><img alt="ghsponsors-singular" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_64h.png" /></a>
-    <a style="padding-right: 0.5rem" href="https://ko-fi.com/wyzebb"><img alt="kofi-singular-alt" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/kofi-singular-alt_vector.svg" /></a>
+    <a style="padding-right: 0.5rem" href="https://github.com/sponsors/Wyzebb"><img alt="ghsponsors-singular" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_vector.svg"></a>
+    <a style="padding-right: 0.5rem" href="https://ko-fi.com/wyzebb"><img alt="kofi-plural" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/donate/kofi-plural_vector.svg" /></a>
+    <a style="padding-right: 0.5rem" href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/social/discord-plural_vector.svg" /></a>
 </p>
 
 **Player View Distance Controller (PVDC)** is a lightweight yet powerful Paper plugin that gives full control over view distance. It boosts performance and offers extensive customisation, including permissions, automatic performance modes, AFK handling, and more. With support for LuckPerms, GeyserMC, and PlaceholderAPI, it integrates smoothly into any server.
 
-Every feature is customisable through config and permissions. View this intro page with more information **[in the docs](https://docs.wyzebb.dev/docs/pvdc/intro)**.
+**[Visit the docs for information on how to use this plugin](https://docs.wyzebb.dev/docs/pvdc/intro)**.
+
+<br />
 
 ## **Key Features**
 - **Per-player control**: Each player has their own max view distance, which can be set and saved individually by themselves or by another player.
