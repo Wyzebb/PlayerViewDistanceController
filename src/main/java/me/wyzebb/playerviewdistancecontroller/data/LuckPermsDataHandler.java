@@ -5,6 +5,7 @@ import net.luckperms.api.model.user.User;
 import net.luckperms.api.query.QueryOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.regex.Matcher;
@@ -20,7 +21,7 @@ public class LuckPermsDataHandler {
             }
 
             LuckPerms api = provider.getProvider();
-            User user = api.getPlayerAdapter(OfflinePlayer.class).getUser(player);
+            User user = api.getPlayerAdapter(Player.class).getUser((Player) player);
 
             // Regular expression to match permissions like pvdc.maxdistance.7
             Pattern pattern = Pattern.compile("pvdc\\.maxdistance\\.(\\d+)");
