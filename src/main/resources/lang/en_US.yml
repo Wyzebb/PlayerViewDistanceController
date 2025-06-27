@@ -21,8 +21,6 @@ messages:
   reset: "You reset {target-player}'s saved view distance!"
   self-reset: "You reset your saved view distance!"
 
-  reload-config: "The PVDC config files have been successfully reloaded"
-
   all-online-change: "The maximum view distance of all online players has been set to {chunks} chunks"
 
   view-distance-get: "{target-player}'s maximum view distance is currently set to {chunks} chunks"
@@ -42,11 +40,12 @@ messages:
   no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
   no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
 
+  not-offline-cmd: "This command does not currently support offline players!"
+
 
 commands:
   get: "Displays a player's max view distance"
   help: "Displays the plugin's help message"
-  reload: "Reload the plugin's config.yml"
   reset: "Resets a player's max view distance"
   set: "Set your own max view distance or the max view distance of another player"
   setonline: "Sets the max view distance of all online players"

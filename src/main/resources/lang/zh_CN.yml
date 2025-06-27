@@ -21,8 +21,6 @@ messages:
   reset: "您已重置 {target-player} 的视距！"
   self-reset: "重置自己的视距！"
 
-  reload-config: "配置文件已成功重新加载"
-
   all-online-change: "所有在线玩家的最大视距已设置为 {chunks} 区块"
 
   view-distance-get: "{target-player} 的最大视距当前设置为 {chunks} 区块"
@@ -42,11 +40,12 @@ messages:
   no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
   no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
 
+  not-offline-cmd: "This command does not currently support offline players!"
+
 
 commands:
   get: "显示玩家的最大视距"
   help: "显示插件的帮助信息"
-  reload: "重新加载插件的配置文件"
   reset: "重置某个玩家的最大视距"
   set: "设置自己的最大视距或其他玩家的最大视距"
   setonline: "设置所有在线玩家的最大视距"

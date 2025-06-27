@@ -21,8 +21,6 @@ messages:
   reset: "Вы сбросили сохраненную дальность прорисовки {target-player}!"
   self-reset: "Вы сбросили свою сохраненную дальность прорисовки!"
 
-  reload-config: "Конфиги PVDC были успешно перезагружены"
-
   all-online-change: "Максимальная дальность прорисовки всех онлайн игроков теперь {chunks} чанков"
 
   view-distance-get: "Максимальная дальность прорисовки {target-player} - {chunks} чанков"
@@ -42,11 +40,12 @@ messages:
   no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
   no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
 
+  not-offline-cmd: "This command does not currently support offline players!"
+
 
 commands:
   get: "Отображает максимальную дальность прорисовки игрока"
   help: "Отображает справочное сообщение плагина"
-  reload: "Перезагружает конфиги плагина (config.yml)"
   reset: "Сбрасывает максимальную дальность прорисовки игрока"
   set: "Устанавливает максимальную дальность прорисовки для вас или для другого игрока"
   setonline: "Устанавливает максимальную дальность прорисовки всех онлайн игроков"
