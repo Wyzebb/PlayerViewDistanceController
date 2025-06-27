@@ -36,7 +36,7 @@ public class DynamicModeCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/pvdc dynamic [on/off]";
+        return "/pvdc dynamic [on/off/info]";
     }
 
     @Override

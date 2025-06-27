@@ -33,7 +33,7 @@ public class PingCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/pvdc ping [on/off] [player]";
+        return "/pvdc ping [on/off/info] [player]";
     }
 
     @Override
