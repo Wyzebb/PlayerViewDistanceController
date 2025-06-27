@@ -61,7 +61,7 @@ public class SetCommand extends SubCommand {
                 if (commandSender instanceof Player) {
                     setSelf(commandSender, amount);
                 } else {
-                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("messages.not-player", 1, 0, commandSender);
                 }
 
             } else {
