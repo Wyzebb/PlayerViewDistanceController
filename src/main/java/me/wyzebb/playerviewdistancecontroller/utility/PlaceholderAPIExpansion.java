@@ -56,7 +56,7 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                     if (playerAfkMap.get(target.getUniqueId()) == 0) {
                         return "AFK";
                     } else {
-                        return "NOT AFK";
+                        return "Not AFK";
                     }
 
                 } catch (Exception e) {
@@ -66,7 +66,7 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                 if (playerAfkMap.get(player.getUniqueId()) == 0) {
                     return "AFK";
                 } else {
-                    return "NOT AFK";
+                    return "Not AFK";
                 }
             }
         }
