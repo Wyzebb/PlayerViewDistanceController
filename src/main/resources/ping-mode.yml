@@ -4,7 +4,7 @@ enabled: false
 min: 2
 max: 32
 
-interval: 200  # (ticks)
+interval: 300  # (ticks)
 
 # Ping is checked every interval for players with the mode active and view distance is optimised as follows:
 # Players have their view distance reduced by the chunks specified from their max allowed view distance
@@ -13,5 +13,5 @@ interval: 200  # (ticks)
 # {PING}: {CHUNKS}
 
 pings:
-  150: 1
-  300: 2
+  100: 1
+  200: 3
