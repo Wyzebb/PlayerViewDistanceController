@@ -47,6 +47,10 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>tcoded-releases</id>
+            <url>https://repo.tcoded.com/releases</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -68,10 +72,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.technicallycoded</groupId>
+            <groupId>com.tcoded</groupId>
             <artifactId>FoliaLib</artifactId>
-            <!--suppress MavenModelInspection -->
-            <version>main-SNAPSHOT</version>
+            <version>0.5.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
