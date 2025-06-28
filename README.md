@@ -7,7 +7,7 @@
     <a style="padding-right: 0.5rem" href="https://discord.gg/akbd8EPSgr"><img alt="discord-plural" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/social/discord-plural_vector.svg" /></a>
 </p>
 
-**Player View Distance Controller (PVDC)** is a lightweight yet powerful Paper plugin that gives full control over view distance. It boosts performance and offers extensive customisation, including permissions, automatic performance modes, AFK handling, and more. With support for LuckPerms, GeyserMC, and PlaceholderAPI, it integrates smoothly into any server.
+**Player View Distance Controller (PVDC)** is a lightweight yet powerful Paper plugin that gives full control over view distance. It boosts performance and offers extensive customisation, including permissions, automatic performance modes, AFK handling, and more. With support for LuckPerms, GeyserMC and PlaceholderAPI, it integrates smoothly into any server.
 
 **[Visit the docs for information on how to use this plugin](https://docs.wyzebb.dev/docs/pvdc/intro)**.
 
