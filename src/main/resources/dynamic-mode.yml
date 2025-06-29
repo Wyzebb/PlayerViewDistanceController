@@ -1,3 +1,4 @@
+# Whether dynamic mode is activated on the server (ping mode enabled key does not work in the same way)
 enabled: false
 
 # Min and max view distances when using dynamic mode (must be within the global boundaries defined in config.yml)
