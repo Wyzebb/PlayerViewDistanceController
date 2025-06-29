@@ -79,6 +79,10 @@ public class VdCalculator {
 
         player.setViewDistance(finalChunks);
 
+        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+            player.setSimulationDistance(amount);
+        }
+
         if (!luckPermsEvent) {
             if (plugin.getConfig().getBoolean("display-msg-on-join")) {
                 if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {

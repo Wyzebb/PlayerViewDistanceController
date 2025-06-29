@@ -6,6 +6,8 @@ import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class DataProcessorUtility {
     public static void processData(OfflinePlayer target, int amount) {
         PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
@@ -13,6 +15,10 @@ public class DataProcessorUtility {
 
         if (target.isOnline()) {
             ((Player) target).setViewDistance(amount);
+
+            if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+                ((Player) target).setSimulationDistance(amount);
+            }
         }
     }
 
@@ -37,5 +43,9 @@ public class DataProcessorUtility {
         dataHandler.setChunksPing(pingChunks);
         MessageProcessor.processMessage("messages.ping-optimised", 2, pingChunks, target);
         target.setViewDistance(pingChunks);
+
+        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+            target.setSimulationDistance(pingChunks);
+        }
     }
 }

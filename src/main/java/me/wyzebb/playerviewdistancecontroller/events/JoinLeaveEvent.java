@@ -72,6 +72,11 @@ public class JoinLeaveEvent implements Listener {
 
                 if (!player.hasPermission("pvdc.bypass-afk")) {
                     player.setViewDistance(afkChunks);
+
+                    if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+                        player.setSimulationDistance(afkChunks);
+                    }
+
                     PlayerViewDistanceController.playerAfkMap.put(player.getUniqueId(), 0);
                     MessageProcessor.processMessage("messages.afk", 3, afkChunks, player);
                 }

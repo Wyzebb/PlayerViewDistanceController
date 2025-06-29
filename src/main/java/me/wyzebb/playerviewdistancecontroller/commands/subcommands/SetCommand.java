@@ -100,6 +100,11 @@ public class SetCommand extends SubCommand {
 
                         if (target.isOnline()) {
                             ((Player) target).setViewDistance(amount);
+
+                            if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+                                ((Player) target).setSimulationDistance(amount);
+                            }
+
                             MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, (Player) target);
                         } else {
                             // Remove the data handler from memory and save

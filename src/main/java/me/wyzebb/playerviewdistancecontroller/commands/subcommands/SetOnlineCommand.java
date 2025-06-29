@@ -56,6 +56,10 @@ public class SetOnlineCommand extends SubCommand {
 
                         DataProcessorUtility.processDataOthers(p, amount);
                         p.setViewDistance(amount);
+
+                        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+                            p.setSimulationDistance(amount);
+                        }
                     }
                 } catch (Exception e) {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);

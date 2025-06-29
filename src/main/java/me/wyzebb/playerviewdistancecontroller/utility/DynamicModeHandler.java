@@ -43,6 +43,10 @@ public class DynamicModeHandler {
 
                     player.setViewDistance(optimisedChunks);
 
+                    if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+                        player.setSimulationDistance(optimisedChunks);
+                    }
+
                     if (optimisedChunks != maxAllowed) {
                         MessageProcessor.processMessage("messages.dynamic-mode-reduced", 2, player);
                     }
