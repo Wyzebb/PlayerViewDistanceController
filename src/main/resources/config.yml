@@ -39,4 +39,7 @@ afkChunks: 2
 # Whether players in spectator mode bypass AFK checks
 spectators-can-afk: true
 
+# Use with caution: this is not fully supported by the paper api and may cause visual glitches
+zero-chunks-afk: false
+
 update-checker-enabled: true

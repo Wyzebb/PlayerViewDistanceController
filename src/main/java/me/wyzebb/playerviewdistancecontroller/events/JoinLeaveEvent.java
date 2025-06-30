@@ -17,8 +17,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -68,7 +67,11 @@ public class JoinLeaveEvent implements Listener {
             FoliaLib foliaLib = new FoliaLib(plugin);
 
             foliaLib.getScheduler().runLater(() -> {
-                int afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
+                int afkChunks = 0;
+
+                if (!plugin.getConfig().getBoolean("zero-chunks-afk")) {
+                    afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
+                }
 
                 if (!player.hasPermission("pvdc.bypass-afk")) {
                     player.setViewDistance(afkChunks);

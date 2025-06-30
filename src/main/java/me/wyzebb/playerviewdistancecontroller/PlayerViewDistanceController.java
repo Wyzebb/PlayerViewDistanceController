@@ -222,7 +222,11 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                     continue;
                 }
 
-                int afkChunks = ClampAmountUtility.clampChunkValue(getConfig().getInt("afkChunks"));
+                int afkChunks = 0;
+
+                if (!plugin.getConfig().getBoolean("zero-chunks-afk")) {
+                    afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
+                }
 
                 player.setViewDistance(afkChunks);
 
