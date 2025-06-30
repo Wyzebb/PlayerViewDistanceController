@@ -5,6 +5,8 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.node.NodeAddEvent;
 import net.luckperms.api.event.node.NodeRemoveEvent;
+import net.luckperms.api.event.user.track.UserDemoteEvent;
+import net.luckperms.api.event.user.track.UserPromoteEvent;
 import net.luckperms.api.node.NodeType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -66,6 +68,14 @@ public class LuckPermsEvents {
                     }
                 }
             }
+        });
+
+        eventBus.subscribe(plugin, UserPromoteEvent.class, e -> {
+            messageIfNotAlready(e.getUser().getUniqueId());
+        });
+
+        eventBus.subscribe(plugin, UserDemoteEvent.class, e -> {
+            messageIfNotAlready(e.getUser().getUniqueId());
         });
     }
 }
