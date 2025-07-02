@@ -36,7 +36,7 @@ public class LuckPermsEvents {
                 foliaLib.getScheduler().runLater(() -> {
                     VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true);
                     messaged = false;
-                }, 20);
+                }, 30);
             }
         }
     }
