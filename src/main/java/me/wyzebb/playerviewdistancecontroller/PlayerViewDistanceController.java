@@ -166,12 +166,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         if (playerAfkMap.containsKey(playerId)) {
             if (playerAfkMap.get(playerId) == 0) {
-                PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
-                player.setViewDistance(dataHandler.getChunks());
-
-                if (getConfig().getBoolean("sync-simulation-distance")) {
-                    player.setSimulationDistance(dataHandler.getChunks());
-                }
+                VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true);
 
                 MessageProcessor.processMessage("messages.afk-return", 2, 0, player);
             }
