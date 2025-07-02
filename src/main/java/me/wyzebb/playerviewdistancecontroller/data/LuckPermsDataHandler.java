@@ -42,47 +42,32 @@ public class LuckPermsDataHandler {
         int maxDistance = 0;
         int maxDistanceContext = 0;
 
+        String playerWorldName = player.isOnline() ? player.getPlayer().getWorld().getName() : null;
+
         for (var node : user.resolveInheritedNodes(QueryOptions.nonContextual())) {
             String permission = node.getKey();
             Matcher matcher = pattern.matcher(permission);
 
             if (matcher.matches()) {
+                int distance = Integer.parseInt(matcher.group(1));
                 ContextSet contextSet = node.getContexts();
 
-                if (player.isOnline()) {
-                    if (contextSet.containsKey("world")) {
-                        String playerWorldName = player.getPlayer().getWorld().getName();
-                        plugin.getLogger().warning("plrworld: " + playerWorldName);
-                        String worldName = contextSet.getAnyValue("world").orElse("unknown");
-                        plugin.getLogger().warning("world: " + worldName);
+                if (contextSet.containsKey("world")) {
+                    String worldName = contextSet.getAnyValue("world").orElse("unknown");
 
-                        // Skip the node if it's for a different world
-                        if (playerWorldName.equals(worldName)) {
-                            plugin.getLogger().warning("same1");
-                            // Extract the number from the permission
-                            int distance = Integer.parseInt(matcher.group(1));
-                            if (distance > maxDistanceContext) {
-                                maxDistanceContext = distance;
-                                plugin.getLogger().warning("max context: " + maxDistanceContext);
-                            }
-                            continue;
-                        } else {
-                            plugin.getLogger().warning("skip");
+                    if (playerWorldName != null && playerWorldName.equals(worldName)) {
+                        if (distance > maxDistanceContext) {
+                            maxDistanceContext = distance;
                         }
-                    } else {
-                        plugin.getLogger().warning("part2");
-
-                        // Extract the number from the permission
-                        int distance = Integer.parseInt(matcher.group(1));
-                        if (distance > maxDistance) {
-                            maxDistance = distance;
-                            plugin.getLogger().warning("max2: " + maxDistance);
-                        }
+                    }
+                } else {
+                    if (distance > maxDistance) {
+                        maxDistance = distance;
                     }
                 }
             }
         }
 
-        return Math.max(maxDistance, maxDistanceContext);
+        return maxDistanceContext != 0 ? maxDistanceContext : maxDistance;
     }
 }
