@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.events;
 
+import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
@@ -21,6 +22,8 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 public class LuckPermsEvents {
     private final LuckPerms luckPerms;
     public static Map<UUID, Integer> lastUpdates = new HashMap<>();
+    private boolean messaged = false;
+    private final FoliaLib foliaLib = new FoliaLib(plugin);
 
     public LuckPermsEvents(LuckPerms luckPerms) {
         this.luckPerms = luckPerms;
@@ -28,13 +31,12 @@ public class LuckPermsEvents {
 
     private void messageIfNotAlready(UUID playerId) {
         if (Bukkit.getPlayer(playerId).isOnline()) {
-            int currentTime = (int) System.currentTimeMillis();
-            int lastUpdated = lastUpdates.getOrDefault(playerId, 10);
-
-            lastUpdates.put(playerId, currentTime);
-
-            if (currentTime - lastUpdated > 1000) {
-                VdCalculator.calcVdSet(Objects.requireNonNull(Bukkit.getPlayer(playerId)), true);
+            if (!messaged) {
+                messaged = true;
+                foliaLib.getScheduler().runLater(() -> {
+                    VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true);
+                    messaged = false;
+                }, 20);
             }
         }
     }
