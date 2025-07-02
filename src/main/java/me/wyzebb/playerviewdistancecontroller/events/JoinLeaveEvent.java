@@ -83,7 +83,7 @@ public class JoinLeaveEvent implements Listener {
                     PlayerViewDistanceController.playerAfkMap.put(player.getUniqueId(), 0);
                     MessageProcessor.processMessage("messages.afk", 3, afkChunks, player);
                 }
-            }, 20L);
+            }, 10);
         }
     }
 
@@ -107,6 +107,13 @@ public class JoinLeaveEvent implements Listener {
         } finally {
             PlayerViewDistanceController.playerAfkMap.remove(e.getPlayer().getUniqueId());
             PlayerUtility.setPlayerDataHandler(e.getPlayer(), null);
+        }
+    }
+
+    @EventHandler
+    private void onWorldChange(PlayerChangedWorldEvent event) {
+        if (plugin.getConfig().getBoolean("recalculate-vd-on-world-change")) {
+            VdCalculator.calcVdSet(event.getPlayer(), true);
         }
     }
 }
