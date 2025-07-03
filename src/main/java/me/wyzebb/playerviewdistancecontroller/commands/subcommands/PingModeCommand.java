@@ -1,7 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
@@ -43,7 +43,7 @@ public class PingModeCommand extends SubCommand {
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player player) {
-                    setSelfPingMode(commandSender, !(PlayerUtility.getPlayerDataHandler(player).isPingMode()));
+                    setSelfPingMode(commandSender, !(DataHandlerHandler.getPlayerDataHandler(player).isPingMode()));
                 } else {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
@@ -61,7 +61,7 @@ public class PingModeCommand extends SubCommand {
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("messages.ping-info", 2, PlayerUtility.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
+                    MessageProcessor.processMessage("messages.ping-info", 2, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
                     return;
                 }
 
@@ -80,7 +80,7 @@ public class PingModeCommand extends SubCommand {
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("messages.ping-info", 2, PlayerUtility.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
+                    MessageProcessor.processMessage("messages.ping-info", 2, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
                     return;
                 }
 

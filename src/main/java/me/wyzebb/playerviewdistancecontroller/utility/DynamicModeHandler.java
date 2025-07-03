@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ public class DynamicModeHandler {
                     int luckpermsDistance = LPDetector.getLuckpermsDistance(player);
                     luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-                    PlayerDataHandler playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
+                    PlayerDataHandler playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);
                     int maxAllowed = ClampAmountUtility.clampChunkValue(32);
 
                     if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {

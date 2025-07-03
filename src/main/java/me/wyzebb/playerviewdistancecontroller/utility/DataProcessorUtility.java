@@ -10,7 +10,7 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public class DataProcessorUtility {
     public static void processData(OfflinePlayer target, int amount) {
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
         dataHandler.setChunks(amount);
 
         if (target.isOnline()) {
@@ -23,12 +23,12 @@ public class DataProcessorUtility {
     }
 
     public static void processDataOthers(OfflinePlayer target, int amountOthers) {
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
         dataHandler.setChunksOthers(amountOthers);
     }
 
     public static void processPingMode(Player target, boolean pingMode) {
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
         dataHandler.setPingMode(pingMode);
 
         if (pingMode) {

@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
-public class PlayerUtility {
+public class DataHandlerHandler {
 
     private static final Map<String, PlayerDataHandler> PlayerDataHandlerMap = new ConcurrentHashMap<>();
 
@@ -36,7 +36,7 @@ public class PlayerUtility {
         }
     }
 
-    public File getPlayerDataFile(OfflinePlayer p) {
+    public static File getPlayerDataFile(OfflinePlayer p) {
         File dataFolder = plugin.getDataFolder();
         return new File(dataFolder, "players/" + p.getUniqueId() + ".yml");
     }

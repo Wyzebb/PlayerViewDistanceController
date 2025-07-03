@@ -4,7 +4,9 @@ import com.tchristofferson.configupdater.ConfigUpdater;
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.listeners.PlayerUpdateVDListeners;
+import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.PlaceholderAPIExpansion;
+import me.wyzebb.playerviewdistancecontroller.listeners.UpdateVDListeners;
 import me.wyzebb.playerviewdistancecontroller.listeners.LuckPermsListeners;
 import me.wyzebb.playerviewdistancecontroller.listeners.AFKListeners;
 import me.wyzebb.playerviewdistancecontroller.utility.*;
@@ -105,7 +107,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
 
         // Register join and leave listeners
-        getServer().getPluginManager().registerEvents(new PlayerUpdateVDListeners(), this);
+        getServer().getPluginManager().registerEvents(new UpdateVDListeners(), this);
         getServer().getPluginManager().registerEvents(new AFKListeners(), this);
 
         // Register commands and tab completer

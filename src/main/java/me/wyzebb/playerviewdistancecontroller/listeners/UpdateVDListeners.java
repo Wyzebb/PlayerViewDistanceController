@@ -6,7 +6,7 @@ import me.wyzebb.playerviewdistancecontroller.utility.UpdateChecker;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -23,11 +23,11 @@ import java.io.File;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
-public class PlayerUpdateVDListeners implements Listener {
+public class UpdateVDListeners implements Listener {
 
     private final MiniMessage mm;
 
-    public PlayerUpdateVDListeners() {
+    public UpdateVDListeners() {
         this.mm = MiniMessage.miniMessage();
     }
 
@@ -75,10 +75,9 @@ public class PlayerUpdateVDListeners implements Listener {
 
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent e) {
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(e.getPlayer());
-        PlayerUtility playerDataHandler = new PlayerUtility();
+        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(e.getPlayer());
 
-        File playerDataFile = playerDataHandler.getPlayerDataFile(e.getPlayer());
+        File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
         cfg.set("chunks", dataHandler.getChunks());
@@ -91,7 +90,7 @@ public class PlayerUpdateVDListeners implements Listener {
             plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
         } finally {
             PlayerViewDistanceController.playerAfkMap.remove(e.getPlayer().getUniqueId());
-            PlayerUtility.setPlayerDataHandler(e.getPlayer(), null);
+            DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
         }
     }
 

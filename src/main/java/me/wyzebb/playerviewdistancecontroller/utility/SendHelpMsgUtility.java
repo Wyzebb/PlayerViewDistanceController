@@ -15,34 +15,35 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 public class SendHelpMsgUtility {
 
     public static void sendHelpMessage(CommandSender commandSender) {
-        ArrayList<String> messageLines = getStrings();
+        ArrayList<String> lines = getContent();
 
-        if (commandSender instanceof Player p) {
-            for (String line : messageLines) {
-                p.sendMessage(line);
+        if (commandSender instanceof Player player) {
+            for (String line : lines) {
+                player.sendMessage(line);
             }
-        } else if (commandSender instanceof BlockCommandSender b) {
-            for (String line : messageLines) {
-                b.sendMessage(line);
+        } else if (commandSender instanceof BlockCommandSender sender) {
+            for (String line : lines) {
+                sender.sendMessage(line);
             }
         } else {
-            for (String line : messageLines) {
+            for (String line : lines) {
                 plugin.getLogger().info(line);
             }
         }
     }
 
-    private static @NotNull ArrayList<String> getStrings() {
+    private static @NotNull ArrayList<String> getContent() {
         CommandManager cmdManager = new CommandManager();
         List<SubCommand> subcommands = cmdManager.getSubcommands();
 
-        ArrayList<String> messageLines = new ArrayList<>();
+        ArrayList<String> lines = new ArrayList<>();
 
-        messageLines.add("§c§l---------- PVDC §e§lv" + plugin.getDescription().getVersion() + " §c§lCommand Help ----------");
+        lines.add("§c§l---------- PVDC §e§lv" + plugin.getDescription().getVersion() + " §c§lCommand Help ----------");
+
         for (SubCommand subcommand : subcommands) {
-            messageLines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
+            lines.add("§c§l" + subcommand.getSyntax() + " - §e" + subcommand.getDescription());
         }
 
-        return messageLines;
+        return lines;
     }
 }

@@ -1,6 +1,8 @@
 package me.wyzebb.playerviewdistancecontroller.data;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+import me.wyzebb.playerviewdistancecontroller.integrations.GeyserDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.utility.*;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
@@ -18,15 +20,14 @@ public class VdCalculator {
         int amountOthers = 0;
         boolean pingMode = false;
 
-        final boolean bedrockPlayer = GeyserCompat.checkBedrockPlayer(player.getUniqueId());
+        final boolean bedrockPlayer = GeyserDetector.checkBedrockPlayer(player.getUniqueId());
 
         if (bedrockPlayer) {
             amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("bedrock-default-distance"));
         }
 
         // Get an instance of the player data handler for the specific player
-        PlayerUtility playerUtility = new PlayerUtility();
-        File playerDataFile = playerUtility.getPlayerDataFile(player);
+        File playerDataFile = DataHandlerHandler.getPlayerDataFile(player);
 
         if (playerDataFile.exists() && !luckPermsEvent) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
@@ -54,13 +55,13 @@ public class VdCalculator {
         }
 
         if (!luckPermsEvent) {
-            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
+            PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
 
             dataHandler.setChunks(amount);
             dataHandler.setChunksOthers(amountOthers);
             dataHandler.setPingMode(pingMode);
 
-            PlayerUtility.setPlayerDataHandler(player, dataHandler);
+            DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
         }
 
         player.setViewDistance(finalChunks);
@@ -95,20 +96,18 @@ public class VdCalculator {
     }
 
     public static void calcVdReset(OfflinePlayer player) {
-        PlayerUtility playerUtility = new PlayerUtility();
-
-        File playerDataFile = playerUtility.getPlayerDataFile(player);
+        File playerDataFile = DataHandlerHandler.getPlayerDataFile(player);
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
         // Get an instance of the player data handler for the specific player
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
+        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
 
         if (player.isOnline()) {
             dataHandler.setChunks(32);
             dataHandler.setChunksOthers(0);
             dataHandler.setPingMode(false);
 
-            PlayerUtility.setPlayerDataHandler(player, dataHandler);
+            DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
         } else {
             cfg.set("chunks", 32);
             cfg.set("chunksOthers", 0);
@@ -136,10 +135,9 @@ public class VdCalculator {
 
         if (!player.isOnline()) {
             // Get an instance of the player data handler for the specific player
-            PlayerUtility playerUtility = new PlayerUtility();
-            File playerDataFile = playerUtility.getPlayerDataFile(player);
+            File playerDataFile = DataHandlerHandler.getPlayerDataFile(player);
 
-            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
+            PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
 
             if (playerDataFile.exists()) {
                 FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
@@ -151,13 +149,13 @@ public class VdCalculator {
 
             playerDataHandler = dataHandler;
         } else {
-            playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
+            playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);
         }
 
         int finalChunks = Math.min(playerDataHandler.getChunks(), luckpermsDistance);
 
         if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {
-            finalChunks = PlayerUtility.getPlayerDataHandler(player).getChunksOthers();
+            finalChunks = DataHandlerHandler.getPlayerDataHandler(player).getChunksOthers();
         }
 
         return finalChunks;
