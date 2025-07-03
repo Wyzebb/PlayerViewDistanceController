@@ -1,10 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.data;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.LPDetector;
-import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.*;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,7 +18,7 @@ public class VdCalculator {
         int amountOthers = 0;
         boolean pingMode = false;
 
-        final boolean bedrockPlayer = player.getName().startsWith(".");
+        final boolean bedrockPlayer = GeyserCompat.checkBedrockPlayer(player.getUniqueId());
 
         if (bedrockPlayer) {
             amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("bedrock-default-distance"));
