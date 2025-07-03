@@ -3,12 +3,10 @@ package me.wyzebb.playerviewdistancecontroller.data;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -18,7 +16,7 @@ import java.io.File;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.*;
 
 public class VdCalculator {
-    public static void calcVdSet(Player player, boolean luckPermsEvent) {
+    public static void calcVdSet(Player player, boolean luckPermsEvent, boolean sendNoMessages) {
         int amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("default-distance"));
         int amountOthers = 0;
         boolean pingMode = false;
@@ -46,13 +44,7 @@ public class VdCalculator {
         int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-        int finalChunks;
-
-        if (player.hasPermission("pvdc.bypass-maxdistance")) {
-            finalChunks = amount;
-        } else {
-            finalChunks = Math.min(amount, luckpermsDistance);
-        }
+        int finalChunks = Math.min(amount, luckpermsDistance);
 
         if (amountOthers != 0 && amountOthers != -1) {
             finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
@@ -86,17 +78,25 @@ public class VdCalculator {
         if (!luckPermsEvent) {
             if (plugin.getConfig().getBoolean("display-msg-on-join")) {
                 if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
-                    if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                        MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                    if (!plugin.getConfig().getBoolean("afkOnJoin")) {
+                        if (plugin.getConfig().getBoolean("display-max-join-msg")) {
+                            if (!sendNoMessages) {
+                                MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                            }
+                        }
                     }
                 } else {
-                    MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                    if (!sendNoMessages) {
+                        MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                    }
                 }
             }
         }
 
         if (luckPermsEvent) {
-            MessageProcessor.processMessage("messages.target-view-distance-change", 3, calcVdGet(player), player);
+            if (!sendNoMessages) {
+                MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
+            }
         }
     }
 
@@ -131,7 +131,7 @@ public class VdCalculator {
 
         if (player.isOnline()) {
             PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
-            VdCalculator.calcVdSet(player.getPlayer(), true);
+            VdCalculator.calcVdSet(player.getPlayer(), true, false);
         }
     }
 
