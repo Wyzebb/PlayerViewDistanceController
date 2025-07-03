@@ -4,7 +4,6 @@ import com.tchristofferson.configupdater.ConfigUpdater;
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
-import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
@@ -28,8 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-
-import static me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents.lastUpdates;
 
 public final class PlayerViewDistanceController extends JavaPlugin {
     public static PlayerViewDistanceController plugin;
@@ -166,9 +163,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         if (playerAfkMap.containsKey(playerId)) {
             if (playerAfkMap.get(playerId) == 0) {
-                VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true);
-
                 MessageProcessor.processMessage("messages.afk-return", 2, 0, player);
+                VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true, true);
             }
         }
 
@@ -191,14 +187,14 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public void stopDynamicMode() {
         for (Player player: Bukkit.getOnlinePlayers()) {
-            VdCalculator.calcVdSet(player, true);
+            VdCalculator.calcVdSet(player, true, false);
         }
     }
 
     public void stopPingMode() {
         pingModeDisabled = true;
         for (Player player: Bukkit.getOnlinePlayers()) {
-            VdCalculator.calcVdSet(player, true);
+            VdCalculator.calcVdSet(player, true, false);
         }
     }
 
@@ -239,7 +235,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     @Override
     public void onDisable() {
         playerAfkMap.clear();
-        lastUpdates.clear();
 
         File dynamicModeConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
         dynamicModeConfig.set("enabled", dynamicModeEnabled);
