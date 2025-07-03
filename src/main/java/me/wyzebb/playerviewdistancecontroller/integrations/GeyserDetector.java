@@ -1,10 +1,10 @@
-package me.wyzebb.playerviewdistancecontroller.utility;
+package me.wyzebb.playerviewdistancecontroller.integrations;
 
 import java.util.UUID;
 
-import static me.wyzebb.playerviewdistancecontroller.utility.GeyserFunc.checkBedrock;
+import static me.wyzebb.playerviewdistancecontroller.integrations.GeyserFunc.checkBedrock;
 
-public class GeyserCompat {
+public class GeyserDetector {
     public static boolean checkBedrockPlayer(UUID uuid) {
         try {
             Class.forName("org.geysermc.api.GeyserApiBase");

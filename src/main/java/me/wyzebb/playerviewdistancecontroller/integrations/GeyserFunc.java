@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.utility;
+package me.wyzebb.playerviewdistancecontroller.integrations;
 
 import org.geysermc.geyser.api.GeyserApi;
 

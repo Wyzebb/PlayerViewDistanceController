@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.utility;
+package me.wyzebb.playerviewdistancecontroller.integrations;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;

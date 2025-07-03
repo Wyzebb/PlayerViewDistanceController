@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.data;
+package me.wyzebb.playerviewdistancecontroller.integrations;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextSet;

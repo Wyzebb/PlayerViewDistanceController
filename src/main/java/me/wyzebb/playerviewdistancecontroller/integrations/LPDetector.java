@@ -1,6 +1,5 @@
-package me.wyzebb.playerviewdistancecontroller.utility;
+package me.wyzebb.playerviewdistancecontroller.integrations;
 
-import me.wyzebb.playerviewdistancecontroller.data.LPMaxDistanceHandler;
 import org.bukkit.OfflinePlayer;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
