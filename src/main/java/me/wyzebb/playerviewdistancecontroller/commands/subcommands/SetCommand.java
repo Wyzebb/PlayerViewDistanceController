@@ -65,7 +65,6 @@ public class SetCommand extends SubCommand {
                 }
 
             } else {
-
                 if (!ClampAmountUtility.isNumeric(args[1])) {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
                 }
@@ -76,60 +75,7 @@ public class SetCommand extends SubCommand {
                 if (commandSender == target) {
                     setSelf(commandSender, amount);
                 } else {
-                    if (commandSender.hasPermission("pvdc.set-others") || commandSender instanceof ConsoleCommandSender) {
-                        if (!target.isOnline()) {
-                            PlayerUtility playerUtility = new PlayerUtility();
-                            File playerDataFile = playerUtility.getPlayerDataFile(target);
-
-                            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
-
-                            if (playerDataFile.exists()) {
-                                FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
-
-                                dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
-                                dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
-                                dataHandler.setPingMode(cfg.getBoolean("pingMode"));
-                                dataHandler.setChunksPing(cfg.getInt("chunksPing"));
-                            }
-
-                            PlayerUtility.setPlayerDataHandler(target, dataHandler);
-                        }
-
-                        DataProcessorUtility.processDataOthers(target, amount);
-                        MessageProcessor.processMessage("messages.sender-view-distance-change", 2, target, amount, commandSender);
-
-                        if (target.isOnline()) {
-                            ((Player) target).setViewDistance(amount);
-
-                            if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                                ((Player) target).setSimulationDistance(amount);
-                            }
-
-                            MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, (Player) target);
-                        } else {
-                            // Remove the data handler from memory and save
-                            PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
-                            PlayerUtility playerDataHandler = new PlayerUtility();
-
-                            File playerDataFile = playerDataHandler.getPlayerDataFile(target);
-                            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
-
-                            cfg.set("chunks", dataHandler.getChunks());
-                            cfg.set("chunksOthers", dataHandler.getChunksOthers());
-                            cfg.set("pingMode", dataHandler.isPingMode());
-                            cfg.set("chunksPing", dataHandler.getChunksPing());
-
-                            try {
-                                cfg.save(playerDataFile);
-                            } catch (Exception ex) {
-                                plugin.getLogger().severe("An exception occurred when setting view distance data for " + target.getName() + ": " + ex.getMessage());
-                            } finally {
-                                PlayerUtility.setPlayerDataHandler(target, null);
-                            }
-                        }
-                    } else {
-                        MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
-                    }
+                    setOthers(commandSender, target, amount);
                 }
             }
         }
@@ -153,6 +99,63 @@ public class SetCommand extends SubCommand {
                 MessageProcessor.processMessage("messages.chunks-too-high", 1, luckpermsMax, commandSender);
             }
 
+        } else {
+            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+        }
+    }
+
+    public static void setOthers(CommandSender commandSender, OfflinePlayer target, int amount) {
+        if (commandSender.hasPermission("pvdc.set-others") || commandSender instanceof ConsoleCommandSender) {
+            if (!target.isOnline()) {
+                PlayerUtility playerUtility = new PlayerUtility();
+                File playerDataFile = playerUtility.getPlayerDataFile(target);
+
+                PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+
+                if (playerDataFile.exists()) {
+                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+
+                    dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
+                    dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
+                    dataHandler.setPingMode(cfg.getBoolean("pingMode"));
+                    dataHandler.setChunksPing(cfg.getInt("chunksPing"));
+                }
+
+                PlayerUtility.setPlayerDataHandler(target, dataHandler);
+            }
+
+            DataProcessorUtility.processDataOthers(target, amount);
+            MessageProcessor.processMessage("messages.sender-view-distance-change", 2, target, amount, commandSender);
+
+            if (target.isOnline()) {
+                ((Player) target).setViewDistance(amount);
+
+                if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
+                    ((Player) target).setSimulationDistance(amount);
+                }
+
+                MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, (Player) target);
+            } else {
+                // Remove the data handler from memory and save
+                PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
+                PlayerUtility playerDataHandler = new PlayerUtility();
+
+                File playerDataFile = playerDataHandler.getPlayerDataFile(target);
+                FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+
+                cfg.set("chunks", dataHandler.getChunks());
+                cfg.set("chunksOthers", dataHandler.getChunksOthers());
+                cfg.set("pingMode", dataHandler.isPingMode());
+                cfg.set("chunksPing", dataHandler.getChunksPing());
+
+                try {
+                    cfg.save(playerDataFile);
+                } catch (Exception ex) {
+                    plugin.getLogger().severe("An exception occurred when setting view distance data for " + target.getName() + ": " + ex.getMessage());
+                } finally {
+                    PlayerUtility.setPlayerDataHandler(target, null);
+                }
+            }
         } else {
             MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
         }
