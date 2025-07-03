@@ -118,7 +118,6 @@ public class SetCommand extends SubCommand {
                     dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
                     dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
                     dataHandler.setPingMode(cfg.getBoolean("pingMode"));
-                    dataHandler.setChunksPing(cfg.getInt("chunksPing"));
                 }
 
                 PlayerUtility.setPlayerDataHandler(target, dataHandler);
@@ -146,7 +145,6 @@ public class SetCommand extends SubCommand {
                 cfg.set("chunks", dataHandler.getChunks());
                 cfg.set("chunksOthers", dataHandler.getChunksOthers());
                 cfg.set("pingMode", dataHandler.isPingMode());
-                cfg.set("chunksPing", dataHandler.getChunksPing());
 
                 try {
                     cfg.save(playerDataFile);

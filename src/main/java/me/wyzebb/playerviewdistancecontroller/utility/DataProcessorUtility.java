@@ -39,10 +39,8 @@ public class DataProcessorUtility {
     }
 
     public static void processPingChunks(Player target, int pingChunks) {
-        PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(target);
-        dataHandler.setChunksPing(pingChunks);
-        MessageProcessor.processMessage("messages.ping-optimised", 2, pingChunks, target);
         target.setViewDistance(pingChunks);
+        MessageProcessor.processMessage("messages.ping-optimised", 2, pingChunks, target);
 
         if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
             target.setSimulationDistance(pingChunks);

@@ -20,7 +20,6 @@ public class VdCalculator {
         int amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("default-distance"));
         int amountOthers = 0;
         boolean pingMode = false;
-        int amountPing = 0;
 
         final boolean bedrockPlayer = player.getName().startsWith(".");
 
@@ -37,7 +36,6 @@ public class VdCalculator {
             amount = ClampAmountUtility.clampChunkValue(cfg.getInt("chunks"));
             amountOthers = cfg.getInt("chunksOthers");
             pingMode = cfg.getBoolean("pingMode");
-            amountPing = cfg.getInt("chunksPing");
         }
 
         // Get max distance from LuckPerms
@@ -64,7 +62,6 @@ public class VdCalculator {
             dataHandler.setChunks(amount);
             dataHandler.setChunksOthers(amountOthers);
             dataHandler.setPingMode(pingMode);
-            dataHandler.setChunksPing(amountPing);
 
             PlayerUtility.setPlayerDataHandler(player, dataHandler);
         }
@@ -113,14 +110,12 @@ public class VdCalculator {
             dataHandler.setChunks(32);
             dataHandler.setChunksOthers(0);
             dataHandler.setPingMode(false);
-            dataHandler.setChunksPing(0);
 
             PlayerUtility.setPlayerDataHandler(player, dataHandler);
         } else {
             cfg.set("chunks", 32);
             cfg.set("chunksOthers", 0);
             cfg.set("pingMode", false);
-            cfg.set("chunksPing", 0);
 
             try {
                 cfg.save(playerDataFile);
@@ -155,7 +150,6 @@ public class VdCalculator {
                 dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
                 dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
                 dataHandler.setPingMode(cfg.getBoolean("pingMode"));
-                dataHandler.setChunksPing(cfg.getInt("chunksPing"));
             }
 
             playerDataHandler = dataHandler;
