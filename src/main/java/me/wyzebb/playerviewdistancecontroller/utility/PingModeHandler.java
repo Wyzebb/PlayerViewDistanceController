@@ -1,11 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
-import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
-import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -28,7 +24,7 @@ public class PingModeHandler {
         if (!pingModeDisabled) {
             PlayerDataHandler dataHandler = PlayerUtility.getPlayerDataHandler(player);
             if (dataHandler.isPingMode()) {
-                int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
+                int luckpermsDistance = LPDetector.getLuckpermsDistance(player);
                 luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
                 PlayerDataHandler playerDataHandler = PlayerUtility.getPlayerDataHandler(player);
@@ -60,7 +56,6 @@ public class PingModeHandler {
 
                 if (!dynamicModeEnabled && (maxAllowed != pingOptimisedChunks)) {
                     DataProcessorUtility.processPingChunks(player, pingOptimisedChunks);
-                    return;
                 }
             }
         }

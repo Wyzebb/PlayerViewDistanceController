@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.utility.lang;
+package me.wyzebb.playerviewdistancecontroller.lang;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -50,7 +50,6 @@ public class LanguageManager {
                     }
                 } catch (IOException e) {
                     plugin.getLogger().warning("Failed to copy language file: " + langFileName);
-                    e.printStackTrace();
                 }
             } else {
                 plugin.getLogger().info(langFileName + " already exists, skipping copy.");
@@ -69,7 +68,6 @@ public class LanguageManager {
                     plugin.getLogger().info(langFileName + " added missing keys!");
                 } catch (IOException e) {
                     plugin.getLogger().warning("Could not save merged language file: " + langFileName);
-                    e.printStackTrace();
                 }
             }
         }

@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.utility.lang;
+package me.wyzebb.playerviewdistancecontroller.lang;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;

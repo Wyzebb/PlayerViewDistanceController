@@ -1,17 +1,15 @@
-package me.wyzebb.playerviewdistancecontroller.events;
+package me.wyzebb.playerviewdistancecontroller.listeners;
 
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.UpdateChecker;
+import me.wyzebb.playerviewdistancecontroller.utility.UpdateChecker;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,24 +23,12 @@ import java.io.File;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
-public class JoinLeaveEvent implements Listener {
+public class PlayerUpdateVDListeners implements Listener {
 
     private final MiniMessage mm;
 
-    public JoinLeaveEvent() {
+    public PlayerUpdateVDListeners() {
         this.mm = MiniMessage.miniMessage();
-    }
-
-    public static int getLuckpermsDistance(OfflinePlayer player) {
-        try {
-            Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available
-            return LuckPermsDataHandler.getLuckpermsDistance(player);
-        } catch (ClassNotFoundException ex) {
-            return 32; // Return default distance if LuckPerms is not available
-        } catch (Exception ex) {
-            plugin.getLogger().warning("An unknown error occurred while accessing LuckPerms data: " + ex.getMessage());
-            return 32; // Return default distance if LuckPerms is not available
-        }
     }
 
     @EventHandler

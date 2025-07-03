@@ -1,8 +1,8 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;

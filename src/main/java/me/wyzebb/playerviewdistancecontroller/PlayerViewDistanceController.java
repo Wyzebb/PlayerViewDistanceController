@@ -3,14 +3,13 @@ package me.wyzebb.playerviewdistancecontroller;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
-import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
-import me.wyzebb.playerviewdistancecontroller.events.LuckPermsEvents;
-import me.wyzebb.playerviewdistancecontroller.events.NotAfkEvents;
+import me.wyzebb.playerviewdistancecontroller.listeners.PlayerUpdateVDListeners;
+import me.wyzebb.playerviewdistancecontroller.listeners.LuckPermsListeners;
+import me.wyzebb.playerviewdistancecontroller.listeners.AFKListeners;
 import me.wyzebb.playerviewdistancecontroller.utility.*;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import net.luckperms.api.LuckPerms;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -67,7 +66,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             if (!dynamicConfigFile.exists()) dynamicConfigFile.createNewFile();
             if (!pingConfigFile.exists()) pingConfigFile.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            plugin.getLogger().severe("Failed to create config files!");
         }
 
         try {
@@ -75,7 +74,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             ConfigUpdater.update(plugin, "dynamic-mode.yml", dynamicConfigFile, "mspt");
             ConfigUpdater.update(plugin, "ping-mode.yml", pingConfigFile, "pings");
         } catch (IOException e) {
-            e.printStackTrace();
+            plugin.getLogger().severe("Failed to update config files!");
         }
 
         dynamicModeConfig = YamlConfiguration.loadConfiguration(dynamicConfigFile);
@@ -92,7 +91,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         languageManager = new LanguageManager();
 
-        luckPermsDetected = LuckPermsDetector.detectLuckPermsWithMsg();
+        luckPermsDetected = LPDetector.initialLuckPermsCheck();
 
         if (luckPermsDetected) {
             LuckPerms luckPerms;
@@ -102,12 +101,12 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 throw new RuntimeException(e);
             }
 
-            new LuckPermsEvents(luckPerms).register();
+            new LuckPermsListeners(luckPerms).register();
         }
 
-        // Register join and leave events
-        getServer().getPluginManager().registerEvents(new JoinLeaveEvent(), this);
-        getServer().getPluginManager().registerEvents(new NotAfkEvents(), this);
+        // Register join and leave listeners
+        getServer().getPluginManager().registerEvents(new PlayerUpdateVDListeners(), this);
+        getServer().getPluginManager().registerEvents(new AFKListeners(), this);
 
         // Register commands and tab completer
         Objects.requireNonNull(getCommand("pvdc")).setExecutor(new CommandManager());

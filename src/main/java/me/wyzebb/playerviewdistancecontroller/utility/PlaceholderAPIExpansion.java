@@ -2,7 +2,6 @@ package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

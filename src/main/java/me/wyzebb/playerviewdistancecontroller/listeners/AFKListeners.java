@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.events;
+package me.wyzebb.playerviewdistancecontroller.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
-public class NotAfkEvents implements Listener {
+public class AFKListeners implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {

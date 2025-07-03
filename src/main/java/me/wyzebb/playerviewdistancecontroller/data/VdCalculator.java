@@ -1,11 +1,11 @@
 package me.wyzebb.playerviewdistancecontroller.data;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.events.JoinLeaveEvent;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -39,7 +39,7 @@ public class VdCalculator {
         }
 
         // Get max distance from LuckPerms
-        int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
+        int luckpermsDistance = LPDetector.getLuckpermsDistance(player);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
         int finalChunks = Math.min(amount, luckpermsDistance);
@@ -133,7 +133,7 @@ public class VdCalculator {
 
     public static int calcVdGet(OfflinePlayer player) {
         // Get max distance from LuckPerms
-        int luckpermsDistance = JoinLeaveEvent.getLuckpermsDistance(player);
+        int luckpermsDistance = LPDetector.getLuckpermsDistance(player);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
         PlayerDataHandler playerDataHandler;
 

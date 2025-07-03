@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller;
+package me.wyzebb.playerviewdistancecontroller.utility;
 
 import java.io.*;
 import java.net.HttpURLConnection;

@@ -1,13 +1,12 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDataHandler;
-import me.wyzebb.playerviewdistancecontroller.data.LuckPermsDetector;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -83,11 +82,7 @@ public class SetCommand extends SubCommand {
 
     public static void setSelf(CommandSender commandSender, int amount) {
         if (commandSender.hasPermission("pvdc.set-self")) {
-            int luckpermsMax = 32;
-
-            if (LuckPermsDetector.detectLuckPerms()) {
-                luckpermsMax = LuckPermsDataHandler.getLuckpermsDistance((Player) commandSender);
-            }
+            int luckpermsMax = LPDetector.getLuckpermsDistance((Player) commandSender);
 
             if (luckpermsMax >= amount || commandSender.hasPermission("pvdc.bypass-maxdistance")) {
                 MessageProcessor.processMessage("messages.self-view-distance-change", 2, amount, commandSender);

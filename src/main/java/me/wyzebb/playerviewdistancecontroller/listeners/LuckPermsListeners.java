@@ -1,4 +1,4 @@
-package me.wyzebb.playerviewdistancecontroller.events;
+package me.wyzebb.playerviewdistancecontroller.listeners;
 
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
@@ -16,16 +16,16 @@ import java.util.UUID;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
-public class LuckPermsEvents {
+public class LuckPermsListeners {
     private final LuckPerms luckPerms;
     private boolean messaged = false;
     private final FoliaLib foliaLib = new FoliaLib(plugin);
 
-    public LuckPermsEvents(LuckPerms luckPerms) {
+    public LuckPermsListeners(LuckPerms luckPerms) {
         this.luckPerms = luckPerms;
     }
 
-    private void messageIfNotAlready(UUID playerId) {
+    private void lastNodeUpdateVd(UUID playerId) {
         if (Bukkit.getPlayer(playerId).isOnline()) {
             if (!messaged) {
                 messaged = true;
@@ -43,12 +43,12 @@ public class LuckPermsEvents {
         eventBus.subscribe(plugin, NodeAddEvent.class, e -> {
             if (e.isUser()) {
                 if (e.getNode().getType() == NodeType.PERMISSION && e.getNode().getKey().contains("pvdc")) {
-                    messageIfNotAlready(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
+                    lastNodeUpdateVd(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
                 }
             } else {
                 if (e.getNode().getKey().contains("pvdc")) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        messageIfNotAlready(player.getUniqueId());
+                        lastNodeUpdateVd(player.getUniqueId());
                     }
                 }
             }
@@ -57,23 +57,19 @@ public class LuckPermsEvents {
         eventBus.subscribe(plugin, NodeRemoveEvent.class, e -> {
             if (e.isUser()) {
                 if (e.getNode().getType() == NodeType.PERMISSION && e.getNode().getKey().contains("pvdc")) {
-                    messageIfNotAlready(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
+                    lastNodeUpdateVd(Bukkit.getPlayerUniqueId(e.getTarget().getFriendlyName()));
                 }
             } else {
                 if (e.getNode().getKey().contains("pvdc")) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        messageIfNotAlready(player.getUniqueId());
+                        lastNodeUpdateVd(player.getUniqueId());
                     }
                 }
             }
         });
 
-        eventBus.subscribe(plugin, UserPromoteEvent.class, e -> {
-            messageIfNotAlready(e.getUser().getUniqueId());
-        });
+        eventBus.subscribe(plugin, UserPromoteEvent.class, e -> lastNodeUpdateVd(e.getUser().getUniqueId()));
 
-        eventBus.subscribe(plugin, UserDemoteEvent.class, e -> {
-            messageIfNotAlready(e.getUser().getUniqueId());
-        });
+        eventBus.subscribe(plugin, UserDemoteEvent.class, e -> lastNodeUpdateVd(e.getUser().getUniqueId()));
     }
 }

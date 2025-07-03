@@ -1,7 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.LanguageManager;
+import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import org.bukkit.command.CommandSender;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;

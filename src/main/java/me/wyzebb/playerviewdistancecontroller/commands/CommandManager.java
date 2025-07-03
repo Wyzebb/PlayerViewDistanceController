@@ -2,14 +2,13 @@ package me.wyzebb.playerviewdistancecontroller.commands;
 
 import me.wyzebb.playerviewdistancecontroller.commands.subcommands.*;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.utility.SendHelpMsgUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +26,7 @@ public class CommandManager implements TabExecutor {
         subcommands.add(new GetCommand());
         subcommands.add(new ResetCommand());
         subcommands.add(new HelpCommand());
-        subcommands.add(new PingCommand());
+        subcommands.add(new PingModeCommand());
         subcommands.add(new DynamicModeCommand());
     }
 
@@ -72,9 +71,9 @@ public class CommandManager implements TabExecutor {
 
             return suggestions;
         } else if (args.length == 2 && args[0].equals("get")) {
-            return getAllPlayers(args);
+            return getAllPlayers(args, 1);
         } else if (args.length == 2 && args[0].equals("reset")) {
-            return getAllPlayers(args);
+            return getAllPlayers(args, 1);
         } else if (args.length == 2 && args[0].equals("setonline")) {
             return Collections.singletonList("<chunks>");
 
@@ -82,45 +81,12 @@ public class CommandManager implements TabExecutor {
             return Collections.singletonList("<chunks>");
 
         } else if (args.length == 3 && args[0].equals("set")) {
-            ArrayList<String> playerNames = new ArrayList<>();
-            OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
-
-            if (args[2].isEmpty()) {
-                for (OfflinePlayer player : players) {
-                    playerNames.add(player.getName());
-                }
-
-            } else {
-                for (OfflinePlayer player : players) {
-                    if (player.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
-                        playerNames.add(player.getName());
-                    }
-                }
-
-            }
-
-            return playerNames;
+            return getAllPlayers(args, 2);
         } else if (args.length == 2 && args[0].equals("ping")) {
             String[] suggestions = {"on", "off", "info"};
             return List.of(suggestions);
         } else if (args.length == 3 && args[0].equals("ping")) {
-            ArrayList<String> playerNames = new ArrayList<>();
-
-            if (args[2].isEmpty()) {
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    playerNames.add(player.getName());
-                }
-
-            } else {
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    if (player.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
-                        playerNames.add(player.getName());
-                    }
-                }
-
-            }
-
-            return playerNames;
+            return getAllPlayers(args, 2);
         } else if (args.length == 2 && args[0].equals("dynamic")) {
             String[] suggestions = {"on", "off", "info"};
             return List.of(suggestions);
@@ -129,18 +95,18 @@ public class CommandManager implements TabExecutor {
         return new ArrayList<>() {};
     }
 
-    private static @NotNull ArrayList<String> getAllPlayers(@NotNull String @NotNull [] args) {
+    private static @NotNull ArrayList<String> getAllPlayers(@NotNull String @NotNull [] args, int argIndex) {
         ArrayList<String> playerNames = new ArrayList<>();
         OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
 
-        if (args[1].isEmpty()) {
+        if (args[argIndex].isEmpty()) {
             for (OfflinePlayer player : players) {
                 playerNames.add(player.getName());
             }
 
         } else {
             for (OfflinePlayer player : players) {
-                if (player.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                if (player.getName().toLowerCase().startsWith(args[argIndex].toLowerCase())) {
                     playerNames.add(player.getName());
                 }
             }

@@ -2,7 +2,7 @@ package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
-import me.wyzebb.playerviewdistancecontroller.utility.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
