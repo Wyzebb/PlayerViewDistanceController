@@ -60,6 +60,8 @@ public class JoinLeaveEvent implements Listener {
             }
         }
 
+        VdCalculator.calcVdSet(e.getPlayer(), false, false);
+
         if (plugin.getConfig().getBoolean("afkOnJoin")) {
             Player player = e.getPlayer();
             FoliaLib foliaLib = new FoliaLib(plugin);
@@ -82,8 +84,6 @@ public class JoinLeaveEvent implements Listener {
                     MessageProcessor.processMessage("messages.afk", 3, afkChunks, player);
                 }
             }, 10);
-        } else {
-            VdCalculator.calcVdSet(e.getPlayer(), false);
         }
     }
 
@@ -113,7 +113,7 @@ public class JoinLeaveEvent implements Listener {
     @EventHandler
     private void onWorldChange(PlayerChangedWorldEvent event) {
         if (plugin.getConfig().getBoolean("recalculate-vd-on-world-change")) {
-            VdCalculator.calcVdSet(event.getPlayer(), true);
+            VdCalculator.calcVdSet(event.getPlayer(), true, false);
         }
     }
 }
