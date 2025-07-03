@@ -42,6 +42,6 @@ spectators-can-afk: true
 # Use with caution: this is not fully supported by the paper api and may cause visual glitches
 zero-chunks-afk: false
 
-recalculate-vd-on-world-change: false
+recalculate-vd-on-world-change: true
 
 update-checker-enabled: true
