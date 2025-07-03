@@ -12,16 +12,12 @@ import net.luckperms.api.node.NodeType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class LuckPermsEvents {
     private final LuckPerms luckPerms;
-    public static Map<UUID, Integer> lastUpdates = new HashMap<>();
     private boolean messaged = false;
     private final FoliaLib foliaLib = new FoliaLib(plugin);
 
@@ -34,7 +30,7 @@ public class LuckPermsEvents {
             if (!messaged) {
                 messaged = true;
                 foliaLib.getScheduler().runLater(() -> {
-                    VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true);
+                    VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true, false);
                     messaged = false;
                 }, 30);
             }
