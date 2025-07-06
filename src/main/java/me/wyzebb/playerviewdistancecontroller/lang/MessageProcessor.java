@@ -152,6 +152,42 @@ public class MessageProcessor {
         }
     }
 
+    public static void processMessage(String langPath, int status, int chunks, int maxChunks, CommandSender sendTo) {
+        String colour = plugin.getConfig().getString("colour");
+        String errorColour = plugin.getConfig().getString("error-colour");
+        String successColour = plugin.getConfig().getString("success-colour");
+
+        LanguageManager languageManager = plugin.getLanguageManager();
+        FileConfiguration langConfig = languageManager.getLanguageFile();
+
+        if (sendTo instanceof Player) {
+            String col;
+            if (status == 1) {
+                col = errorColour;
+            } else if (status == 2) {
+                col = successColour;
+            } else {
+                col = colour;
+            }
+
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            if (!msg.equals("none")) {
+                sendTo.sendMessage(processPlaceholders(col + msg, chunks, maxChunks));
+            }
+
+        } else {
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+
+            if (!msg.equals("none")) {
+                if (status == 1) {
+                    plugin.getLogger().warning(processPlaceholders(msg, chunks, maxChunks));
+                } else {
+                    plugin.getLogger().info(processPlaceholders(msg, chunks, maxChunks));
+                }
+            }
+        }
+    }
+
 
     private static String processPlaceholders(String msg, OfflinePlayer target, int amount) {
         msg = msg.replace("{chunks}", String.valueOf(amount));
@@ -168,6 +204,13 @@ public class MessageProcessor {
 
     private static String processPlaceholders(String msg, boolean pingMode) {
         msg = msg.replace("{mode}", pingMode ? "on" : "off");
+
+        return msg;
+    }
+
+    private static String processPlaceholders(String msg, int chunks, int maxChunks) {
+        msg = msg.replace("{chunks}", String.valueOf(chunks));
+        msg = msg.replace("{maxChunks}", String.valueOf(maxChunks));
 
         return msg;
     }
