@@ -1,5 +1,6 @@
 messages:
   join: "Your maximum view distance is currently set to {chunks} chunks"
+  join-not-max: "Your view distance is set to {chunks}. You can alter this to a max of {maxChunks} chunks with /pvdc <chunks>!"
 
   no-permission: "You do not have permission to execute this command!"
 

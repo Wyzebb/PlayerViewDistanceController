@@ -1,5 +1,6 @@
 messages:
   join: "Ваша максимальная дальность прорисовки установлена на {chunks} чанков"
+  join-not-max: "Your view distance is set to {chunks}. You can alter this to a max of {maxChunks} chunks with /pvdc <chunks>!"
 
   no-permission: "У вас нет прав для использования этой команды!"
 

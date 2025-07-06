@@ -1,5 +1,6 @@
 messages:
   join: "您当前的最大视距设置为 {chunks} 区块"
+  join-not-max: "Your view distance is set to {chunks}. You can alter this to a max of {maxChunks} chunks with /pvdc <chunks>!"
 
   no-permission: "您没有权限执行此命令！"
 
