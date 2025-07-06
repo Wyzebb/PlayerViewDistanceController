@@ -48,6 +48,10 @@ spectators-can-afk: true
 # Use with caution: this is not fully supported by the paper api and may cause visual glitches
 zero-chunks-afk: false
 
+# Useful if you have different permission nodes for different worlds
 recalculate-vd-on-world-change: true
+
+# Whether a message should be sent on world change when view distance is at its max
+send-msg-on-world-change: false
 
 update-checker-enabled: true
