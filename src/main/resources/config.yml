@@ -19,10 +19,16 @@ max-distance: 32
 min-distance: 2
 
 # Display a message when a player joins telling them what their view distance is set to
+# This message only sends if afkOnJoin is false
 display-msg-on-join: true
 
 # Display a message when a player joins telling them what their view distance is set to, when it is the default or maximum
+# This message only sends if the display-msg-on-join is true
 display-max-join-msg: false
+
+# Display a message when a player joins telling them what their view distance is set to and the max they can change it to
+# This message only sends if the player is not at their max and display-msg-on-join is true
+display-max-change-join-msg: true
 
 # If chunks loaded will be limited for AFK players
 afk-chunk-limiter: true
