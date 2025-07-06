@@ -116,7 +116,7 @@ public class VdCalculator {
             try {
                 cfg.save(playerDataFile);
             } catch (Exception ex) {
-                plugin.getLogger().severe("An exception occurred when resetting view distance data for " + player.getName() + ": " + ex.getMessage());
+                plugin.getLogger().severe("An error occurred when resetting view distance data for " + player.getName() + ": " + ex.getMessage());
             }
         }
 
