@@ -70,28 +70,30 @@ public class VdCalculator {
             player.setSimulationDistance(amount);
         }
 
-        if (!luckPermsEvent) {
-            if (plugin.getConfig().getBoolean("display-msg-on-join")) {
-                if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
-                    if (!plugin.getConfig().getBoolean("afkOnJoin")) {
-                        if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                            if (!sendNoMessages) {
-                                MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
-                            }
+        if (!luckPermsEvent && !sendNoMessages) {
+            if (plugin.getConfig().getBoolean("display-msg-on-join") && !plugin.getConfig().getBoolean("afkOnJoin")) {
+                if (plugin.getConfig().getBoolean("display-max-join-msg")) {
+                    if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
+                        MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                    } else {
+                        if (plugin.getConfig().getBoolean("display-max-change-join-msg")) {
+                            MessageProcessor.processMessage("messages.join-not-max", 3, finalChunks, luckpermsDistance, player);
+                        } else {
+                            MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
                         }
                     }
                 } else {
-                    if (!sendNoMessages) {
+                    if (plugin.getConfig().getBoolean("display-max-change-join-msg")) {
+                        MessageProcessor.processMessage("messages.join-not-max", 3, finalChunks, luckpermsDistance, player);
+                    } else {
                         MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
                     }
                 }
             }
         }
 
-        if (luckPermsEvent) {
-            if (!sendNoMessages) {
-                MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
-            }
+        if (luckPermsEvent && !sendNoMessages) {
+            MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
         }
     }
 
