@@ -15,7 +15,7 @@ import java.io.File;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.*;
 
 public class VdCalculator {
-    public static void calcVdSet(Player player, boolean luckPermsEvent, boolean sendNoMessages) {
+    public static void calcVdSet(Player player, boolean luckPermsEvent, boolean sendNoMessages, boolean worldChange) {
         int amount = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("default-distance"));
         int amountOthers = 0;
         boolean pingMode = false;
@@ -36,11 +36,19 @@ public class VdCalculator {
             pingMode = cfg.getBoolean("pingMode");
         }
 
+        if (player.isOnline() && luckPermsEvent) {
+            PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
+
+            amount = ClampAmountUtility.clampChunkValue(dataHandler.getChunks());
+            amountOthers = dataHandler.getChunksOthers();
+            pingMode = dataHandler.isPingMode();
+        }
+
         // Get max distance from LuckPerms
-        int luckpermsDistance = LPDetector.getLuckpermsDistance(player);
-        luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
+        int luckpermsDistance = ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(player));
 
         int finalChunks = Math.min(amount, luckpermsDistance);
+
 
         if (amountOthers != 0 && amountOthers != -1) {
             finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
@@ -48,10 +56,6 @@ public class VdCalculator {
 
         if (dynamicModeEnabled) {
             finalChunks -= dynamicReducedChunks;
-        }
-
-        if (pingMode) {
-            PingModeHandler.optimisePing(player);
         }
 
         if (!luckPermsEvent) {
@@ -66,8 +70,15 @@ public class VdCalculator {
 
         player.setViewDistance(finalChunks);
 
+        boolean msgSent = false;
+
         if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
             player.setSimulationDistance(amount);
+        }
+
+        if (worldChange && finalChunks != luckpermsDistance) {
+            MessageProcessor.processMessage("messages.not-max", 3, finalChunks, luckpermsDistance, player);
+            msgSent = true;
         }
 
         if (!luckPermsEvent && !sendNoMessages) {
@@ -75,25 +86,40 @@ public class VdCalculator {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
                     if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
                         MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                        msgSent = true;
                     } else {
-                        if (plugin.getConfig().getBoolean("display-max-change-join-msg")) {
-                            MessageProcessor.processMessage("messages.join-not-max", 3, finalChunks, luckpermsDistance, player);
+                        if (plugin.getConfig().getBoolean("display-max-change-join-msg") && luckpermsDistance != finalChunks) {
+                            MessageProcessor.processMessage("messages.not-max", 3, finalChunks, luckpermsDistance, player);
+                            msgSent = true;
                         } else {
                             MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                            msgSent = true;
                         }
                     }
                 } else {
-                    if (plugin.getConfig().getBoolean("display-max-change-join-msg")) {
-                        MessageProcessor.processMessage("messages.join-not-max", 3, finalChunks, luckpermsDistance, player);
+                    if (plugin.getConfig().getBoolean("display-max-change-join-msg") && luckpermsDistance != finalChunks) {
+                        MessageProcessor.processMessage("messages.not-max", 3, finalChunks, luckpermsDistance, player);
+                        msgSent = true;
                     } else {
                         MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                        msgSent = true;
                     }
                 }
             }
         }
 
         if (luckPermsEvent && !sendNoMessages) {
-            MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
+            if (worldChange) {
+                if (!msgSent && plugin.getConfig().getBoolean("send-msg-on-world-change")) {
+                    MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
+                }
+            } else {
+                MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
+            }
+        }
+
+        if (pingMode) {
+            PingModeHandler.optimisePing(player);
         }
     }
 
@@ -124,7 +150,7 @@ public class VdCalculator {
 
         if (player.isOnline()) {
             PlayerViewDistanceController.playerAfkMap.remove(player.getUniqueId());
-            VdCalculator.calcVdSet(player.getPlayer(), true, false);
+            VdCalculator.calcVdSet(player.getPlayer(), true, false, false);
         }
     }
 
