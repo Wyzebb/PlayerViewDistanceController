@@ -34,7 +34,7 @@ public class DataProcessorUtility {
         if (pingMode) {
             PingModeHandler.optimisePing(target);
         } else {
-            VdCalculator.calcVdSet(target, true, false);
+            VdCalculator.calcVdSet(target, true, false, false);
         }
     }
 

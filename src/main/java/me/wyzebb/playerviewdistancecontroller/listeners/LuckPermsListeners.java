@@ -30,7 +30,7 @@ public class LuckPermsListeners {
             if (!messaged) {
                 messaged = true;
                 foliaLib.getScheduler().runLater(() -> {
-                    VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true, false);
+                    VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true, false, false);
                     messaged = false;
                 }, 30);
             }

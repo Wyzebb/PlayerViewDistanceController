@@ -165,7 +165,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         if (playerAfkMap.containsKey(playerId)) {
             if (playerAfkMap.get(playerId) == 0) {
                 MessageProcessor.processMessage("messages.afk-return", 2, 0, player);
-                VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true, true);
+                VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true, true, false);
             }
         }
 
@@ -188,14 +188,14 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public void stopDynamicMode() {
         for (Player player: Bukkit.getOnlinePlayers()) {
-            VdCalculator.calcVdSet(player, true, false);
+            VdCalculator.calcVdSet(player, true, false, false);
         }
     }
 
     public void stopPingMode() {
         pingModeDisabled = true;
         for (Player player: Bukkit.getOnlinePlayers()) {
-            VdCalculator.calcVdSet(player, true, false);
+            VdCalculator.calcVdSet(player, true, false, false);
         }
     }
 

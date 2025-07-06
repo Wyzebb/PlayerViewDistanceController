@@ -46,7 +46,7 @@ public class UpdateVDListeners implements Listener {
             }
         }
 
-        VdCalculator.calcVdSet(e.getPlayer(), false, false);
+        VdCalculator.calcVdSet(e.getPlayer(), false, false, false);
 
         if (plugin.getConfig().getBoolean("afkOnJoin")) {
             Player player = e.getPlayer();
@@ -97,7 +97,7 @@ public class UpdateVDListeners implements Listener {
     @EventHandler
     private void onWorldChange(PlayerChangedWorldEvent event) {
         if (plugin.getConfig().getBoolean("recalculate-vd-on-world-change")) {
-            VdCalculator.calcVdSet(event.getPlayer(), true, false);
+            VdCalculator.calcVdSet(event.getPlayer(), true, false, true);
         }
     }
 }
