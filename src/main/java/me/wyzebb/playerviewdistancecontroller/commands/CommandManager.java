@@ -105,12 +105,13 @@ public class CommandManager implements TabExecutor {
             }
 
         } else {
+            String input = args[argIndex].toLowerCase();
             for (OfflinePlayer player : players) {
-                if (player.getName().toLowerCase().startsWith(args[argIndex].toLowerCase())) {
-                    playerNames.add(player.getName());
+                String name = player.getName();
+                if (name != null && name.toLowerCase().startsWith(input)) {
+                    playerNames.add(name);
                 }
             }
-
         }
         return playerNames;
     }
