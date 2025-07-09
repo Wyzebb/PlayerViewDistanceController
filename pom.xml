@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.wyzebb</groupId>
     <artifactId>PlayerViewDistanceController</artifactId>
-    <version>2.3.0</version>
+    <version>2.3.1</version>
     <packaging>jar</packaging>
     <name>PlayerViewDistanceController</name>
     <description>This plugin makes the maximum view distance of each player highly customisable.
