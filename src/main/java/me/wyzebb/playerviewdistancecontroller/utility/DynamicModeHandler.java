@@ -35,11 +35,7 @@ public class DynamicModeHandler {
                     optimisedChunks = Math.max(optimisedChunks, plugin.getPingOptimiserConfig().getInt("min"));
                     optimisedChunks = Math.min(optimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
 
-                    player.setViewDistance(optimisedChunks);
-
-                    if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                        player.setSimulationDistance(optimisedChunks);
-                    }
+                    ViewDistanceUtility.applyOptimalViewDistance(player, optimisedChunks);
 
                     if (optimisedChunks != maxAllowed) {
                         MessageProcessor.processMessage("messages.dynamic-mode-reduced", 2, player);

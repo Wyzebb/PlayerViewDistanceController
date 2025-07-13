@@ -3,6 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
@@ -121,13 +122,10 @@ public class SetCommand extends SubCommand {
             MessageProcessor.processMessage("messages.sender-view-distance-change", 2, target, amount, commandSender);
 
             if (target.isOnline()) {
-                ((Player) target).setViewDistance(amount);
+                ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance((Player) target, amount);
+                int appliedAmount = result.getViewDistance();
 
-                if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                    ((Player) target).setSimulationDistance(amount);
-                }
-
-                MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, (Player) target);
+                MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, appliedAmount, (Player) target);
             } else {
                 // Remove the data handler from memory and save
                 PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);

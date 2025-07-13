@@ -8,6 +8,10 @@ success-colour: "§a§l(!) §a"
 # Whether setting view distance also sets simulation distance
 sync-simulation-distance: true
 
+# Use client's view distance setting when it's lower than calculated distance for better server performance
+# This respects the player's client-side view distance setting to reduce server chunk loading
+use-client-view-distance: false
+
 # Default view distance for anyone who joins the server (Must be between 2 and 32)
 default-distance: 32
 bedrock-default-distance: 32

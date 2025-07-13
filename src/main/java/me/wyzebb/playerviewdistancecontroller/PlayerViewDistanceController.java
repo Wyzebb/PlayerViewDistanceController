@@ -220,15 +220,12 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                     afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
                 }
 
-                player.setViewDistance(afkChunks);
-
-                if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                    player.setSimulationDistance(afkChunks);
-                }
+                ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(player, afkChunks);
+                int appliedAfkChunks = result.getViewDistance();
 
                 playerAfkMap.put(playerId, 0);
 
-                MessageProcessor.processMessage("messages.afk", 3, afkChunks, player);
+                MessageProcessor.processMessage("messages.afk", 3, appliedAfkChunks, player);
             }
         }
     }

@@ -14,11 +14,7 @@ public class DataProcessorUtility {
         dataHandler.setChunks(amount);
 
         if (target.isOnline()) {
-            ((Player) target).setViewDistance(amount);
-
-            if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                ((Player) target).setSimulationDistance(amount);
-            }
+            ViewDistanceUtility.applyOptimalViewDistance((Player) target, amount);
         }
     }
 
@@ -39,11 +35,7 @@ public class DataProcessorUtility {
     }
 
     public static void processPingChunks(Player target, int pingChunks) {
-        target.setViewDistance(pingChunks);
-        MessageProcessor.processMessage("messages.ping-optimised", 2, pingChunks, target);
-
-        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-            target.setSimulationDistance(pingChunks);
-        }
+        ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(target, pingChunks);
+        MessageProcessor.processMessage("messages.ping-optimised", 2, result.getViewDistance(), target);
     }
 }

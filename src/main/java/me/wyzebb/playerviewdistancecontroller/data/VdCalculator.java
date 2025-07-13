@@ -68,40 +68,37 @@ public class VdCalculator {
             DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
         }
 
-        player.setViewDistance(finalChunks);
+        ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(player, finalChunks);
+        int appliedDistance = result.getViewDistance();
 
         boolean msgSent = false;
 
-        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-            player.setSimulationDistance(amount);
-        }
-
-        if (worldChange && finalChunks != luckpermsDistance) {
-            MessageProcessor.processMessage("messages.not-max", 3, finalChunks, luckpermsDistance, player);
+        if (worldChange && appliedDistance != luckpermsDistance) {
+            MessageProcessor.processMessage("messages.not-max", 3, appliedDistance, luckpermsDistance, player);
             msgSent = true;
         }
 
         if (!luckPermsEvent && !sendNoMessages) {
             if (plugin.getConfig().getBoolean("display-msg-on-join") && !plugin.getConfig().getBoolean("afkOnJoin")) {
                 if (plugin.getConfig().getBoolean("display-max-join-msg")) {
-                    if (finalChunks == plugin.getConfig().getInt("max-distance") || (finalChunks == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (finalChunks == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || finalChunks == ClampAmountUtility.getMaxPossible()) {
-                        MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                    if (appliedDistance == plugin.getConfig().getInt("max-distance") || (appliedDistance == plugin.getConfig().getInt("default-distance") && !bedrockPlayer) || (appliedDistance == plugin.getConfig().getInt("bedrock-default-distance") && bedrockPlayer) || appliedDistance == ClampAmountUtility.getMaxPossible()) {
+                        MessageProcessor.processMessage("messages.join", 3, appliedDistance, player);
                         msgSent = true;
                     } else {
-                        if (plugin.getConfig().getBoolean("display-max-change-join-msg") && luckpermsDistance != finalChunks) {
-                            MessageProcessor.processMessage("messages.not-max", 3, finalChunks, luckpermsDistance, player);
+                        if (plugin.getConfig().getBoolean("display-max-change-join-msg") && luckpermsDistance != appliedDistance) {
+                            MessageProcessor.processMessage("messages.not-max", 3, appliedDistance, luckpermsDistance, player);
                             msgSent = true;
                         } else {
-                            MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                            MessageProcessor.processMessage("messages.join", 3, appliedDistance, player);
                             msgSent = true;
                         }
                     }
                 } else {
-                    if (plugin.getConfig().getBoolean("display-max-change-join-msg") && luckpermsDistance != finalChunks) {
-                        MessageProcessor.processMessage("messages.not-max", 3, finalChunks, luckpermsDistance, player);
+                    if (plugin.getConfig().getBoolean("display-max-change-join-msg") && luckpermsDistance != appliedDistance) {
+                        MessageProcessor.processMessage("messages.not-max", 3, appliedDistance, luckpermsDistance, player);
                         msgSent = true;
                     } else {
-                        MessageProcessor.processMessage("messages.join", 3, finalChunks, player);
+                        MessageProcessor.processMessage("messages.join", 3, appliedDistance, player);
                         msgSent = true;
                     }
                 }
@@ -111,10 +108,10 @@ public class VdCalculator {
         if (luckPermsEvent && !sendNoMessages) {
             if (worldChange) {
                 if (!msgSent && plugin.getConfig().getBoolean("send-msg-on-world-change")) {
-                    MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
+                    MessageProcessor.processMessage("messages.target-view-distance-change", 3, appliedDistance, player);
                 }
             } else {
-                MessageProcessor.processMessage("messages.target-view-distance-change", 3, finalChunks, player);
+                MessageProcessor.processMessage("messages.target-view-distance-change", 3, appliedDistance, player);
             }
         }
 

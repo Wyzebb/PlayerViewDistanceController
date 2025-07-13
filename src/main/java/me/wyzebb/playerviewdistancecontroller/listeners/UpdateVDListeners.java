@@ -6,6 +6,7 @@ import me.wyzebb.playerviewdistancecontroller.utility.UpdateChecker;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import net.kyori.adventure.text.Component;
@@ -60,14 +61,11 @@ public class UpdateVDListeners implements Listener {
                 }
 
                 if (!player.hasPermission("pvdc.bypass-afk")) {
-                    player.setViewDistance(afkChunks);
-
-                    if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                        player.setSimulationDistance(afkChunks);
-                    }
+                    ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(player, afkChunks);
+                    int appliedAfkChunks = result.getViewDistance();
 
                     PlayerViewDistanceController.playerAfkMap.put(player.getUniqueId(), 0);
-                    MessageProcessor.processMessage("messages.afk", 3, afkChunks, player);
+                    MessageProcessor.processMessage("messages.afk", 3, appliedAfkChunks, player);
                 }
             }, 10);
         }
