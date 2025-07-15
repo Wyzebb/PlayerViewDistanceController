@@ -2,6 +2,7 @@ package me.wyzebb.playerviewdistancecontroller.listeners;
 
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.utility.UpdateChecker;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
@@ -89,6 +90,9 @@ public class UpdateVDListeners implements Listener {
         } finally {
             PlayerViewDistanceController.playerAfkMap.remove(e.getPlayer().getUniqueId());
             DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
+            
+            // Cleanup client view distance tracking data
+            ClientViewDistanceTracker.onPlayerLeave(e.getPlayer());
         }
     }
 

@@ -15,6 +15,7 @@ dependencies:
 
 softdepend:
   - LuckPerms
+  - packetevents
 
 commands:
   pvdc:

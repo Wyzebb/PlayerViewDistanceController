@@ -4,6 +4,7 @@ import com.tchristofferson.configupdater.ConfigUpdater;
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
 import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.integrations.PlaceholderAPIExpansion;
 import me.wyzebb.playerviewdistancecontroller.listeners.UpdateVDListeners;
@@ -144,6 +145,13 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             plugin.getLogger().info("Enabling PlaceholderAPI Hook");
             PlaceholderAPIExpansion.registerHook();
         }
+
+        // Initialize client view distance tracking with PacketEvents
+        try {
+            ClientViewDistanceTracker.initialize();
+        } catch (Exception e) {
+            plugin.getLogger().warning("Failed to initialize client view distance tracking: " + e.getMessage());
+        }
     }
 
     public FileConfiguration getPingOptimiserConfig() {
@@ -232,6 +240,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // Cleanup client view distance tracking
+        ClientViewDistanceTracker.shutdown();
+        
         playerAfkMap.clear();
 
         File dynamicModeConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
