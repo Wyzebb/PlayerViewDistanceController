@@ -1,3 +1,5 @@
+# To prevent a specific message from being sent, set it to "none"
+
 messages:
   join: "您当前的最大视距设置为 {chunks} 区块"
 
