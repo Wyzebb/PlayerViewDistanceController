@@ -79,10 +79,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             plugin.getLogger().severe("Failed to update config files!");
         }
 
+        reloadConfig();
+
         dynamicModeConfig = YamlConfiguration.loadConfiguration(dynamicConfigFile);
         pingOptimiserConfig = YamlConfiguration.loadConfiguration(pingConfigFile);
-
-        reloadConfig();
 
         dynamicModeEnabled = dynamicModeConfig.getBoolean("enabled");
 
@@ -238,10 +238,11 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         playerAfkMap.clear();
 
         File dynamicModeConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
-        dynamicModeConfig.set("enabled", dynamicModeEnabled);
+        YamlConfiguration dynamicConfig = YamlConfiguration.loadConfiguration(dynamicModeConfigFile);
+        dynamicConfig.set("enabled", dynamicModeEnabled);
 
         try {
-            dynamicModeConfig.save(dynamicModeConfigFile);
+            dynamicConfig.save(dynamicModeConfigFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
