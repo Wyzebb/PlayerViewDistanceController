@@ -77,18 +77,23 @@ public class UpdateVDListeners implements Listener {
     private void onPlayerQuit(PlayerQuitEvent e) {
         PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(e.getPlayer());
 
-        File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
-        FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+        if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
+            File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
+            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
-        cfg.set("chunks", dataHandler.getChunks());
-        cfg.set("chunksOthers", dataHandler.getChunksOthers());
-        cfg.set("pingMode", dataHandler.isPingMode());
+            cfg.set("chunks", dataHandler.getChunks());
+            cfg.set("chunksOthers", dataHandler.getChunksOthers());
+            cfg.set("pingMode", dataHandler.isPingMode());
 
-        try {
-            cfg.save(playerDataFile);
-        } catch (Exception ex) {
-            plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
-        } finally {
+            try {
+                cfg.save(playerDataFile);
+            } catch (Exception ex) {
+                plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
+            } finally {
+                PlayerViewDistanceController.playerAfkMap.remove(e.getPlayer().getUniqueId());
+                DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
+            }
+        } else {
             PlayerViewDistanceController.playerAfkMap.remove(e.getPlayer().getUniqueId());
             DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
         }

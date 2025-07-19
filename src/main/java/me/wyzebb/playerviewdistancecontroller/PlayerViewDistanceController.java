@@ -233,6 +233,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
     }
 
+    public static boolean isPlayerDataSavingEnabled() {
+        return plugin.getConfig().getBoolean("save-player-data", true);
+    }
+
     @Override
     public void onDisable() {
         playerAfkMap.clear();

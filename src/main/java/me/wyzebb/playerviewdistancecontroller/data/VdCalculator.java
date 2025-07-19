@@ -29,7 +29,7 @@ public class VdCalculator {
         // Get an instance of the player data handler for the specific player
         File playerDataFile = DataHandlerHandler.getPlayerDataFile(player);
 
-        if (playerDataFile.exists() && !luckPermsEvent) {
+        if (playerDataFile.exists() && !luckPermsEvent && PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             amount = ClampAmountUtility.clampChunkValue(cfg.getInt("chunks"));
             amountOthers = cfg.getInt("chunksOthers");
@@ -136,7 +136,7 @@ public class VdCalculator {
             dataHandler.setPingMode(false);
 
             DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
-        } else {
+        } else if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
             cfg.set("chunks", 32);
             cfg.set("chunksOthers", 0);
             cfg.set("pingMode", false);
@@ -167,7 +167,7 @@ public class VdCalculator {
 
             PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
 
-            if (playerDataFile.exists()) {
+            if (playerDataFile.exists() && PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
                 FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
                 dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
