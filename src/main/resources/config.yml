@@ -54,4 +54,7 @@ recalculate-vd-on-world-change: true
 # Whether a message should be sent on world change when view distance is at its max
 send-msg-on-world-change: false
 
+# Whether a message is sent telling a player their view distance was reduced by dynamic mode
+send-dynamic-msgs: false
+
 update-checker-enabled: true
