@@ -30,10 +30,10 @@ public class DynamicModeHandler {
                         maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
                     }
 
-                    int optimisedChunks = ClampAmountUtility.clampChunkValue(maxAllowed - chunksToReduceBy);
-
-                    optimisedChunks = Math.max(optimisedChunks, plugin.getPingOptimiserConfig().getInt("min"));
+                    int optimisedChunks = Math.max(maxAllowed, plugin.getPingOptimiserConfig().getInt("min"));
                     optimisedChunks = Math.min(optimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
+
+                    optimisedChunks = ClampAmountUtility.clampChunkValue(optimisedChunks - chunksToReduceBy);
 
                     player.setViewDistance(optimisedChunks);
 
@@ -41,7 +41,7 @@ public class DynamicModeHandler {
                         player.setSimulationDistance(optimisedChunks);
                     }
 
-                    if (optimisedChunks != maxAllowed) {
+                    if (optimisedChunks != maxAllowed && plugin.getConfig().getBoolean("send-dynamic-msgs")) {
                         MessageProcessor.processMessage("messages.dynamic-mode-reduced", 2, player);
                     }
                 }
