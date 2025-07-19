@@ -35,10 +35,13 @@ public class PingModeHandler {
                     maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
                 }
 
-                int pingOptimisedChunks = comparePingToConfig(maxAllowed, player.getPing());
+                int pingOptimisedChunks = Math.max(maxAllowed, plugin.getPingOptimiserConfig().getInt("min"));
+                pingOptimisedChunks = Math.min(pingOptimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
+
+                pingOptimisedChunks = comparePingToConfig(pingOptimisedChunks, player.getPing());
 
                 if (dynamicModeEnabled) {
-                    pingOptimisedChunks = comparePingToConfig(maxAllowed - dynamicReducedChunks, player.getPing());
+                    pingOptimisedChunks = comparePingToConfig(pingOptimisedChunks - dynamicReducedChunks, player.getPing());
                 }
 
                 if (pingOptimisedChunks == 1000) {
@@ -46,9 +49,6 @@ public class PingModeHandler {
                     plugin.stopPingMode();
                     return;
                 }
-
-                pingOptimisedChunks = Math.max(pingOptimisedChunks, plugin.getPingOptimiserConfig().getInt("min"));
-                pingOptimisedChunks = Math.min(pingOptimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
 
                 if (dynamicModeEnabled && (maxAllowed - dynamicReducedChunks != pingOptimisedChunks)) {
                     DataProcessorUtility.processPingChunks(player, pingOptimisedChunks);
