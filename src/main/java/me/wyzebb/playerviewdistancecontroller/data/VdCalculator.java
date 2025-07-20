@@ -49,13 +49,22 @@ public class VdCalculator {
 
         int finalChunks = Math.min(amount, luckpermsDistance);
 
-
         if (amountOthers != 0 && amountOthers != -1) {
             finalChunks = ClampAmountUtility.clampChunkValue(amountOthers);
         }
 
-        if (dynamicModeEnabled) {
-            finalChunks -= dynamicReducedChunks;
+        if (player.isOnline() && dynamicModeEnabled) {
+            PlayerDataHandler playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);
+            int maxAllowed = ClampAmountUtility.clampChunkValue(32);
+
+            if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {
+                maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
+            }
+
+            int optimisedChunks = Math.max(maxAllowed, plugin.getPingOptimiserConfig().getInt("min"));
+            optimisedChunks = Math.min(optimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
+
+            finalChunks = ClampAmountUtility.clampChunkValue(optimisedChunks - dynamicReducedChunks);
         }
 
         if (!luckPermsEvent) {
