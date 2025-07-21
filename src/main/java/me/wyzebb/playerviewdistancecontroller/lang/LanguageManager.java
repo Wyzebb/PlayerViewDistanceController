@@ -1,13 +1,11 @@
 package me.wyzebb.playerviewdistancecontroller.lang;
 
+import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +27,7 @@ public class LanguageManager {
     }
 
     private void copyDefaultLanguages() {
-        String[] languages = {"en_US.yml", "ru_RU.yml", "zh_CN.yml"}; // List of all languages provided
+        String[] languages = {"en_US.yml", "ru_RU.yml", "zh_CN.yml"};
 
         File languagesFolder = new File(plugin.getDataFolder(), "lang");
         if (!languagesFolder.exists()) {
@@ -37,38 +35,15 @@ public class LanguageManager {
         }
 
         for (String langFileName : languages) {
-            File langFile = new File(languagesFolder, langFileName);
+            File langFile = new File(plugin.getDataFolder(), ("lang/" + langFileName));
 
-            // Create file if it doesn't exist
-            if (!langFile.exists()) {
-                try (InputStream in = plugin.getResource("lang/" + langFileName)) {
-                    if (in != null) {
-                        Files.copy(in, langFile.toPath());
-                        plugin.getLogger().info(langFileName + " successfully copied to lang folder.");
-                    } else {
-                        plugin.getLogger().warning("Resource file not found: " + langFileName);
-                    }
-                } catch (IOException e) {
-                    plugin.getLogger().warning("Failed to copy language file: " + langFileName);
+            try {
+                if (!langFile.exists()) {
+                    langFile.createNewFile();
+                    ConfigUpdater.update(plugin, ("lang/" + langFileName), langFile);
                 }
-            } else {
-                plugin.getLogger().info(langFileName + " already exists, skipping copy.");
-            }
-
-            // Load and apply keys
-            FileConfiguration langConfig = YamlConfiguration.loadConfiguration(langFile);
-
-            InputStream defaultStream = plugin.getResource("lang/" + langFileName);
-            if (defaultStream != null) {
-                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream));
-                langConfig.setDefaults(defaultConfig);
-                langConfig.options().copyDefaults(true);
-                try {
-                    langConfig.save(langFile);
-                    plugin.getLogger().info(langFileName + " added missing keys!");
-                } catch (IOException e) {
-                    plugin.getLogger().warning("Could not save merged language file: " + langFileName);
-                }
+            } catch (IOException e) {
+                plugin.getLogger().severe("Failed to create lang file '" + langFileName + "'!");
             }
         }
     }
