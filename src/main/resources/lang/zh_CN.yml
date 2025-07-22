@@ -56,3 +56,4 @@ commands:
   setonline: "设置所有在线玩家的最大视距"
   ping: "Toggles ping mode"
   dynamic: "Toggles dynamic mode"
+  info: "Displays a player's view distance information"

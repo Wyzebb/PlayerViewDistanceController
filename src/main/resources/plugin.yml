@@ -15,6 +15,7 @@ dependencies:
 
 softdepend:
   - LuckPerms
+  - packetevents
 
 commands:
   pvdc:
@@ -79,3 +80,11 @@ permissions:
   pvdc.dynamic-mode-bypass:
     description: Allows you to bypass dynamic mode changing your view distance
     default: false
+
+  pvdc.info-self:
+    description: Allows you to view your own view distance information
+    default: op
+
+  pvdc.info-others:
+    description: Allows you to view view distance information for other players
+    default: op

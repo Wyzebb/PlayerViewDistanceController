@@ -1,6 +1,8 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
@@ -24,24 +26,28 @@ public class DynamicModeHandler {
                     luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
                     PlayerDataHandler playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);
-                    int maxAllowed = ClampAmountUtility.clampChunkValue(32);
+                    int maxAllowed = ClampAmountUtility.clampChunkValue(ClampAmountUtility.getMaxPossible());
 
                     if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {
                         maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
                     }
 
-                    int optimisedChunks = Math.max(maxAllowed, plugin.getPingOptimiserConfig().getInt("min"));
+                    int optimisedChunks = ClampAmountUtility.clampChunkValue(maxAllowed);
+
+                    optimisedChunks = Math.max(optimisedChunks, plugin.getPingOptimiserConfig().getInt("min"));
                     optimisedChunks = Math.min(optimisedChunks, plugin.getPingOptimiserConfig().getInt("max"));
 
-                    optimisedChunks = ClampAmountUtility.clampChunkValue(optimisedChunks - chunksToReduceBy);
+                    // Build context for view distance calculation
+                    ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCustomContext(player)
+                        .withBaseViewDistance(optimisedChunks)
+                        .withDynamicMode(true, chunksToReduceBy)
+                        .withSendNoMessages(true)
+                        .build();
 
-                    player.setViewDistance(optimisedChunks);
+                    ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
+                    int actualOptimisedChunks = result.getViewDistance();
 
-                    if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                        player.setSimulationDistance(optimisedChunks);
-                    }
-
-                    if (optimisedChunks != maxAllowed && plugin.getConfig().getBoolean("send-dynamic-msgs")) {
+                    if (actualOptimisedChunks != maxAllowed && plugin.getConfig().getBoolean("send-dynamic-msgs")) {
                         MessageProcessor.processMessage("messages.dynamic-mode-reduced", 2, player);
                     }
                 }

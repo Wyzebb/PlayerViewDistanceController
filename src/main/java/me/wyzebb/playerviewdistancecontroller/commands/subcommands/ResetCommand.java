@@ -1,6 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.utility.PlayerDataManager;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
@@ -54,7 +54,7 @@ public class ResetCommand extends SubCommand {
                     resetSelf(commandSender);
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others") || commandSender instanceof ConsoleCommandSender) {
-                        VdCalculator.calcVdReset(target);
+                        PlayerDataManager.resetPlayerData(target);
                         MessageProcessor.processMessage("messages.reset", 2, target, 0, commandSender);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
@@ -66,7 +66,7 @@ public class ResetCommand extends SubCommand {
 
     private void resetSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.reset-self")) {
-            VdCalculator.calcVdReset((Player) commandSender);
+            PlayerDataManager.resetPlayerData((Player) commandSender);
             MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
 
         } else {

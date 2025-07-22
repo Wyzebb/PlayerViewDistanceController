@@ -56,3 +56,4 @@ commands:
   setonline: "Устанавливает максимальную дальность прорисовки всех онлайн игроков"
   ping: "Toggles ping mode"
   dynamic: "Toggles dynamic mode"
+  info: "Displays a player's view distance information"
