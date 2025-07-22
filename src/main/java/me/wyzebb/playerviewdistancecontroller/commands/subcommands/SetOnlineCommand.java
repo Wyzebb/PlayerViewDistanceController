@@ -1,5 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
@@ -56,8 +58,11 @@ public class SetOnlineCommand extends SubCommand {
                         MessageProcessor.processMessage("messages.all-online-change", 2, amount, p);
 
                         DataProcessorUtility.processDataOthers(p, amount);
-                        ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(p, amount);
-                        int appliedAmount = result.getViewDistance();
+                        
+                        // Build context for command execution using factory
+                        ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(p, amount);
+
+                        ViewDistanceUtility.applyOptimalViewDistance(context);
                     }
                 } catch (Exception e) {
                     MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);

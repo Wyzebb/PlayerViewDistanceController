@@ -11,6 +11,10 @@ public class ClampAmountUtility {
         return MAX_POSSIBLE;
     }
 
+    public static int getMinPossible() {
+        return MIN_POSSIBLE;
+    }
+
     public static int clampChunkValue(int amount) {
         amount = Math.min(MAX_POSSIBLE, amount);
         amount = Math.max(MIN_POSSIBLE, amount);

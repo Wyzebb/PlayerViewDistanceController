@@ -1,13 +1,13 @@
 package me.wyzebb.playerviewdistancecontroller.integrations;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.utility.PlayerDataManager;
+import me.wyzebb.playerviewdistancecontroller.state.PlayerState;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.playerAfkMap;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
@@ -36,23 +36,23 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
                 try {
                     Player target = Bukkit.getPlayer(playerName);
-                    return String.valueOf(VdCalculator.calcVdGet(target));
+                    return String.valueOf(PlayerDataManager.getCurrentViewDistance(target));
 
                 } catch (Exception e) {
                     plugin.getLogger().warning("Couldn't get info for placeholder: " + e);
                 }
 
 
-                return String.valueOf(VdCalculator.calcVdGet(player));
+                return String.valueOf(PlayerDataManager.getCurrentViewDistance(player));
             } else if (params.equalsIgnoreCase("chunks")) {
-                return String.valueOf(VdCalculator.calcVdGet(player));
+                return String.valueOf(PlayerDataManager.getCurrentViewDistance(player));
             } else if (params.contains("afk_")) {
                 String playerName = params.replace("afk_", "");
 
                 try {
                     Player target = Bukkit.getPlayer(playerName);
 
-                    if (playerAfkMap.get(target.getUniqueId()) == 0) {
+                    if (target != null && plugin.getStateManager().getPlayerState(target.getUniqueId()) == PlayerState.AFK) {
                         return "AFK";
                     } else {
                         return "Not AFK";
@@ -62,7 +62,7 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                     plugin.getLogger().warning("Couldn't get info for placeholder: " + e);
                 }
             } else if (params.equalsIgnoreCase("afk")) {
-                if (playerAfkMap.get(player.getUniqueId()) == 0) {
+                if (plugin.getStateManager().getPlayerState(player.getUniqueId()) == PlayerState.AFK) {
                     return "AFK";
                 } else {
                     return "Not AFK";

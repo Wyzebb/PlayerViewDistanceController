@@ -1,6 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
-import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.utility.PlayerDataManager;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
@@ -54,7 +54,7 @@ public class GetCommand extends SubCommand {
                     sendToSelf(commandSender);
                 } else {
                     if (commandSender.hasPermission("pvdc.get-others") || commandSender instanceof ConsoleCommandSender) {
-                        MessageProcessor.processMessage("messages.view-distance-get", 3, target, VdCalculator.calcVdGet(target), commandSender);
+                        MessageProcessor.processMessage("messages.view-distance-get", 3, target, PlayerDataManager.getCurrentViewDistance(target), commandSender);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
                     }
@@ -67,7 +67,7 @@ public class GetCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.get-self")) {
             Player player = (Player) commandSender;
 
-            int amount = VdCalculator.calcVdGet(player);
+            int amount = PlayerDataManager.getCurrentViewDistance(player);
 
             MessageProcessor.processMessage("messages.self-view-distance-get", 3, player, amount, commandSender);
         } else {
