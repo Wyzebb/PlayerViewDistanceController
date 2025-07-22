@@ -25,6 +25,7 @@ public class CommandManager implements TabExecutor {
         subcommands.add(new SetOnlineCommand());
         subcommands.add(new GetCommand());
         subcommands.add(new ResetCommand());
+        subcommands.add(new DebugCommand());
         subcommands.add(new HelpCommand());
         subcommands.add(new PingModeCommand());
         subcommands.add(new DynamicModeCommand());
@@ -73,6 +74,8 @@ public class CommandManager implements TabExecutor {
         } else if (args.length == 2 && args[0].equals("get")) {
             return getAllPlayers(args, 1);
         } else if (args.length == 2 && args[0].equals("reset")) {
+            return getAllPlayers(args, 1);
+        } else if (args.length == 2 && args[0].equals("debug")) {
             return getAllPlayers(args, 1);
         } else if (args.length == 2 && args[0].equals("setonline")) {
             return Collections.singletonList("<chunks>");

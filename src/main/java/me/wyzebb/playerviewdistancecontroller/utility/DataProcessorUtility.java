@@ -1,12 +1,11 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
-import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-
-import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class DataProcessorUtility {
     public static void processData(OfflinePlayer target, int amount) {
@@ -14,11 +13,12 @@ public class DataProcessorUtility {
         dataHandler.setChunks(amount);
 
         if (target.isOnline()) {
-            ((Player) target).setViewDistance(amount);
+            Player player = (Player) target;
+            
+            // Build context for data processing using factory
+            ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(player, amount);
 
-            if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                ((Player) target).setSimulationDistance(amount);
-            }
+            ViewDistanceUtility.applyOptimalViewDistance(context);
         }
     }
 
@@ -34,16 +34,18 @@ public class DataProcessorUtility {
         if (pingMode) {
             PingModeHandler.optimisePing(target);
         } else {
-            VdCalculator.calcVdSet(target, true, false, false);
+            // Build context for disabling ping mode using factory
+            ViewDistanceCalculationContext context = ViewDistanceContextFactory.createStandardContext(target);
+
+            ViewDistanceUtility.applyOptimalViewDistance(context);
         }
     }
 
-    public static void processPingChunks(Player target, int pingChunks) {
-        target.setViewDistance(pingChunks);
-        MessageProcessor.processMessage("messages.ping-optimised", 2, pingChunks, target);
+    public static void processPingChunks(Player target, int pingChunks) {        
+        // Build context for ping optimization using factory
+        ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(target, pingChunks);
 
-        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-            target.setSimulationDistance(pingChunks);
-        }
+        ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
+        MessageProcessor.processMessage("messages.ping-optimised", 2, result.getViewDistance(), target);
     }
 }

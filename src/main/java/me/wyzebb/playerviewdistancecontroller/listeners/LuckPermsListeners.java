@@ -1,7 +1,9 @@
 package me.wyzebb.playerviewdistancecontroller.listeners;
 
 import com.tcoded.folialib.FoliaLib;
-import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
+import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.node.NodeAddEvent;
@@ -26,11 +28,14 @@ public class LuckPermsListeners {
     }
 
     private void lastNodeUpdateVd(UUID playerId) {
-        if (Bukkit.getPlayer(playerId).isOnline()) {
+        Player player = Bukkit.getPlayer(playerId);
+        if (player != null && player.isOnline()) {
             if (!messaged) {
                 messaged = true;
                 foliaLib.getScheduler().runLater(() -> {
-                    VdCalculator.calcVdSet(Bukkit.getPlayer(playerId), true, false, false);
+                    ViewDistanceCalculationContext context = ViewDistanceContextFactory.createPermissionChangeContext(player);
+
+                    ViewDistanceUtility.applyOptimalViewDistance(context);
                     messaged = false;
                 }, 30);
             }
