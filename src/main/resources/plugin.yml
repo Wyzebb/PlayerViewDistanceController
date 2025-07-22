@@ -81,10 +81,10 @@ permissions:
     description: Allows you to bypass dynamic mode changing your view distance
     default: false
 
-  pvdc.debug-self:
-    description: Allows you to view your own debug information
+  pvdc.info-self:
+    description: Allows you to view your own view distance information
     default: op
 
-  pvdc.debug-others:
-    description: Allows you to view debug information for other players
+  pvdc.info-others:
+    description: Allows you to view view distance information for other players
     default: op

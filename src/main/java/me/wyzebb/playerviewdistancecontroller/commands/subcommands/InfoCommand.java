@@ -18,27 +18,27 @@ import org.bukkit.entity.Player;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 /**
- * Shows debug information for view distance configuration and player state.
+ * Shows information for view distance configuration and player AFK state.
  */
-public class DebugCommand extends SubCommand {
+public class InfoCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return "debug";
+        return "info";
     }
 
     @Override
     public String getDescription() {
-        return "Shows detailed debug information about view distance configuration";
+        return "commands.info";
     }
 
     @Override
     public String getSyntax() {
-        return "/pvdc debug [player]";
+        return "/pvdc info [player]";
     }
 
     /**
-     * Executes the debug command.
+     * Executes the info command.
      * 
      * @param commandSender The sender of the command
      * @param args Command arguments containing optional target player name
@@ -61,7 +61,7 @@ public class DebugCommand extends SubCommand {
                 if (commandSender == target) {
                     sendInfoToSelf(commandSender);
                 } else {
-                    if (commandSender.hasPermission("pvdc.debug-others") || commandSender instanceof ConsoleCommandSender) {
+                    if (commandSender.hasPermission("pvdc.info-others") || commandSender instanceof ConsoleCommandSender) {
                         sendInfoForPlayer(target, commandSender);
                     } else {
                         MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
@@ -72,13 +72,13 @@ public class DebugCommand extends SubCommand {
     }
 
     /**
-     * Sends debug information for the command sender.
-     * Requires pvdc.debug-self permission.
+     * Sends information for the command sender.
+     * Requires pvdc.info-self permission.
      * 
      * @param commandSender The command sender
      */
     private void sendInfoToSelf(CommandSender commandSender) {
-        if (commandSender.hasPermission("pvdc.debug-self")) {
+        if (commandSender.hasPermission("pvdc.info-self")) {
             Player player = (Player) commandSender;
             sendInfoForPlayer(player, commandSender);
         } else {
@@ -87,16 +87,16 @@ public class DebugCommand extends SubCommand {
     }
 
     /**
-     * Sends debug information for the target player.
+     * Sends information for the target player.
      * 
-     * @param target The player to get debug info for
+     * @param target The player to get info for
      * @param commandSender The sender who will receive the output
      */
     private void sendInfoForPlayer(OfflinePlayer target, CommandSender commandSender) {
         String playerName = target.getName();
         boolean isOnline = target.isOnline();
         
-        commandSender.sendMessage("§6=== PVDC Debug Info for " + playerName + " ===");
+        commandSender.sendMessage("§6=== PVDC View Distance Info for " + playerName + " ===");
         
         if (!isOnline) {
             commandSender.sendMessage("§cPlayer is OFFLINE - showing saved data only");
