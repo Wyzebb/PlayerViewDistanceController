@@ -1,3 +1,5 @@
+# To prevent a specific message from being sent, set it to "none"
+
 messages:
   join: "您当前的最大视距设置为 {chunks} 区块"
 
@@ -47,7 +49,7 @@ messages:
 
 
 commands:
-  get: "显示玩家的最大视距"
+  get: "Displays a player's max view distance, excluding AFK and performance mode effects"
   help: "显示插件的帮助信息"
   reset: "重置某个玩家的最大视距"
   set: "设置自己的最大视距或其他玩家的最大视距"

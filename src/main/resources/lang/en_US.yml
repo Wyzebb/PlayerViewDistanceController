@@ -1,3 +1,5 @@
+# To prevent a specific message from being sent, set it to "none"
+
 messages:
   join: "Your maximum view distance is currently set to {chunks} chunks"
 
@@ -47,7 +49,7 @@ messages:
 
 
 commands:
-  get: "Displays a player's max view distance"
+  get: "Displays a player's max view distance, excluding AFK and performance mode effects"
   help: "Displays the plugin's help message"
   reset: "Resets a player's max view distance"
   set: "Set your own max view distance or the max view distance of another player"

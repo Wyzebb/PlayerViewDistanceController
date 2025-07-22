@@ -47,7 +47,7 @@ public class DynamicModeHandler {
                     ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
                     int actualOptimisedChunks = result.getViewDistance();
 
-                    if (actualOptimisedChunks != maxAllowed) {
+                    if (actualOptimisedChunks != maxAllowed && plugin.getConfig().getBoolean("send-dynamic-msgs")) {
                         MessageProcessor.processMessage("messages.dynamic-mode-reduced", 2, player);
                     }
                 }

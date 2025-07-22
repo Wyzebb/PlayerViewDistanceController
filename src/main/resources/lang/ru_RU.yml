@@ -1,3 +1,5 @@
+# To prevent a specific message from being sent, set it to "none"
+
 messages:
   join: "Ваша максимальная дальность прорисовки установлена на {chunks} чанков"
 
@@ -47,7 +49,7 @@ messages:
 
 
 commands:
-  get: "Отображает максимальную дальность прорисовки игрока"
+  get: "Displays a player's max view distance, excluding AFK and performance mode effects"
   help: "Отображает справочное сообщение плагина"
   reset: "Сбрасывает максимальную дальность прорисовки игрока"
   set: "Устанавливает максимальную дальность прорисовки для вас или для другого игрока"

@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.listeners;
 
+import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.config.ConfigKeys;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
@@ -102,23 +103,27 @@ public class UpdateVDListeners implements Listener {
         
         PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(e.getPlayer());
 
-        File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
-        FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+        if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
+            File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
+            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
-        cfg.set("chunks", dataHandler.getChunks());
-        cfg.set("chunksOthers", dataHandler.getChunksOthers());
-        cfg.set("pingMode", dataHandler.isPingMode());
+            cfg.set("chunks", dataHandler.getChunks());
+            cfg.set("chunksOthers", dataHandler.getChunksOthers());
+            cfg.set("pingMode", dataHandler.isPingMode());
 
-        try {
-            cfg.save(playerDataFile);
-        } catch (Exception ex) {
-            plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
-        } finally {
+            try {
+                cfg.save(playerDataFile);
+            } catch (Exception ex) {
+                plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
+            } finally {
+                DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
+            }
+        } else {
             DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
-            
-            // Cleanup client view distance tracking data
-            ClientViewDistanceTracker.onPlayerLeave(e.getPlayer());
         }
+            
+        // Cleanup client view distance tracking data
+        ClientViewDistanceTracker.onPlayerLeave(e.getPlayer());
     }
 
     @EventHandler

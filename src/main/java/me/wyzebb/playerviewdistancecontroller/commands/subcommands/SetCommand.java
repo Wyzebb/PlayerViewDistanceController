@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
+import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
@@ -136,18 +137,22 @@ public class SetCommand extends SubCommand {
                 // Remove the data handler from memory and save
                 PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
 
-                File playerDataFile = DataHandlerHandler.getPlayerDataFile(target);
-                FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+                if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
+                    File playerDataFile = DataHandlerHandler.getPlayerDataFile(target);
+                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
-                cfg.set("chunks", dataHandler.getChunks());
-                cfg.set("chunksOthers", dataHandler.getChunksOthers());
-                cfg.set("pingMode", dataHandler.isPingMode());
+                    cfg.set("chunks", dataHandler.getChunks());
+                    cfg.set("chunksOthers", dataHandler.getChunksOthers());
+                    cfg.set("pingMode", dataHandler.isPingMode());
 
-                try {
-                    cfg.save(playerDataFile);
-                } catch (Exception ex) {
-                    plugin.getLogger().severe("An exception occurred when setting view distance data for " + target.getName() + ": " + ex.getMessage());
-                } finally {
+                    try {
+                        cfg.save(playerDataFile);
+                    } catch (Exception ex) {
+                        plugin.getLogger().severe("An exception occurred when setting view distance data for " + target.getName() + ": " + ex.getMessage());
+                    } finally {
+                        DataHandlerHandler.setPlayerDataHandler(target, null);
+                    }
+                } else {
                     DataHandlerHandler.setPlayerDataHandler(target, null);
                 }
             }

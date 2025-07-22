@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
+import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
+
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 /**
@@ -55,7 +57,7 @@ public class PlayerDataManager {
             dataHandler.setPingMode(false);
 
             DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
-        } else {
+        } else if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
             cfg.set("chunks", ClampAmountUtility.getMaxPossible());
             cfg.set("chunksOthers", 0);
             cfg.set("pingMode", false);

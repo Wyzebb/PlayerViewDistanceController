@@ -82,10 +82,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             plugin.getLogger().severe("Failed to update config files!");
         }
 
+        reloadConfig();
+
         dynamicModeConfig = YamlConfiguration.loadConfiguration(dynamicConfigFile);
         pingOptimiserConfig = YamlConfiguration.loadConfiguration(pingConfigFile);
-
-        reloadConfig();
 
         dynamicModeEnabled = dynamicModeConfig.getBoolean("enabled");
         
@@ -271,6 +271,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
     }
 
+    public static boolean isPlayerDataSavingEnabled() {
+        return plugin.getConfig().getBoolean("save-player-data", true);
+    }
+
     @Override
     public void onDisable() {
         // Cleanup client view distance tracking
@@ -282,10 +286,11 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
 
         File dynamicModeConfigFile = new File(getDataFolder(), "dynamic-mode.yml");
-        dynamicModeConfig.set("enabled", dynamicModeEnabled);
+        YamlConfiguration dynamicConfig = YamlConfiguration.loadConfiguration(dynamicModeConfigFile);
+        dynamicConfig.set("enabled", dynamicModeEnabled);
 
         try {
-            dynamicModeConfig.save(dynamicModeConfigFile);
+            dynamicConfig.save(dynamicModeConfigFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

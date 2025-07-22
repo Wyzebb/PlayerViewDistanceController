@@ -22,6 +22,10 @@ max-distance: 32
 # Minimum view distance for anyone (Cannot be less than 2)
 min-distance: 2
 
+# Whether to save player view distance preferences to disk (defaults to true)
+# When disabled, players start fresh each session with default/LuckPerms settings
+save-player-data: true
+
 # Display a message when a player joins telling them what their view distance is set to
 # This message only sends if afkOnJoin is false
 display-msg-on-join: true
@@ -57,5 +61,8 @@ recalculate-vd-on-world-change: true
 
 # Whether a message should be sent on world change when view distance is at its max
 send-msg-on-world-change: false
+
+# Whether a message is sent telling a player their view distance was reduced by dynamic mode
+send-dynamic-msgs: false
 
 update-checker-enabled: true
