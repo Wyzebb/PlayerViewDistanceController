@@ -3,6 +3,7 @@ package me.wyzebb.playerviewdistancecontroller;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import com.tcoded.folialib.FoliaLib;
 import me.wyzebb.playerviewdistancecontroller.commands.CommandManager;
+import me.wyzebb.playerviewdistancecontroller.config.PluginConfig;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
@@ -33,7 +34,7 @@ import java.util.UUID;
 
 public final class PlayerViewDistanceController extends JavaPlugin {
     public static PlayerViewDistanceController plugin;
-    
+
     private PlayerStateManager stateManager;
 
     private FileConfiguration pingOptimiserConfig;
@@ -49,6 +50,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public static int dynamicReducedChunks = 0;
 
     public static boolean pingModeDisabled = true;
+
+    private PluginConfig pluginConfig;
 
     @Override
     public void onEnable() {
@@ -88,7 +91,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         pingOptimiserConfig = YamlConfiguration.loadConfiguration(pingConfigFile);
 
         dynamicModeEnabled = dynamicModeConfig.getBoolean("enabled");
-        
+
+        this.pluginConfig = new PluginConfig(getConfig());
+
         // Initialize state manager
         stateManager = new PlayerStateManager(this);
 
@@ -170,11 +175,11 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public LanguageManager getLanguageManager() {
         return languageManager;
     }
-    
+
     public PlayerStateManager getStateManager() {
         return stateManager;
     }
-    
+
     public FoliaLib getFoliaLib() {
         return foliaLib;
     }
@@ -182,25 +187,25 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     public void updateLastMoved(Player player) {
         final UUID playerId = player.getUniqueId();
-        
+
         // Update activity in state manager
         PlayerState previousState = stateManager.getPlayerState(playerId);
         stateManager.updatePlayerActivity(player);
         PlayerState currentState = stateManager.getPlayerState(playerId);
-        
+
         // Handle state-based actions
         if (previousState == PlayerState.AFK && currentState == PlayerState.RETURNING_FROM_AFK) {
             // Player is returning from AFK
-            MessageProcessor.processMessage("messages.afk-return", 2, 0, player);
-            
+            MessageProcessor.processMessage("afk-return", 2, 0, player);
+
             // Apply any pending client view distance changes
             ClientViewDistanceTracker.applyPendingClientViewDistance(player);
-            
+
             // Recalculate view distance with new state using factory
             ViewDistanceCalculationContext context = ViewDistanceContextFactory.createReturnFromAfkContext(player);
 
             ViewDistanceUtility.applyOptimalViewDistance(context);
-            
+
             // Complete transition to ACTIVE state
             foliaLib.getScheduler().runLater(() -> {
                 if (player.isOnline()) {
@@ -248,12 +253,12 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             if (getConfig().getBoolean("spectators-can-afk") && player.getGameMode() == GameMode.SPECTATOR) {
                 continue;
             }
-            
+
             // Check if player should be marked as AFK
             if (stateManager.shouldMarkAsAfk(player)) {
                 // Transition to AFK state
                 stateManager.transitionState(player, PlayerState.AFK);
-                
+
                 // Calculate and apply AFK view distance
                 int afkChunks = 0;
                 if (!plugin.getConfig().getBoolean("zero-chunks-afk")) {
@@ -266,7 +271,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
                 int appliedAfkChunks = result.getViewDistance();
 
-                MessageProcessor.processMessage("messages.afk", 3, appliedAfkChunks, player);
+                MessageProcessor.processMessage("afk", 3, appliedAfkChunks, player);
             }
         }
     }
@@ -279,7 +284,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
     public void onDisable() {
         // Cleanup client view distance tracking
         ClientViewDistanceTracker.shutdown();
-        
+
         // Cleanup state manager
         if (stateManager != null) {
             stateManager.clearAllStates();
@@ -296,5 +301,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         }
 
         getLogger().info("Plugin shut down!");
+    }
+
+    public PluginConfig getPluginConfig() {
+        return pluginConfig;
     }
 }
