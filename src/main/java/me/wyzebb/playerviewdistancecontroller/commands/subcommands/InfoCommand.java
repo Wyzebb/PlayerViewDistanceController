@@ -3,8 +3,8 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
-import me.wyzebb.playerviewdistancecontroller.integrations.GeyserDetector;
-import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
@@ -135,7 +135,7 @@ public class InfoCommand extends SubCommand {
             }
         }
         
-        int permissionMax = ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(target));
+        int permissionMax = ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(target));
         commandSender.sendMessage("§aPermission Max: §f" + permissionMax + " chunks");
         
         // Player State and Type
@@ -144,7 +144,7 @@ public class InfoCommand extends SubCommand {
             commandSender.sendMessage("§aPlayer State: §f" + playerState.name());
         }
         
-        boolean isBedrockPlayer = GeyserDetector.checkBedrockPlayer(target.getUniqueId());
+        boolean isBedrockPlayer = IntegrationManager.checkBedrockPlayer(target.getUniqueId());
         String playerType = isBedrockPlayer ? "Bedrock" : "Java";
         commandSender.sendMessage("§aPlayer Type: §f" + playerType);
         

@@ -3,7 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.utility;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
-import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.state.PlayerState;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -92,7 +92,7 @@ public class PlayerDataManager {
      * @return The current effective view distance
      */
     public static int getCurrentViewDistance(OfflinePlayer player) {
-        int luckpermsDistance = LPDetector.getLuckpermsDistance(player);
+        int luckpermsDistance = IntegrationManager.getLuckpermsDistance(player);
         luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
         PlayerDataHandler playerDataHandler;
 

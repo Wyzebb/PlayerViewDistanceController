@@ -2,8 +2,8 @@ package me.wyzebb.playerviewdistancecontroller.data;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
-import me.wyzebb.playerviewdistancecontroller.integrations.GeyserDetector;
-import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import org.bukkit.entity.Player;
@@ -175,9 +175,9 @@ public class ViewDistanceContextFactory {
                 .withSavedOthersDistance(dataHandler.getChunksOthers())
                 .withPingMode(dataHandler.isPingMode())
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
-                .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(player)))
+                .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
                 .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))
-                .withBedrockPlayer(GeyserDetector.checkBedrockPlayer(player.getUniqueId()));
+                .withBedrockPlayer(IntegrationManager.checkBedrockPlayer(player.getUniqueId()));
     }
 
     /**
@@ -190,16 +190,16 @@ public class ViewDistanceContextFactory {
                 .withSavedViewDistance(dataHandler.getChunks())
                 .withSavedOthersDistance(dataHandler.getChunksOthers())
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
-                .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(player)))
+                .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
                 .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))
-                .withBedrockPlayer(GeyserDetector.checkBedrockPlayer(player.getUniqueId()));
+                .withBedrockPlayer(IntegrationManager.checkBedrockPlayer(player.getUniqueId()));
     }
 
     /**
      * Gets the appropriate default view distance for a player (Bedrock vs Java).
      */
     private static int getDefaultViewDistance(Player player) {
-        boolean isBedrockPlayer = GeyserDetector.checkBedrockPlayer(player.getUniqueId());
+        boolean isBedrockPlayer = IntegrationManager.checkBedrockPlayer(player.getUniqueId());
         return ClampAmountUtility.clampChunkValue(isBedrockPlayer ? plugin.getPluginConfig().getBedrockDefaultDistance() : plugin.getPluginConfig().getDefaultDistance());
     }
 

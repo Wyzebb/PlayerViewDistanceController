@@ -7,7 +7,7 @@ import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
-import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
@@ -86,7 +86,7 @@ public class SetCommand extends SubCommand {
 
     public static void setSelf(CommandSender commandSender, int amount) {
         if (commandSender.hasPermission("pvdc.set-self")) {
-            int luckpermsMax = LPDetector.getLuckpermsDistance((Player) commandSender);
+            int luckpermsMax = IntegrationManager.getLuckpermsDistance((Player) commandSender);
 
             if (luckpermsMax >= amount || commandSender.hasPermission("pvdc.bypass-maxdistance")) {
                 MessageProcessor.processMessage("self-view-distance-change", MessageType.SUCCESS, amount, commandSender);

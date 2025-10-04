@@ -2,9 +2,21 @@ package me.wyzebb.playerviewdistancecontroller.integrations;
 
 import org.bukkit.OfflinePlayer;
 
-import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+import java.util.UUID;
 
-public class LPDetector {
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+import static me.wyzebb.playerviewdistancecontroller.integrations.GeyserFunc.checkBedrock;
+
+public class IntegrationManager {
+    public static boolean checkBedrockPlayer(UUID uuid) {
+        try {
+            Class.forName("org.geysermc.api.GeyserApiBase");
+            return checkBedrock(uuid);
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public static int getLuckpermsDistance(OfflinePlayer player) {
         try {
             Class.forName("net.luckperms.api.LuckPerms"); // Use reflection to check if LuckPerms is available

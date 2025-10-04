@@ -3,7 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.utility;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
-import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ public class DynamicModeHandler {
 
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!player.hasPermission("pvdc.dynamic-mode-bypass")) {
-                    int luckpermsDistance = LPDetector.getLuckpermsDistance(player);
+                    int luckpermsDistance = IntegrationManager.getLuckpermsDistance(player);
                     luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
                     PlayerDataHandler playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);

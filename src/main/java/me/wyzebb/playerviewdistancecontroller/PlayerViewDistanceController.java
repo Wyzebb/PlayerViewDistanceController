@@ -7,7 +7,7 @@ import me.wyzebb.playerviewdistancecontroller.config.PluginConfig;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
-import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.integrations.PlaceholderAPIExpansion;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.listeners.UpdateVDListeners;
@@ -105,7 +105,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         languageManager = new LanguageManager();
 
-        luckPermsDetected = LPDetector.initialLuckPermsCheck();
+        luckPermsDetected = IntegrationManager.initialLuckPermsCheck();
 
         if (luckPermsDetected) {
             LuckPerms luckPerms;
