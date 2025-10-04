@@ -29,12 +29,12 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, target, amount));
             }
         } else {
-            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 if (type == MessageType.ERROR) {
                     plugin.getLogger().warning(processPlaceholders(msg, target, amount));
@@ -50,12 +50,12 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, amount));
             }
         } else {
-            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 if (type == MessageType.ERROR) {
                     plugin.getLogger().warning(processPlaceholders(msg, amount));
@@ -71,12 +71,12 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, pingMode));
             }
         } else {
-            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 if (type == MessageType.ERROR) {
                     plugin.getLogger().warning(processPlaceholders(msg, pingMode));
@@ -92,12 +92,12 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(msg);
             }
         } else {
-            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 if (type == MessageType.ERROR) {
                     plugin.getLogger().warning(msg);
@@ -113,12 +113,12 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, chunks, maxChunks));
             }
         } else {
-            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
+            String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 if (type == MessageType.ERROR) {
                     plugin.getLogger().warning(processPlaceholders(msg, chunks, maxChunks));
