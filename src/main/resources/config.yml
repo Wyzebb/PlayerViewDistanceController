@@ -1,9 +1,10 @@
 language: "en_US"
 
-# These are prefixes added to the start of every PVDC message
-colour: "§e§l(!) §e"
-error-colour: "§c§l(!) §c"
-success-colour: "§a§l(!) §a"
+# Prefixes and colours added to every PVDC message
+prefix: "§l(!) "
+color: "§e"
+success-color: "§a"
+error-color: "§c"
 
 # Whether setting view distance also sets simulation distance
 sync-simulation-distance: true
@@ -22,47 +23,44 @@ max-distance: 32
 # Minimum view distance for anyone (Cannot be less than 2)
 min-distance: 2
 
-# Whether to save player view distance preferences to disk (defaults to true)
-# When disabled, players start fresh each session with default/LuckPerms settings
-save-player-data: true
-
-# Display a message when a player joins telling them what their view distance is set to
-# This message only sends if afkOnJoin is false
-display-msg-on-join: true
-
-# Display a message when a player joins telling them what their view distance is set to, when it is the default or maximum
-# This message only sends if the display-msg-on-join is true
-display-max-join-msg: false
-
-# Display a message when a player joins telling them what their view distance is set to and the max they can change it to
-# This message only sends if the player is not at their max and display-msg-on-join is true
-display-max-change-join-msg: true
-
 # If chunks loaded will be limited for AFK players
 afk-chunk-limiter: true
 
 # Whether players should be set to the afk limit on join until they first move
-afkOnJoin: false
+afk-on-join: false
 
 # After how many seconds a player will be considered AFK
-afkTime: 60
+afk-time: 60
 
 # The view distance of an AFK player
-afkChunks: 2
+afk-chunks: 2
 
-# Whether players in spectator mode bypass AFK checks
-spectators-can-afk: true
+# Whether players in spectator mode can be considered AFK
+afk-spectators: false
 
-# Use with caution: this is not fully supported by the paper api and may cause visual glitches
-zero-chunks-afk: false
+# Caution: setting to true may cause unexpected glitches
+afk-void-world: false
 
-# Useful if you have different permission nodes for different worlds
-recalculate-vd-on-world-change: true
+# Display a message when a player joins telling them what their view distance is set to
+# This message only sends if afkOnJoin is false
+msg-on-join: true
+
+# Display a message when a player joins telling them what their view distance is set to, when it is the default or maximum
+# This message only sends if the display-msg-on-join is true
+msg-on-join-max: false
+
+# Display a message when a player joins telling them what their view distance is set to and the max they can change it to
+# This message only sends if the player is not at their max and display-msg-on-join is true
+msg-on-join-max-view: true
 
 # Whether a message should be sent on world change when view distance is at its max
-send-msg-on-world-change: false
+msg-on-world-change: false
 
-# Whether a message is sent telling a player their view distance was reduced by dynamic mode
-send-dynamic-msgs: false
+# Useful if you have different permission nodes for different worlds
+world-change-recalculate-view: false
+
+# Whether to save player view distance preferences to disk (defaults to true)
+# When disabled, players start fresh each session with default/LuckPerms settings
+save-player-data: true
 
 update-checker-enabled: true
