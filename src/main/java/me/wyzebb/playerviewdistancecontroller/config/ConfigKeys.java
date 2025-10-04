@@ -36,6 +36,7 @@ public final class ConfigKeys {
     public static final String SYNC_SIMULATION_DISTANCE = "sync-simulation-distance";
     public static final String UPDATE_CHECKER_ENABLED = "update-checker-enabled";
     public static final String RECALCULATE_VD_ON_WORLD_CHANGE = "world-change-recalculate-view";
+    public static final String SAVE_PLAYER_DATA = "save-player-data";
 
     // Private constructor to prevent instantiation
     private ConfigKeys() {

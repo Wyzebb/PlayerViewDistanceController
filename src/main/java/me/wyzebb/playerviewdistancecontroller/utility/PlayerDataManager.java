@@ -57,7 +57,7 @@ public class PlayerDataManager {
             dataHandler.setPingMode(false);
 
             DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
-        } else if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
+        } else if (plugin.getPluginConfig().savePlayerData()) {
             cfg.set("chunks", ClampAmountUtility.getMaxPossible());
             cfg.set("chunksOthers", 0);
             cfg.set("pingMode", false);

@@ -117,7 +117,7 @@ public class PlayerStateManager {
             return false;
         }
         
-        long afkTimeout = plugin.getConfig().getInt("afkTime") * 1000L;
+        long afkTimeout = plugin.getPluginConfig().getAfkTime() * 1000L;
         return (System.currentTimeMillis() - info.lastActivityTime) > afkTimeout;
     }
     

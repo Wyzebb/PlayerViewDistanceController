@@ -100,7 +100,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         int pluginId = 24498;
         Metrics metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new SimplePie("used_language", () -> getConfig().getString("language", "en_US")));
+        metrics.addCustomChart(new SimplePie("used_language", () -> getPluginConfig().getLanguage()));
 
         languageManager = new LanguageManager();
 
@@ -126,14 +126,14 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         Objects.requireNonNull(getCommand("pvdc")).setTabCompleter(new CommandManager());
 
         // Check for updates if enabled in the config
-        if (getConfig().getBoolean("update-checker-enabled")) {
+        if (getPluginConfig().isUpdateCheckerEnabled()) {
             UpdateChecker updateChecker = new UpdateChecker();
             Thread updateCheck = new Thread(updateChecker, "Update Check Thread");
             updateCheck.start();
         }
 
         // Start AFK checker if enabled in the config
-        if (getConfig().getBoolean("afk-chunk-limiter")) {
+        if (getPluginConfig().isAfkChunkLimiterEnabled()) {
             scheduleAfkChecker();
         }
 
@@ -250,7 +250,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
     private void checkAfk() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (getConfig().getBoolean("spectators-can-afk") && player.getGameMode() == GameMode.SPECTATOR) {
+            if (getPluginConfig().canSpectatorsAfk() && player.getGameMode() == GameMode.SPECTATOR) {
                 continue;
             }
 
@@ -261,8 +261,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
                 // Calculate and apply AFK view distance
                 int afkChunks = 0;
-                if (!plugin.getConfig().getBoolean("zero-chunks-afk")) {
-                    afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
+                if (!plugin.getPluginConfig().isVoidAfkEnabled()) {
+                    afkChunks = ClampAmountUtility.clampChunkValue(plugin.getPluginConfig().getAfkChunks());
                 }
 
                 // Build context for AFK transition using factory
@@ -274,10 +274,6 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 MessageProcessor.processMessage("afk", 3, appliedAfkChunks, player);
             }
         }
-    }
-
-    public static boolean isPlayerDataSavingEnabled() {
-        return plugin.getConfig().getBoolean("save-player-data", true);
     }
 
     @Override

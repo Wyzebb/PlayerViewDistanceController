@@ -154,7 +154,7 @@ public class InfoCommand extends SubCommand {
         commandSender.sendMessage("§aDynamic Mode: " + dynamicStatus);
         
         // Configuration Information
-        boolean clientOptimization = plugin.getConfig().getBoolean("use-client-view-distance", false);
+        boolean clientOptimization = plugin.getPluginConfig().getBoolean("use-client-view-distance", false);
         String clientOptStatus = clientOptimization ? "§aENABLED" : "§cDISABLED";
         commandSender.sendMessage("§aClient Optimization: " + clientOptStatus);
         

@@ -210,8 +210,7 @@ public class ViewDistanceContextFactory {
      */
     private static int getDefaultViewDistance(Player player) {
         boolean isBedrockPlayer = GeyserDetector.checkBedrockPlayer(player.getUniqueId());
-        String configKey = isBedrockPlayer ? ConfigKeys.BEDROCK_DEFAULT_DISTANCE : ConfigKeys.DEFAULT_DISTANCE;
-        return ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt(configKey));
+        return ClampAmountUtility.clampChunkValue(isBedrockPlayer ? plugin.getPluginConfig().getBedrockDefaultDistance() : plugin.getPluginConfig().getDefaultDistance());
     }
 
     /**

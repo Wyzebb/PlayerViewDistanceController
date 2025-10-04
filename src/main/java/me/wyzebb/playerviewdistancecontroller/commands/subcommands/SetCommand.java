@@ -137,7 +137,7 @@ public class SetCommand extends SubCommand {
                 // Remove the data handler from memory and save
                 PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
 
-                if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
+                if (plugin.getPluginConfig().savePlayerData()) {
                     File playerDataFile = DataHandlerHandler.getPlayerDataFile(target);
                     FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 

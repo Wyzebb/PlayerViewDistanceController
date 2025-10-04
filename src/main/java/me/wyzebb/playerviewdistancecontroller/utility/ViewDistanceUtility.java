@@ -128,10 +128,10 @@ public class ViewDistanceUtility {
      * Calculates AFK view distance based on configuration
      */
     private static int calculateAfkViewDistance() {
-        if (plugin.getConfig().getBoolean("zero-chunks-afk")) {
+        if (plugin.getPluginConfig().isVoidAfkEnabled()) {
             return 0;
         } else {
-            return ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt("afkChunks"));
+            return ClampAmountUtility.clampChunkValue(plugin.getPluginConfig().getAfkChunks());
         }
     }
     
@@ -168,14 +168,14 @@ public class ViewDistanceUtility {
      * Checks if client view distance optimization is enabled
      */
     private static boolean isClientOptimizationEnabled() {
-        return plugin.getConfig().getBoolean("use-client-view-distance", false);
+        return plugin.getPluginConfig().useClientViewDistance();
     }
     
     /**
      * Checks if simulation distance sync is enabled
      */
     private static boolean isSimulationSyncEnabled() {
-        return plugin.getConfig().getBoolean("sync-simulation-distance", true);
+        return plugin.getPluginConfig().isSyncSimulationDistanceEnabled();
     }
     
     /**
@@ -201,7 +201,7 @@ public class ViewDistanceUtility {
         // Handle LuckPerms event messaging
         if (context.isLuckPermsEvent()) {
             if (context.isWorldChange()) {
-                if (plugin.getConfig().getBoolean(ConfigKeys.SEND_MSG_ON_WORLD_CHANGE)) {
+                if (plugin.getPluginConfig().msgOnWorldChange()) {
                     MessageProcessor.processMessage("target-view-distance-change", 3, appliedDistance, player);
                 }
             } else {
@@ -223,18 +223,18 @@ public class ViewDistanceUtility {
                                           int appliedDistance, int permissionMaxDistance, boolean wasPermissionLimited, Player player) {
         
         // Check if join messages are enabled and not in AFK-on-join mode
-        if (!plugin.getConfig().getBoolean(ConfigKeys.DISPLAY_MSG_ON_JOIN) || 
-            plugin.getConfig().getBoolean(ConfigKeys.AFK_ON_JOIN)) {
+        if (!plugin.getPluginConfig().msgOnJoin() ||
+            plugin.getPluginConfig().isAfkOnJoinEnabled()) {
             return;
         }
         
         boolean isBedrockPlayer = context.isBedrockPlayer();
-        int maxDistance = plugin.getConfig().getInt(ConfigKeys.MAX_DISTANCE);
-        int defaultDistance = plugin.getConfig().getInt(ConfigKeys.DEFAULT_DISTANCE);
-        int bedrockDefaultDistance = plugin.getConfig().getInt(ConfigKeys.BEDROCK_DEFAULT_DISTANCE);
+        int maxDistance = plugin.getPluginConfig().getMaxDistance();
+        int defaultDistance = plugin.getPluginConfig().getDefaultDistance();
+        int bedrockDefaultDistance = plugin.getPluginConfig().getBedrockDefaultDistance();
         
         // Check if we should show the "max join message"
-        if (plugin.getConfig().getBoolean(ConfigKeys.DISPLAY_MAX_JOIN_MSG)) {
+        if (plugin.getPluginConfig().msgOnJoinMax()) {
             // Player is at maximum possible distance
             if (appliedDistance == maxDistance || 
                 (appliedDistance == defaultDistance && !isBedrockPlayer) ||
@@ -246,7 +246,7 @@ public class ViewDistanceUtility {
             }
             
             // Player's distance was limited, check if we should show "not-max" message
-            if (plugin.getConfig().getBoolean(ConfigKeys.DISPLAY_MAX_CHANGE_JOIN_MSG) && wasPermissionLimited) {
+            if (plugin.getPluginConfig().msgOnJoinMaxView() && wasPermissionLimited) {
                 MessageProcessor.processMessage("not-max", 3, appliedDistance, permissionMaxDistance, player);
                 return;
             }
@@ -257,7 +257,7 @@ public class ViewDistanceUtility {
         }
         
         // Not showing max join messages, but check for "not-max" message
-        if (plugin.getConfig().getBoolean(ConfigKeys.DISPLAY_MAX_CHANGE_JOIN_MSG) && wasPermissionLimited) {
+        if (plugin.getPluginConfig().msgOnJoinMaxView() && wasPermissionLimited) {
             MessageProcessor.processMessage("not-max", 3, appliedDistance, permissionMaxDistance, player);
             return;
         }

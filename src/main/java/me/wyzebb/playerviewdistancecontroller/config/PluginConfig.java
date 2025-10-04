@@ -103,6 +103,10 @@ public class PluginConfig {
         return config.getBoolean(ConfigKeys.RECALCULATE_VD_ON_WORLD_CHANGE, false);
     }
 
+    public boolean savePlayerData() {
+        return config.getBoolean(ConfigKeys.SAVE_PLAYER_DATA, true);
+    }
+
     // Language Settings
     public String getLanguage() {
         return config.getString(ConfigKeys.LANGUAGE, "en_US");

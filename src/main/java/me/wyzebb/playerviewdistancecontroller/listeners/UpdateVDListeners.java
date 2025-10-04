@@ -38,7 +38,7 @@ public class UpdateVDListeners implements Listener {
 
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
-        if (plugin.getConfig().getBoolean(ConfigKeys.UPDATE_CHECKER_ENABLED)) {
+        if (plugin.getPluginConfig().isUpdateCheckerEnabled()) {
             if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
                 Component updateMsg = mm.deserialize("<yellow><b>(!)</b> <click:open_url:'https://modrinth.com/plugin/pvdc'><hover:show_text:'<green>Click to go to the plugin page</green>'>PVDC update available: <b><red>v" + UpdateChecker.getPluginVersion() + "</red> -> <green>v" + UpdateChecker.getLatestVersion() + "</green></b></hover></click></yellow>");
 
@@ -63,15 +63,15 @@ public class UpdateVDListeners implements Listener {
 
         ViewDistanceUtility.applyOptimalViewDistance(context);
 
-        if (plugin.getConfig().getBoolean(ConfigKeys.AFK_ON_JOIN)) {
+        if (plugin.getPluginConfig().isAfkOnJoinEnabled()) {
             plugin.getFoliaLib().getScheduler().runLater(() -> {
                 if (!player.hasPermission("pvdc.bypass-afk")) {
                     // Transition to AFK state
                     plugin.getStateManager().transitionState(player, PlayerState.AFK);
                     
                     int afkChunks = 0;
-                    if (!plugin.getConfig().getBoolean(ConfigKeys.ZERO_CHUNKS_AFK)) {
-                        afkChunks = ClampAmountUtility.clampChunkValue(plugin.getConfig().getInt(ConfigKeys.AFK_CHUNKS));
+                    if (!plugin.getPluginConfig().isVoidAfkEnabled()) {
+                        afkChunks = ClampAmountUtility.clampChunkValue(plugin.getPluginConfig().getAfkChunks());
                     }
 
                     // Build AFK context using factory
@@ -103,7 +103,7 @@ public class UpdateVDListeners implements Listener {
         
         PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(e.getPlayer());
 
-        if (PlayerViewDistanceController.isPlayerDataSavingEnabled()) {
+        if (plugin.getPluginConfig().savePlayerData()) {
             File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
@@ -128,7 +128,7 @@ public class UpdateVDListeners implements Listener {
 
     @EventHandler
     private void onWorldChange(PlayerChangedWorldEvent event) {
-        if (plugin.getConfig().getBoolean(ConfigKeys.RECALCULATE_VD_ON_WORLD_CHANGE)) {
+        if (plugin.getPluginConfig().recalculateViewDistanceOnWorldChange()) {
             Player player = event.getPlayer();
             ViewDistanceCalculationContext context = ViewDistanceContextFactory.createWorldChangeContext(player);
 

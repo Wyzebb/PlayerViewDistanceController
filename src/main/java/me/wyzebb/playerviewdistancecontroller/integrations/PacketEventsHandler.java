@@ -68,7 +68,7 @@ public class PacketEventsHandler {
      * @param newVD The new client view distance
      */
     public static void onClientViewDistanceChanged(Player player, int oldVD, int newVD) {
-        if (!plugin.getConfig().getBoolean("use-client-view-distance", false)) {
+        if (!plugin.getPluginConfig().useClientViewDistance()) {
             return;
         }
         
@@ -120,7 +120,7 @@ public class PacketEventsHandler {
      * @param player The player returning from AFK state
      */
     public static void applyPendingClientViewDistance(Player player) {
-        if (!plugin.getConfig().getBoolean("use-client-view-distance", false)) {
+        if (!plugin.getPluginConfig().useClientViewDistance()) {
             return;
         }
         
