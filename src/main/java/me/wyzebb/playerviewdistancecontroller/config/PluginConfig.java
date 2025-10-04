@@ -45,7 +45,7 @@ public class PluginConfig {
     }
 
     public boolean canSpectatorsAfk() {
-        return config.getBoolean(ConfigKeys.AFK_SPECTATORS, false);
+        return config.getBoolean(ConfigKeys.AFK_SPECTATORS, true);
     }
 
     public boolean isVoidAfkEnabled() {

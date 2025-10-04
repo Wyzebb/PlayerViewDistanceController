@@ -35,8 +35,8 @@ afk-time: 60
 # The view distance of an AFK player
 afk-chunks: 2
 
-# Whether players in spectator mode can be considered AFK
-afk-spectators: false
+# Whether spectators bypass AFK chunk limiting
+afk-spectators: true
 
 # Caution: setting to true may cause unexpected glitches
 afk-void-world: false
