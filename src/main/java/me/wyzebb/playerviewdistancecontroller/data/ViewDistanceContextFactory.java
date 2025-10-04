@@ -25,10 +25,10 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createStandardContext(Player player) {
         return createBaseContext(player)
-            .withLuckPermsEvent(false)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
+                .withLuckPermsEvent(false)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -36,10 +36,10 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createJoinContext(Player player) {
         return createBaseContext(player)
-            .withLuckPermsEvent(false)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
+                .withLuckPermsEvent(false)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -48,11 +48,11 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createAfkContext(Player player, int afkChunks) {
         return createBaseContext(player)
-            .withBaseViewDistance(afkChunks)
-            .withLuckPermsEvent(true)
-            .withSendNoMessages(true)
-            .withWorldChange(false)
-            .build();
+                .withBaseViewDistance(afkChunks)
+                .withLuckPermsEvent(true)
+                .withSendNoMessages(true)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -61,10 +61,10 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createReturnFromAfkContext(Player player) {
         return createBaseContext(player)
-            .withLuckPermsEvent(true)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
+                .withLuckPermsEvent(true)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -73,10 +73,10 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createWorldChangeContext(Player player) {
         return createBaseContext(player)
-            .withLuckPermsEvent(false)
-            .withSendNoMessages(false)
-            .withWorldChange(true)
-            .build();
+                .withLuckPermsEvent(false)
+                .withSendNoMessages(false)
+                .withWorldChange(true)
+                .build();
     }
 
     /**
@@ -85,10 +85,10 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createPermissionChangeContext(Player player) {
         return createBaseContext(player)
-            .withLuckPermsEvent(true)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
+                .withLuckPermsEvent(true)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -97,11 +97,11 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createClientChangeContext(Player player, int clientViewDistance) {
         return createBaseContext(player)
-            .withClientPreferredDistance(clientViewDistance)
-            .withLuckPermsEvent(true)
-            .withSendNoMessages(true)
-            .withWorldChange(false)
-            .build();
+                .withClientPreferredDistance(clientViewDistance)
+                .withLuckPermsEvent(true)
+                .withSendNoMessages(true)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -110,11 +110,11 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createCommandContext(Player player, int commandDistance) {
         return createBaseContext(player)
-            .withBaseViewDistance(commandDistance)
-            .withLuckPermsEvent(false)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
+                .withBaseViewDistance(commandDistance)
+                .withLuckPermsEvent(false)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -122,12 +122,12 @@ public class ViewDistanceContextFactory {
      * Disables dynamic mode and enables permission-based messaging.
      */
     public static ViewDistanceCalculationContext createStopDynamicModeContext(Player player) {
-        return createBaseContextWithPlayerData(player)
-            .withDynamicMode(false, 0) // Dynamic mode is being stopped
-            .withLuckPermsEvent(true)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
+        return createBaseContext(player)
+                .withDynamicMode(false, 0) // Dynamic mode is being stopped
+                .withLuckPermsEvent(true)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -137,11 +137,11 @@ public class ViewDistanceContextFactory {
     public static ViewDistanceCalculationContext createStopPingModeContext(Player player) {
         PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
         return createBaseContextWithoutPingMode(player, dataHandler)
-            .withPingMode(false) // Ping mode is being stopped
-            .withLuckPermsEvent(true)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
+                .withPingMode(false) // Ping mode is being stopped
+                .withLuckPermsEvent(true)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
@@ -150,25 +150,16 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createResetContext(Player player) {
         return createBaseContext(player)
-            .withLuckPermsEvent(true)
-            .withSendNoMessages(false)
-            .withWorldChange(false)
-            .build();
-    }
-
-    /**
-     * Creates the base context builder with common parameters that are used in most scenarios.
-     */
-    private static ViewDistanceCalculationContext.Builder createBaseContext(Player player) {
-        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
-        return createBaseContextWithPlayerData(player, dataHandler);
+                .withLuckPermsEvent(true)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .build();
     }
 
     /**
      * Creates base context with provided player data handler.
-     * Useful when the data handler is already available.
      */
-    private static ViewDistanceCalculationContext.Builder createBaseContextWithPlayerData(Player player) {
+    private static ViewDistanceCalculationContext.Builder createBaseContext(Player player) {
         PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
         return createBaseContextWithPlayerData(player, dataHandler);
     }
@@ -178,15 +169,15 @@ public class ViewDistanceContextFactory {
      */
     private static ViewDistanceCalculationContext.Builder createBaseContextWithPlayerData(Player player, PlayerDataHandler dataHandler) {
         return ViewDistanceCalculationContext.builder(player)
-            .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
-            .withBaseViewDistance(getDefaultViewDistance(player))
-            .withSavedViewDistance(dataHandler.getChunks())
-            .withSavedOthersDistance(dataHandler.getChunksOthers())
-            .withPingMode(dataHandler.isPingMode())
-            .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
-            .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(player)))
-            .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))
-            .withBedrockPlayer(GeyserDetector.checkBedrockPlayer(player.getUniqueId()));
+                .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
+                .withBaseViewDistance(getDefaultViewDistance(player))
+                .withSavedViewDistance(dataHandler.getChunks())
+                .withSavedOthersDistance(dataHandler.getChunksOthers())
+                .withPingMode(dataHandler.isPingMode())
+                .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
+                .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(player)))
+                .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))
+                .withBedrockPlayer(GeyserDetector.checkBedrockPlayer(player.getUniqueId()));
     }
 
     /**
@@ -194,14 +185,14 @@ public class ViewDistanceContextFactory {
      */
     private static ViewDistanceCalculationContext.Builder createBaseContextWithoutPingMode(Player player, PlayerDataHandler dataHandler) {
         return ViewDistanceCalculationContext.builder(player)
-            .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
-            .withBaseViewDistance(getDefaultViewDistance(player))
-            .withSavedViewDistance(dataHandler.getChunks())
-            .withSavedOthersDistance(dataHandler.getChunksOthers())
-            .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
-            .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(player)))
-            .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))
-            .withBedrockPlayer(GeyserDetector.checkBedrockPlayer(player.getUniqueId()));
+                .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
+                .withBaseViewDistance(getDefaultViewDistance(player))
+                .withSavedViewDistance(dataHandler.getChunks())
+                .withSavedOthersDistance(dataHandler.getChunksOthers())
+                .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
+                .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(LPDetector.getLuckpermsDistance(player)))
+                .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))
+                .withBedrockPlayer(GeyserDetector.checkBedrockPlayer(player.getUniqueId()));
     }
 
     /**
