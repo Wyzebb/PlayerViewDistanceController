@@ -38,12 +38,12 @@ public class MessageProcessor {
                 col += colour;
             }
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(col + msg, target, amount));
             }
         } else {
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 if (status == 1) {
                     plugin.getLogger().warning(processPlaceholders(msg, target, amount));
                 } else {
@@ -67,12 +67,12 @@ public class MessageProcessor {
                 col += colour;
             }
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(col + msg, amount));
             }
         } else {
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 if (status == 1) {
                     plugin.getLogger().warning(processPlaceholders(msg, amount));
                 } else {
@@ -96,12 +96,12 @@ public class MessageProcessor {
                 col += colour;
             }
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(col + msg, pingMode));
             }
         } else {
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 if (status == 1) {
                     plugin.getLogger().warning(processPlaceholders(msg, pingMode));
                 } else {
@@ -125,12 +125,12 @@ public class MessageProcessor {
                 col += colour;
             }
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(col + msg);
             }
         } else {
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 if (status == 1) {
                     plugin.getLogger().warning(msg);
                 } else {
@@ -154,12 +154,12 @@ public class MessageProcessor {
                 col += colour;
             }
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(col + msg, chunks, maxChunks));
             }
         } else {
             String msg = langConfig.getString(langPath, "Message key '" + langPath + "' not found. Please report to the developer!");
-            if (!msg.equals("none")) {
+            if (!(msg.equals("none") || msg.isEmpty())) {
                 if (status == 1) {
                     plugin.getLogger().warning(processPlaceholders(msg, chunks, maxChunks));
                 } else {

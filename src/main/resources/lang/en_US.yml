@@ -1,5 +1,3 @@
-# To prevent a message from being sent, set it to "none"
-
 # View distance changes
 join: "Your maximum view distance is currently set to {chunks} chunks"
 not-max: "Your view distance is set to {chunks}. Use /pvdc <chunks> to alter this to a max of {maxChunks} for this world! Use /pvdc reset to max your view distance globally."
