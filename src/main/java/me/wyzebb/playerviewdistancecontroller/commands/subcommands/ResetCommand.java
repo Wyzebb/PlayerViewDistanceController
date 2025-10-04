@@ -26,7 +26,7 @@ public class ResetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return languageManager.getLanguageFile().getString("commands.reset");
+        return languageManager.getLanguageFile().getString("reset-cmd-description");
     }
 
     @Override
@@ -37,13 +37,13 @@ public class ResetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     resetSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("messages.not-player", 1, 0, commandSender);
+                    MessageProcessor.processMessage("not-player", 1, 0, commandSender);
                 }
 
             } else {
@@ -55,9 +55,9 @@ public class ResetCommand extends SubCommand {
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others") || commandSender instanceof ConsoleCommandSender) {
                         PlayerDataManager.resetPlayerData(target);
-                        MessageProcessor.processMessage("messages.reset", 2, target, 0, commandSender);
+                        MessageProcessor.processMessage("reset", 2, target, 0, commandSender);
                     } else {
-                        MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+                        MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
                     }
                 }
             }
@@ -67,10 +67,10 @@ public class ResetCommand extends SubCommand {
     private void resetSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.reset-self")) {
             PlayerDataManager.resetPlayerData((Player) commandSender);
-            MessageProcessor.processMessage("messages.self-reset", 2, 0, commandSender);
+            MessageProcessor.processMessage("self-reset", 2, 0, commandSender);
 
         } else {
-            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
         }
     }
 }

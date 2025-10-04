@@ -27,7 +27,7 @@ public class DynamicModeCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return languageManager.getLanguageFile().getString("commands.dynamic");
+        return languageManager.getLanguageFile().getString("dynamic-cmd-description");
     }
 
     @Override
@@ -38,23 +38,23 @@ public class DynamicModeCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
         } else if (args.length == 1) {
             if (commandSender.hasPermission("pvdc.dynamic-mode-set")) {
                 setDynamicMode(!dynamicModeEnabled);
             } else {
-                MessageProcessor.processMessage("messages.no-permission", 1, commandSender);
+                MessageProcessor.processMessage("no-permission", 1, commandSender);
             }
         } else {
             if (commandSender.hasPermission("pvdc.dynamic-mode-set")) {
                 final String[] OPTIONS = {"on", "off", "info"};
 
                 if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
-                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("messages.dynamic-info", 2, dynamicModeEnabled, commandSender);
+                    MessageProcessor.processMessage("dynamic-info", 2, dynamicModeEnabled, commandSender);
                     return;
                 }
 
@@ -62,7 +62,7 @@ public class DynamicModeCommand extends SubCommand {
 
                 setDynamicMode(mode);
             } else {
-                MessageProcessor.processMessage("messages.no-permission", 1, commandSender);
+                MessageProcessor.processMessage("no-permission", 1, commandSender);
             }
         }
     }
@@ -77,7 +77,7 @@ public class DynamicModeCommand extends SubCommand {
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            MessageProcessor.processMessage("messages.dynamic-mode-change", 2, mode, player);
+            MessageProcessor.processMessage("dynamic-mode-change", 2, mode, player);
         }
     }
 }

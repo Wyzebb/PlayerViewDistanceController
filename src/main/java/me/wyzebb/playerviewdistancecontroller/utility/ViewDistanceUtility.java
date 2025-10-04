@@ -194,7 +194,7 @@ public class ViewDistanceUtility {
         
         // Handle world change messaging
         if (context.isWorldChange() && wasPermissionLimited) {
-            MessageProcessor.processMessage("messages.not-max", 3, appliedDistance, permissionMaxDistance, player);
+            MessageProcessor.processMessage("not-max", 3, appliedDistance, permissionMaxDistance, player);
             return;
         }
         
@@ -202,10 +202,10 @@ public class ViewDistanceUtility {
         if (context.isLuckPermsEvent()) {
             if (context.isWorldChange()) {
                 if (plugin.getConfig().getBoolean(ConfigKeys.SEND_MSG_ON_WORLD_CHANGE)) {
-                    MessageProcessor.processMessage("messages.target-view-distance-change", 3, appliedDistance, player);
+                    MessageProcessor.processMessage("target-view-distance-change", 3, appliedDistance, player);
                 }
             } else {
-                MessageProcessor.processMessage("messages.target-view-distance-change", 3, appliedDistance, player);
+                MessageProcessor.processMessage("target-view-distance-change", 3, appliedDistance, player);
             }
             return;
         }
@@ -241,29 +241,29 @@ public class ViewDistanceUtility {
                 (appliedDistance == bedrockDefaultDistance && isBedrockPlayer) ||
                 appliedDistance == ClampAmountUtility.getMaxPossible()) {
                 
-                MessageProcessor.processMessage("messages.join", 3, appliedDistance, player);
+                MessageProcessor.processMessage("join", 3, appliedDistance, player);
                 return;
             }
             
             // Player's distance was limited, check if we should show "not-max" message
             if (plugin.getConfig().getBoolean(ConfigKeys.DISPLAY_MAX_CHANGE_JOIN_MSG) && wasPermissionLimited) {
-                MessageProcessor.processMessage("messages.not-max", 3, appliedDistance, permissionMaxDistance, player);
+                MessageProcessor.processMessage("not-max", 3, appliedDistance, permissionMaxDistance, player);
                 return;
             }
             
             // Default join message
-            MessageProcessor.processMessage("messages.join", 3, appliedDistance, player);
+            MessageProcessor.processMessage("join", 3, appliedDistance, player);
             return;
         }
         
         // Not showing max join messages, but check for "not-max" message
         if (plugin.getConfig().getBoolean(ConfigKeys.DISPLAY_MAX_CHANGE_JOIN_MSG) && wasPermissionLimited) {
-            MessageProcessor.processMessage("messages.not-max", 3, appliedDistance, permissionMaxDistance, player);
+            MessageProcessor.processMessage("not-max", 3, appliedDistance, permissionMaxDistance, player);
             return;
         }
         
         // Default join message
-        MessageProcessor.processMessage("messages.join", 3, appliedDistance, player);
+        MessageProcessor.processMessage("join", 3, appliedDistance, player);
     }
     
     private static void updatePlayerDataHandler(ViewDistanceCalculationContext context, ViewDistanceResult result) {

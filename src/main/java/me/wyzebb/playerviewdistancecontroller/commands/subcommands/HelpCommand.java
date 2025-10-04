@@ -22,7 +22,7 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return languageManager.getLanguageFile().getString("commands.help");
+        return languageManager.getLanguageFile().getString("help-cmd-description");
     }
 
     @Override

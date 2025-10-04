@@ -80,7 +80,7 @@ public class UpdateVDListeners implements Listener {
                     ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(afkContext);
                     int appliedAfkChunks = result.getViewDistance();
 
-                    MessageProcessor.processMessage("messages.afk", 3, appliedAfkChunks, player);
+                    MessageProcessor.processMessage("afk", 3, appliedAfkChunks, player);
                 } else {
                     // Transition to active state if bypassing AFK
                     plugin.getStateManager().transitionState(player, PlayerState.ACTIVE);

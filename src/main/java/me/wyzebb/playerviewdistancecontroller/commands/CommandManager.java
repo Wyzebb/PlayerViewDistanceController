@@ -44,7 +44,7 @@ public class CommandManager implements TabExecutor {
                         if (ClampAmountUtility.isNumeric(args[0])) {
                             SetCommand.setSelf(commandSender, ClampAmountUtility.clampChunkValue(Integer.parseInt(args[0])));
                         } else {
-                            MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
                         }
                     }
                 }

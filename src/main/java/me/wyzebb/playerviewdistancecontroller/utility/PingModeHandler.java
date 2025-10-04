@@ -45,7 +45,7 @@ public class PingModeHandler {
                 }
 
                 if (pingOptimisedChunks == 1000) {
-                    MessageProcessor.processMessage("messages.no-keys-ping", 1, player);
+                    MessageProcessor.processMessage("no-keys-ping", 1, player);
                     plugin.stopPingMode();
                     return;
                 }

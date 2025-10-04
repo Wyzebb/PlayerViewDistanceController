@@ -48,7 +48,7 @@ public class DynamicModeHandler {
                     int actualOptimisedChunks = result.getViewDistance();
 
                     if (actualOptimisedChunks != maxAllowed && plugin.getConfig().getBoolean("send-dynamic-msgs")) {
-                        MessageProcessor.processMessage("messages.dynamic-mode-reduced", 2, player);
+                        MessageProcessor.processMessage("dynamic-mode-reduced", 2, player);
                     }
                 }
             }
@@ -74,7 +74,7 @@ public class DynamicModeHandler {
         plugin.getLogger().severe("There are no MSPT keys in the dynamic mode config! Dynamic mode will not work until you fix this!");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            MessageProcessor.processMessage("messages.no-keys-dynamic", 1, player);
+            MessageProcessor.processMessage("no-keys-dynamic", 1, player);
         }
 
         dynamicModeEnabled = false;

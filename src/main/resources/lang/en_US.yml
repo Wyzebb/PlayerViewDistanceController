@@ -1,59 +1,56 @@
-# To prevent a specific message from being sent, set it to "none"
+# To prevent a message from being sent, set it to "none"
 
-messages:
-  join: "Your maximum view distance is currently set to {chunks} chunks"
+# View distance changes
+join: "Your maximum view distance is currently set to {chunks} chunks"
+not-max: "Your view distance is set to {chunks}. Use /pvdc <chunks> to alter this to a max of {maxChunks} for this world! Use /pvdc reset to max your view distance globally."
 
-  not-max: "Your view distance is set to {chunks}. Use /pvdc <chunks> to alter this to a max of {maxChunks} for this world! Use /pvdc reset to max your view distance globally."
+self-view-distance-change: "You changed your maximum view distance to {chunks} chunks"
+sender-view-distance-change: "{target-player}'s maximum view distance was changed to {chunks} chunks"
+target-view-distance-change: "Your maximum view distance has been changed to {chunks} chunks"
 
-  no-permission: "You do not have permission to execute this command!"
-
-  incorrect-args: "Incorrect arguments - Use /pvdc help for help"
-
-  afk: "You're AFK, so your view distance has been restricted to {chunks} chunks!"
-  afk-return: "Your view distance has returned to normal!"
-
-  chunks-too-high: "You are only permitted to set your view distance to a maximum of {chunks} chunks!"
-
-  self-view-distance-change: "You changed your maximum view distance to {chunks} chunks"
-
-  # The message displayed for the command sender when they change someone else's maximum view distance
-  sender-view-distance-change: "{target-player}'s maximum view distance was changed to {chunks} chunks"
-
-  # The message displayed for a player when their maximum view distance has been changed
-  target-view-distance-change: "Your maximum view distance has been changed to {chunks} chunks"
-
-  reset: "You reset {target-player}'s saved view distance!"
-  self-reset: "You reset your saved view distance!"
-
-  all-online-change: "The maximum view distance of all online players has been set to {chunks} chunks"
-
-  view-distance-get: "{target-player}'s maximum view distance is currently set to {chunks} chunks"
-  self-view-distance-get: "Your maximum view distance is currently set to {chunks} chunks"
-
-  ping-mode-change-self: "You turned {mode} ping mode!"
-  ping-mode-change-others: "The player's ping mode is now {mode}!"
-  ping-mode-change: "Your ping mode is now {mode}!"
-  ping-optimised: "Your view distance has been optimised for ping!"
-  ping-info: "Ping mode is turned {mode} for you!"
-  ping-mode-disabled: "Ping mode is disabled on this server!"
-
-  dynamic-mode-change: "Dynamic mode is now {mode}!"
-  dynamic-info: "Dynamic mode is turned {mode}!"
-  dynamic-mode-reduced: "Your view distance has been reduced due to dynamic mode!"
-
-  not-player: "You must be a player to do this!"
-  not-offline-cmd: "This command does not currently support offline players!"
-
-  no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
-  no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
+reset: "You reset {target-player}'s saved view distance!"
+self-reset: "You reset your saved view distance!"
 
 
-commands:
-  get: "Displays a player's max view distance, excluding AFK and performance mode effects"
-  help: "Displays the plugin's help message"
-  reset: "Resets a player's max view distance"
-  set: "Set your own max view distance or the max view distance of another player"
-  setonline: "Sets the max view distance of all online players"
-  ping: "Toggles ping mode"
-  dynamic: "Toggles dynamic mode"
-  info: "Displays a player's view distance information"
+
+afk: "You're AFK, so your view distance has been restricted to {chunks} chunks!"
+afk-return: "Your view distance has returned to normal!"
+
+chunks-too-high: "You are only permitted to set your view distance to a maximum of {chunks} chunks!"
+
+
+
+all-online-change: "The maximum view distance of all online players has been set to {chunks} chunks"
+
+view-distance-get: "{target-player}'s maximum view distance is currently set to {chunks} chunks"
+self-view-distance-get: "Your maximum view distance is currently set to {chunks} chunks"
+
+ping-mode-change-self: "You turned {mode} ping mode!"
+ping-mode-change-others: "The player's ping mode is now {mode}!"
+ping-mode-change: "Your ping mode is now {mode}!"
+ping-optimised: "Your view distance has been optimised for ping!"
+ping-info: "Ping mode is turned {mode} for you!"
+ping-mode-disabled: "Ping mode is disabled on this server!"
+
+dynamic-mode-change: "Dynamic mode is now {mode}!"
+dynamic-info: "Dynamic mode is turned {mode}!"
+dynamic-mode-reduced: "Your view distance has been reduced by dynamic mode!"
+
+not-player: "You must be a player to do this!"
+not-offline-cmd: "This command does not currently support offline players!"
+
+no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
+no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
+
+no-permission: "You do not have permission to execute this command!"
+incorrect-args: "Incorrect arguments - Use /pvdc help for help"
+
+# Command descriptions
+get-cmd-description: "Displays a player's max view distance, excluding AFK and performance mode effects"
+help-cmd-description: "Displays the plugin's help message"
+reset-cmd-description: "Resets a player's max view distance"
+set-cmd-description: "Set your own max view distance or the max view distance of another player"
+setonline-cmd-description: "Sets the max view distance of all online players"
+ping-cmd-description: "Toggles ping mode"
+dynamic-cmd-description: "Toggles dynamic mode"
+info-cmd-description: "Displays a player's view distance information"

@@ -46,6 +46,6 @@ public class DataProcessorUtility {
         ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(target, pingChunks);
 
         ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
-        MessageProcessor.processMessage("messages.ping-optimised", 2, result.getViewDistance(), target);
+        MessageProcessor.processMessage("ping-optimised", 2, result.getViewDistance(), target);
     }
 }

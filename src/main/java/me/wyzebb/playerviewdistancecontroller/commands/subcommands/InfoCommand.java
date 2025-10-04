@@ -29,7 +29,7 @@ public class InfoCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "commands.info";
+        return languageManager.getLanguageFile().getString("info-cmd-description");
     }
 
     @Override
@@ -46,13 +46,13 @@ public class InfoCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     sendInfoToSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("messages.incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
                 }
             } else {
                 String targetName = args[1];
@@ -64,7 +64,7 @@ public class InfoCommand extends SubCommand {
                     if (commandSender.hasPermission("pvdc.info-others") || commandSender instanceof ConsoleCommandSender) {
                         sendInfoForPlayer(target, commandSender);
                     } else {
-                        MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+                        MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class InfoCommand extends SubCommand {
             Player player = (Player) commandSender;
             sendInfoForPlayer(player, commandSender);
         } else {
-            MessageProcessor.processMessage("messages.no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
         }
     }
 
