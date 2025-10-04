@@ -5,6 +5,7 @@ import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.GeyserDetector;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
+import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.state.PlayerState;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
@@ -21,6 +22,12 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
  * Shows information for view distance configuration and player AFK state.
  */
 public class InfoCommand extends SubCommand {
+
+    private final LanguageManager languageManager;
+
+    public InfoCommand() {
+        this.languageManager = plugin.getLanguageManager();
+    }
 
     @Override
     public String getName() {
@@ -154,7 +161,7 @@ public class InfoCommand extends SubCommand {
         commandSender.sendMessage("§aDynamic Mode: " + dynamicStatus);
         
         // Configuration Information
-        boolean clientOptimization = plugin.getPluginConfig().getBoolean("use-client-view-distance", false);
+        boolean clientOptimization = plugin.getPluginConfig().useClientViewDistance();
         String clientOptStatus = clientOptimization ? "§aENABLED" : "§cDISABLED";
         commandSender.sendMessage("§aClient Optimization: " + clientOptStatus);
         
