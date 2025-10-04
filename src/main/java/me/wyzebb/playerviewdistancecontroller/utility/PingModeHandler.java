@@ -3,6 +3,7 @@ package me.wyzebb.playerviewdistancecontroller.utility;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

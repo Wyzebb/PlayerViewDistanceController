@@ -9,6 +9,7 @@ import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.integrations.PlaceholderAPIExpansion;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.listeners.UpdateVDListeners;
 import me.wyzebb.playerviewdistancecontroller.listeners.LuckPermsListeners;
 import me.wyzebb.playerviewdistancecontroller.listeners.AFKListeners;

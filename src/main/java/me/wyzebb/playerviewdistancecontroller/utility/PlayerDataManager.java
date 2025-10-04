@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
-import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 /**

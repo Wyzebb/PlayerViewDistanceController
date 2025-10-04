@@ -2,6 +2,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

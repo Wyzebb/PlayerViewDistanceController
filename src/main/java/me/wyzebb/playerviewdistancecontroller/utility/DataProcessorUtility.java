@@ -4,6 +4,7 @@ import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

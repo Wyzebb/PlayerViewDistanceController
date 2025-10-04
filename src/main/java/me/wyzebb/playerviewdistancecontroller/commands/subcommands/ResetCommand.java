@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.utility.PlayerDataManager;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;

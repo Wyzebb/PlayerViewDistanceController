@@ -5,6 +5,7 @@ import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContex
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

@@ -7,6 +7,7 @@ import me.wyzebb.playerviewdistancecontroller.integrations.GeyserDetector;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.state.PlayerState;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;

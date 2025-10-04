@@ -1,7 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.data;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.config.ConfigKeys;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.GeyserDetector;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;

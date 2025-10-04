@@ -1,10 +1,10 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.config.ConfigKeys;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import org.bukkit.entity.Player;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
