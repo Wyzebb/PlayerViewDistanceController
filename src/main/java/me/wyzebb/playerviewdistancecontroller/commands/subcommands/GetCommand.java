@@ -37,13 +37,13 @@ public class GetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     sendToSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
             } else {
@@ -54,9 +54,9 @@ public class GetCommand extends SubCommand {
                     sendToSelf(commandSender);
                 } else {
                     if (commandSender.hasPermission("pvdc.get-others") || commandSender instanceof ConsoleCommandSender) {
-                        MessageProcessor.processMessage("view-distance-get", 3, target, PlayerDataManager.getCurrentViewDistance(target), commandSender);
+                        MessageProcessor.processMessage("view-distance-get", MessageType.INFO, target, PlayerDataManager.getCurrentViewDistance(target), commandSender);
                     } else {
-                        MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+                        MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
                     }
                 }
             }
@@ -69,9 +69,9 @@ public class GetCommand extends SubCommand {
 
             int amount = PlayerDataManager.getCurrentViewDistance(player);
 
-            MessageProcessor.processMessage("self-view-distance-get", 3, player, amount, commandSender);
+            MessageProcessor.processMessage("self-view-distance-get", MessageType.INFO, player, amount, commandSender);
         } else {
-            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
         }
     }
 }

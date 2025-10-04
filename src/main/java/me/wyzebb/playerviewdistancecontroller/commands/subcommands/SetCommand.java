@@ -49,7 +49,7 @@ public class SetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 2 || args.length > 3) {
-            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
         } else {
             int amount = ClampAmountUtility.getMaxPossible();
 
@@ -57,19 +57,19 @@ public class SetCommand extends SubCommand {
                 amount = Integer.parseInt(args[1]);
                 amount = ClampAmountUtility.clampChunkValue(amount);
             } catch (Exception e) {
-                MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
             }
 
             if (args.length == 2) {
                 if (commandSender instanceof Player) {
                     setSelf(commandSender, amount);
                 } else {
-                    MessageProcessor.processMessage("not-player", 1, 0, commandSender);
+                    MessageProcessor.processMessage("not-player", MessageType.ERROR, 0, commandSender);
                 }
 
             } else {
                 if (!ClampAmountUtility.isNumeric(args[1])) {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
                 String targetName = args[2];
@@ -89,17 +89,17 @@ public class SetCommand extends SubCommand {
             int luckpermsMax = LPDetector.getLuckpermsDistance((Player) commandSender);
 
             if (luckpermsMax >= amount || commandSender.hasPermission("pvdc.bypass-maxdistance")) {
-                MessageProcessor.processMessage("self-view-distance-change", 2, amount, commandSender);
+                MessageProcessor.processMessage("self-view-distance-change", MessageType.SUCCESS, amount, commandSender);
 
                 DataProcessorUtility.processData((Player) commandSender, amount);
 
                 DataProcessorUtility.processDataOthers((Player) commandSender, 0);
             } else {
-                MessageProcessor.processMessage("chunks-too-high", 1, luckpermsMax, commandSender);
+                MessageProcessor.processMessage("chunks-too-high", MessageType.ERROR, luckpermsMax, commandSender);
             }
 
         } else {
-            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
         }
     }
 
@@ -122,7 +122,7 @@ public class SetCommand extends SubCommand {
             }
 
             DataProcessorUtility.processDataOthers(target, amount);
-            MessageProcessor.processMessage("sender-view-distance-change", 2, target, amount, commandSender);
+            MessageProcessor.processMessage("sender-view-distance-change", MessageType.SUCCESS, target, amount, commandSender);
 
             if (target.isOnline()) {
                 Player player = (Player) target;
@@ -132,7 +132,7 @@ public class SetCommand extends SubCommand {
                 ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
                 int appliedAmount = result.getViewDistance();
 
-                MessageProcessor.processMessage("target-view-distance-change", 2, target, appliedAmount, player);
+                MessageProcessor.processMessage("target-view-distance-change", MessageType.SUCCESS, target, appliedAmount, player);
             } else {
                 // Remove the data handler from memory and save
                 PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
@@ -157,7 +157,7 @@ public class SetCommand extends SubCommand {
                 }
             }
         } else {
-            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
         }
     }
 }

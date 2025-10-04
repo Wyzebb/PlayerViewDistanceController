@@ -196,7 +196,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         // Handle state-based actions
         if (previousState == PlayerState.AFK && currentState == PlayerState.RETURNING_FROM_AFK) {
             // Player is returning from AFK
-            MessageProcessor.processMessage("afk-return", 2, 0, player);
+            MessageProcessor.processMessage("afk-return", MessageType.SUCCESS, 0, player);
 
             // Apply any pending client view distance changes
             ClientViewDistanceTracker.applyPendingClientViewDistance(player);
@@ -271,7 +271,7 @@ public final class PlayerViewDistanceController extends JavaPlugin {
                 ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
                 int appliedAfkChunks = result.getViewDistance();
 
-                MessageProcessor.processMessage("afk", 3, appliedAfkChunks, player);
+                MessageProcessor.processMessage("afk", MessageType.INFO, appliedAfkChunks, player);
             }
         }
     }

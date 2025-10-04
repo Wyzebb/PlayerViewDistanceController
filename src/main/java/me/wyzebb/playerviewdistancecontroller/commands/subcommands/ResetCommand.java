@@ -37,13 +37,13 @@ public class ResetCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     resetSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("not-player", 1, 0, commandSender);
+                    MessageProcessor.processMessage("not-player", MessageType.ERROR, 0, commandSender);
                 }
 
             } else {
@@ -55,9 +55,9 @@ public class ResetCommand extends SubCommand {
                 } else {
                     if (commandSender.hasPermission("pvdc.reset-others") || commandSender instanceof ConsoleCommandSender) {
                         PlayerDataManager.resetPlayerData(target);
-                        MessageProcessor.processMessage("reset", 2, target, 0, commandSender);
+                        MessageProcessor.processMessage("reset", MessageType.SUCCESS, target, 0, commandSender);
                     } else {
-                        MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+                        MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
                     }
                 }
             }
@@ -67,10 +67,10 @@ public class ResetCommand extends SubCommand {
     private void resetSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.reset-self")) {
             PlayerDataManager.resetPlayerData((Player) commandSender);
-            MessageProcessor.processMessage("self-reset", 2, 0, commandSender);
+            MessageProcessor.processMessage("self-reset", MessageType.SUCCESS, 0, commandSender);
 
         } else {
-            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
         }
     }
 }

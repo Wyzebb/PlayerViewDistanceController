@@ -42,7 +42,7 @@ public class SetOnlineCommand extends SubCommand {
         if (commandSender.hasPermission("pvdc.setonline") || commandSender instanceof ConsoleCommandSender) {
 
             if (args.length != 2) {
-                MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
             } else {
                 int amount = ClampAmountUtility.getMaxPossible();
 
@@ -50,12 +50,12 @@ public class SetOnlineCommand extends SubCommand {
                     amount = Integer.parseInt(args[1]);
                     amount = ClampAmountUtility.clampChunkValue(amount);
                 } catch (Exception e) {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
                 try {
                     for (Player p : plugin.getServer().getOnlinePlayers()) {
-                        MessageProcessor.processMessage("all-online-change", 2, amount, p);
+                        MessageProcessor.processMessage("all-online-change", MessageType.SUCCESS, amount, p);
 
                         DataProcessorUtility.processDataOthers(p, amount);
                         
@@ -65,15 +65,15 @@ public class SetOnlineCommand extends SubCommand {
                         ViewDistanceUtility.applyOptimalViewDistance(context);
                     }
                 } catch (Exception e) {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
                 if (commandSender instanceof ConsoleCommandSender) {
-                    MessageProcessor.processMessage("all-online-change", 2, amount, commandSender);
+                    MessageProcessor.processMessage("all-online-change", MessageType.SUCCESS, amount, commandSender);
                 }
             }
         } else {
-            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
         }
     }
 }

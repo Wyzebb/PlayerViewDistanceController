@@ -39,29 +39,29 @@ public class PingModeCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 3) {
-            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player player) {
                     setSelfPingMode(commandSender, !(DataHandlerHandler.getPlayerDataHandler(player).isPingMode()));
                 } else {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
             } else if (args.length == 2) {
                 if (!(commandSender instanceof Player)) {
-                    MessageProcessor.processMessage("not-player", 1, commandSender);
+                    MessageProcessor.processMessage("not-player", MessageType.ERROR, commandSender);
                     return;
                 }
 
                 final String[] OPTIONS = {"on", "off", "info"};
 
                 if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("ping-info", 2, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
+                    MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
                     return;
                 }
 
@@ -76,18 +76,18 @@ public class PingModeCommand extends SubCommand {
                 final String[] OPTIONS = {"on", "off", "info"};
 
                 if (!(Arrays.asList(OPTIONS).contains(args[1]))) {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("ping-info", 2, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
+                    MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
                     return;
                 }
 
                 boolean mode = Objects.equals(args[1], "on");
 
                 if (target == null) {
-                    MessageProcessor.processMessage("not-offline-cmd", 1, 0, commandSender);
+                    MessageProcessor.processMessage("not-offline-cmd", MessageType.ERROR, 0, commandSender);
                 } else if (commandSender == target) {
                     setSelfPingMode(commandSender, mode);
                 } else {
@@ -100,31 +100,31 @@ public class PingModeCommand extends SubCommand {
     public static void setSelfPingMode(CommandSender commandSender, boolean pingMode) {
         if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
             if (commandSender.hasPermission("pvdc.ping-mode-set-self")) {
-                MessageProcessor.processMessage("ping-mode-change-self", 2, pingMode, commandSender);
+                MessageProcessor.processMessage("ping-mode-change-self", MessageType.SUCCESS, pingMode, commandSender);
 
                 DataProcessorUtility.processPingMode((Player) commandSender, pingMode);
 
             } else {
-                MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+                MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
             }
         } else {
-            MessageProcessor.processMessage("ping-mode-disabled", 1, commandSender);
+            MessageProcessor.processMessage("ping-mode-disabled", MessageType.ERROR, commandSender);
         }
     }
 
     public static void setPingMode(CommandSender commandSender, boolean pingMode, Player target) {
         if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
             if (commandSender.hasPermission("pvdc.ping-mode-set-others")) {
-                MessageProcessor.processMessage("ping-mode-change", 2, pingMode, target);
-                MessageProcessor.processMessage("ping-mode-change-others", 2, pingMode, commandSender);
+                MessageProcessor.processMessage("ping-mode-change", MessageType.SUCCESS, pingMode, target);
+                MessageProcessor.processMessage("ping-mode-change-others", MessageType.SUCCESS, pingMode, commandSender);
 
                 DataProcessorUtility.processPingMode(target, pingMode);
 
             } else {
-                MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+                MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
             }
         } else {
-            MessageProcessor.processMessage("ping-mode-disabled", 1, commandSender);
+            MessageProcessor.processMessage("ping-mode-disabled", MessageType.ERROR, commandSender);
         }
     }
 }

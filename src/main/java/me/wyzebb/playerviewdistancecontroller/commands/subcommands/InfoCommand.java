@@ -53,13 +53,13 @@ public class InfoCommand extends SubCommand {
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {
-            MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+            MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player) {
                     sendInfoToSelf(commandSender);
                 } else {
-                    MessageProcessor.processMessage("incorrect-args", 1, 0, commandSender);
+                    MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
             } else {
                 String targetName = args[1];
@@ -71,7 +71,7 @@ public class InfoCommand extends SubCommand {
                     if (commandSender.hasPermission("pvdc.info-others") || commandSender instanceof ConsoleCommandSender) {
                         sendInfoForPlayer(target, commandSender);
                     } else {
-                        MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+                        MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
                     }
                 }
             }
@@ -89,7 +89,7 @@ public class InfoCommand extends SubCommand {
             Player player = (Player) commandSender;
             sendInfoForPlayer(player, commandSender);
         } else {
-            MessageProcessor.processMessage("no-permission", 1, 0, commandSender);
+            MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
         }
     }
 
