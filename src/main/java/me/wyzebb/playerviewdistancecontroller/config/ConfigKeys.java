@@ -6,7 +6,7 @@ package me.wyzebb.playerviewdistancecontroller.config;
 public final class ConfigKeys {
     // Colour and Prefix Settings
     public static final String PREFIX = "prefix";
-    public static final String GENERIC_COLOR = "color";
+    public static final String INFO_COLOR = "info-color";
     public static final String SUCCESS_COLOR = "success-color";
     public static final String ERROR_COLOR = "error-color";
 

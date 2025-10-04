@@ -75,7 +75,7 @@ public class PluginConfig {
     }
 
     public String getColor() {
-        return config.getString(ConfigKeys.GENERIC_COLOR, "§e");
+        return config.getString(ConfigKeys.INFO_COLOR, "§e");
     }
 
     public String getSuccessColor() {
