@@ -1,0 +1,110 @@
+package me.wyzebb.playerviewdistancecontroller.config;
+
+import org.bukkit.configuration.file.FileConfiguration;
+
+public class PluginConfig {
+
+    private final FileConfiguration config;
+
+    public PluginConfig(FileConfiguration config) {
+        this.config = config;
+    }
+
+    // View Distance Settings
+    public int getDefaultDistance() {
+        return config.getInt(ConfigKeys.DEFAULT_DISTANCE, 32);
+    }
+
+    public int getBedrockDefaultDistance() {
+        return config.getInt(ConfigKeys.BEDROCK_DEFAULT_DISTANCE, 32);
+    }
+
+    public int getMaxDistance() {
+        return config.getInt(ConfigKeys.MAX_DISTANCE, 32);
+    }
+
+    public int getMinDistance() {
+        return config.getInt(ConfigKeys.MIN_DISTANCE, 2);
+    }
+
+    // AFK Settings
+    public boolean isAfkChunkLimiterEnabled() {
+        return config.getBoolean(ConfigKeys.AFK_CHUNK_LIMITER, true);
+    }
+
+    public boolean isAfkOnJoinEnabled() {
+        return config.getBoolean(ConfigKeys.AFK_ON_JOIN, false);
+    }
+
+    public int getAfkTime() {
+        return config.getInt(ConfigKeys.AFK_TIME, 120);
+    }
+
+    public int getAfkChunks() {
+        return config.getInt(ConfigKeys.AFK_CHUNKS, 2);
+    }
+
+    public boolean canSpectatorsAfk() {
+        return config.getBoolean(ConfigKeys.AFK_SPECTATORS, false);
+    }
+
+    public boolean isVoidAfkEnabled() {
+        return config.getBoolean(ConfigKeys.AFK_VOID_WORLD, false);
+    }
+
+    // Display Settings
+    public boolean msgOnJoin() {
+        return config.getBoolean(ConfigKeys.MSG_ON_JOIN, true);
+    }
+
+    public boolean msgOnJoinMax() {
+        return config.getBoolean(ConfigKeys.MSG_ON_JOIN_MAX, false);
+    }
+
+    public boolean msgOnJoinMaxView() {
+        return config.getBoolean(ConfigKeys.MSG_ON_JOIN_MAX_VIEW, true);
+    }
+
+    public boolean msgOnWorldChange() {
+        return config.getBoolean(ConfigKeys.MSG_ON_WORLD_CHANGE, false);
+    }
+
+    // Color Settings
+    public String getPrefix() {
+        return config.getString(ConfigKeys.PREFIX, "§l(!) ");
+    }
+
+    public String getColor() {
+        return config.getString(ConfigKeys.GENERIC_COLOR, "§e");
+    }
+
+    public String getSuccessColor() {
+        return config.getString(ConfigKeys.SUCCESS_COLOR, "§a");
+    }
+
+    public String getErrorColor() {
+        return config.getString(ConfigKeys.ERROR_COLOR, "§c");
+    }
+
+    // Feature Settings
+    public boolean useClientViewDistance() {
+        return config.getBoolean(ConfigKeys.USE_CLIENT_VIEW_DISTANCE, false);
+    }
+
+    public boolean isSyncSimulationDistanceEnabled() {
+        return config.getBoolean(ConfigKeys.SYNC_SIMULATION_DISTANCE, true);
+    }
+
+    public boolean isUpdateCheckerEnabled() {
+        return config.getBoolean(ConfigKeys.UPDATE_CHECKER_ENABLED, true);
+    }
+
+    public boolean recalculateViewDistanceOnWorldChange() {
+        return config.getBoolean(ConfigKeys.RECALCULATE_VD_ON_WORLD_CHANGE, false);
+    }
+
+    // Language Settings
+    public String getLanguage() {
+        return config.getString(ConfigKeys.LANGUAGE, "en_US");
+    }
+}
