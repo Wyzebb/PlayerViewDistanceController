@@ -38,6 +38,8 @@ public final class ConfigKeys {
     public static final String RECALCULATE_VD_ON_WORLD_CHANGE = "world-change-recalculate-view";
     public static final String SAVE_PLAYER_DATA = "save-player-data";
 
+    public static final String LIST_OFFLINE_PLAYERS = "list-offline-players";
+
     // Private constructor to prevent instantiation
     private ConfigKeys() {
         throw new UnsupportedOperationException("Utility class");

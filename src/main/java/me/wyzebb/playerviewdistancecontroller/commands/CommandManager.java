@@ -10,12 +10,15 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class CommandManager implements TabExecutor {
 
@@ -101,22 +104,37 @@ public class CommandManager implements TabExecutor {
 
     private static @NotNull ArrayList<String> getAllPlayers(@NotNull String @NotNull [] args, int argIndex) {
         ArrayList<String> playerNames = new ArrayList<>();
-        OfflinePlayer[] players = Bukkit.getServer().getOfflinePlayers();
 
         if (args[argIndex].isEmpty()) {
-            for (OfflinePlayer player : players) {
-                playerNames.add(player.getName());
+            if (plugin.getPluginConfig().isListOfflinePlayers()) {
+                for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
+                    playerNames.add(player.getName());
+                }
+            } else {
+                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                    playerNames.add(player.getName());
+                }
             }
-
         } else {
             String input = args[argIndex].toLowerCase();
-            for (OfflinePlayer player : players) {
-                String name = player.getName();
-                if (name != null && name.toLowerCase().startsWith(input)) {
-                    playerNames.add(name);
+
+            if (plugin.getPluginConfig().isListOfflinePlayers()) {
+                for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
+                    String name = player.getName();
+                    if (name != null && name.toLowerCase().startsWith(input)) {
+                        playerNames.add(name);
+                    }
+                }
+            } else {
+                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                    String name = player.getName();
+                    if (name.toLowerCase().startsWith(input)) {
+                        playerNames.add(name);
+                    }
                 }
             }
         }
+
         return playerNames;
     }
 }

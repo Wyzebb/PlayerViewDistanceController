@@ -63,4 +63,6 @@ world-change-recalculate-view: false
 # When disabled, players start fresh each session with default/LuckPerms settings
 save-player-data: true
 
+list-offline-players: false
+
 update-checker-enabled: true

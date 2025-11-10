@@ -111,4 +111,8 @@ public class PluginConfig {
     public String getLanguage() {
         return config.getString(ConfigKeys.LANGUAGE, "en_US");
     }
+
+    public boolean isListOfflinePlayers() {
+        return config.getBoolean(ConfigKeys.LIST_OFFLINE_PLAYERS, false);
+    }
 }
