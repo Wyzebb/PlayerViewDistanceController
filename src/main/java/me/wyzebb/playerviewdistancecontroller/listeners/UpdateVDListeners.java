@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -31,7 +32,7 @@ public class UpdateVDListeners implements Listener {
         this.mm = MiniMessage.miniMessage();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     private void onPlayerJoin(PlayerJoinEvent e) {
         if (plugin.getConfig().getBoolean("update-checker-enabled")) {
             if (e.getPlayer().isOp() && !UpdateChecker.isUpToDate()) {
@@ -73,7 +74,7 @@ public class UpdateVDListeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     private void onPlayerQuit(PlayerQuitEvent e) {
         PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(e.getPlayer());
 
@@ -99,7 +100,7 @@ public class UpdateVDListeners implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     private void onWorldChange(PlayerChangedWorldEvent event) {
         if (plugin.getConfig().getBoolean("recalculate-vd-on-world-change")) {
             VdCalculator.calcVdSet(event.getPlayer(), true, false, true);
