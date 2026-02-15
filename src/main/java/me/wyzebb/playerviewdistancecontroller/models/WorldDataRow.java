@@ -1,64 +1,63 @@
 package me.wyzebb.playerviewdistancecontroller.models;
 
-public class WorldDataRow {
-    private String userId;
-    private String world;
-    private int vd;
-    private int vdAdmin;
-    private String createdAt;
-    private String updatedAt;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.UUID;
 
-    public WorldDataRow() {}
+public final class WorldDataRow {
+    private final UUID playerUUID;
+    private final String world;
+    private final int vd;
+    private final int vdAdmin;
+    private final Timestamp createdAt;
+    private final Timestamp updatedAt;
+
+    private WorldDataRow(UUID playerUUID, String world, int vd, int vdAdmin, Timestamp createdAt, Timestamp updatedAt) {
+        this.playerUUID = playerUUID;
+        this.world = world;
+        this.vd = vd;
+        this.vdAdmin = vdAdmin;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public static WorldDataRow fromResultSet(ResultSet resultSet) throws SQLException {
+        return new WorldDataRow(
+                UUID.fromString(resultSet.getString("player_uuid")),
+                resultSet.getString("world"),
+                resultSet.getInt("vd"),
+                resultSet.getInt("vd_admin"),
+                resultSet.getTimestamp("created_at"),
+                resultSet.getTimestamp("updated_at")
+        );
+    }
 
     public String toString() {
-        return "Data for " + userId + " for world " + world + ": vd " + vd + ", vdAdmin " + vdAdmin + ", createdAt " + createdAt + ", updatedAt " + updatedAt + ", updatedAt " + createdAt;
+        return "Data for " + playerUUID + " for world " + world + ": vd " + vd + ", vdAdmin " + vdAdmin + ", createdAt " + createdAt + ", updatedAt " + updatedAt + ", updatedAt " + createdAt;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public UUID getPlayerUUID() {
+        return playerUUID;
     }
 
     public String getWorld() {
         return world;
     }
 
-    public void setWorld(String world) {
-        this.world = world;
-    }
-
     public int getVd() {
         return vd;
-    }
-
-    public void setVd(int vd) {
-        this.vd = vd;
     }
 
     public int getVdAdmin() {
         return vdAdmin;
     }
 
-    public void setVdAdmin(int vdAdmin) {
-        this.vdAdmin = vdAdmin;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
