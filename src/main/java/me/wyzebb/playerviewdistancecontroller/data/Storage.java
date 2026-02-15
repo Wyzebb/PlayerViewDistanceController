@@ -31,7 +31,7 @@ public class Storage {
 
     public static int getChunks(OfflinePlayer player, String world) {
         if (sqlDb) {
-            final int value = 0;
+            final int[] value = {0};
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try {
                     final String query = "SELECT vd FROM vdData WHERE player_uuid = ?";
@@ -40,7 +40,7 @@ public class Storage {
                     statement.setString(1, player.getName());
 
                     final ResultSet resultSet = statement.executeQuery();
-                    value = resultSet.getInt(0);
+                    value[0] = resultSet.getInt(0);
 
                     resultSet.close();
                     statement.close();
@@ -49,13 +49,11 @@ public class Storage {
                 }
             });
 
-            return value;
+            return value[0];
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             return handler.getChunks();
         }
-
-        return 0;
     }
 
     public static List<WorldDataRow> getRows(OfflinePlayer player) {
