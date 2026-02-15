@@ -273,7 +273,7 @@ public class ViewDistanceUtility {
             
             // Save user preference
             dataHandler.setChunks(context.getSavedViewDistance());
-            dataHandler.setChunksOthers(context.getSavedOthersDistance());
+            dataHandler.setAdminChunks(context.getSavedOthersDistance());
             dataHandler.setPingMode(context.isPingModeEnabled());
             
             DataHandlerHandler.setPlayerDataHandler(player, dataHandler);

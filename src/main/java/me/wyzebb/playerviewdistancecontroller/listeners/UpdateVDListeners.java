@@ -107,7 +107,7 @@ public class UpdateVDListeners implements Listener {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
             cfg.set("chunks", dataHandler.getChunks());
-            cfg.set("chunksOthers", dataHandler.getChunksOthers());
+            cfg.set("chunksOthers", dataHandler.getAdminChunks());
             cfg.set("pingMode", dataHandler.isPingMode());
 
             try {

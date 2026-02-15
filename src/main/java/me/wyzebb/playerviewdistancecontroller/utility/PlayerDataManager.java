@@ -32,7 +32,7 @@ public class PlayerDataManager {
         if (playerDataFile.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
             dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
-            dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
+            dataHandler.setAdminChunks(cfg.getInt("chunksOthers"));
             dataHandler.setPingMode(cfg.getBoolean("pingMode"));
         }
     }
@@ -51,7 +51,7 @@ public class PlayerDataManager {
 
         if (player.isOnline()) {
             dataHandler.setChunks(ClampAmountUtility.getMaxPossible());
-            dataHandler.setChunksOthers(0);
+            dataHandler.setAdminChunks(0);
             dataHandler.setPingMode(false);
 
             DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
@@ -105,7 +105,7 @@ public class PlayerDataManager {
                 FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
                 dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
-                dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
+                dataHandler.setAdminChunks(cfg.getInt("chunksOthers"));
                 dataHandler.setPingMode(cfg.getBoolean("pingMode"));
             }
 
@@ -116,8 +116,8 @@ public class PlayerDataManager {
 
         int finalChunks = Math.min(playerDataHandler.getChunks(), luckpermsDistance);
 
-        if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {
-            finalChunks = DataHandlerHandler.getPlayerDataHandler(player).getChunksOthers();
+        if (playerDataHandler.getAdminChunks() != 0 && playerDataHandler.getAdminChunks() != -1) {
+            finalChunks = DataHandlerHandler.getPlayerDataHandler(player).getAdminChunks();
         }
 
         return finalChunks;

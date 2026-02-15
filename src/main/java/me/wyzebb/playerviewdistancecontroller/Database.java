@@ -13,7 +13,7 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public final class Database {
     private static final Database INSTANCE = new Database();
-    private final Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
     private Connection connection;
 
     public boolean updateVd(OfflinePlayer player, String world, int vd) {
@@ -60,7 +60,7 @@ public final class Database {
                 return;
             }
 
-            if (plugin.getPluginConfig().getDatabaseType() == DatabaseType.MYSQL) {
+            if (plugin.getPluginConfig().getDatabaseType() == StorageType.MYSQL) {
                 Class.forName("com.mysql.cj.jdbc.Driver");
 
                 final String jdbcUrl = "jdbc:mysql://" + plugin.getPluginConfig().getDatabaseHost() + ":" + plugin.getPluginConfig().getDatabasePort() + "/" + plugin.getPluginConfig().getDatabaseDatabase() + "?useSSL=false&autoReconnect=true";
@@ -134,12 +134,17 @@ public final class Database {
         }
     }
 
-    public enum DatabaseType {
+    public enum StorageType {
         MYSQL,
-        SQLITE
+        SQLITE,
+        YAML
     }
 
     public static Database getInstance() {
         return INSTANCE;
+    }
+
+    public static Connection getConnection() {
+        return INSTANCE.connection;
     }
 }

@@ -3,7 +3,6 @@ package me.wyzebb.playerviewdistancecontroller.data;
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
-import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import org.bukkit.entity.Player;
@@ -172,7 +171,7 @@ public class ViewDistanceContextFactory {
                 .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
                 .withBaseViewDistance(getDefaultViewDistance(player))
                 .withSavedViewDistance(dataHandler.getChunks())
-                .withSavedOthersDistance(dataHandler.getChunksOthers())
+                .withSavedOthersDistance(dataHandler.getAdminChunks())
                 .withPingMode(dataHandler.isPingMode())
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
                 .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
@@ -188,7 +187,7 @@ public class ViewDistanceContextFactory {
                 .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
                 .withBaseViewDistance(getDefaultViewDistance(player))
                 .withSavedViewDistance(dataHandler.getChunks())
-                .withSavedOthersDistance(dataHandler.getChunksOthers())
+                .withSavedOthersDistance(dataHandler.getAdminChunks())
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
                 .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
                 .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))

@@ -4,7 +4,6 @@ import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
-import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
@@ -122,7 +121,7 @@ public class InfoCommand extends SubCommand {
         int basePreference = dataHandler.getChunks();
         commandSender.sendMessage("§aBase Preference: §f" + basePreference + " chunks");
         
-        int chunksOthers = dataHandler.getChunksOthers();
+        int chunksOthers = dataHandler.getAdminChunks();
         if (chunksOthers != 0 && chunksOthers != -1) {
             commandSender.sendMessage("§eAdmin Override: §f" + chunksOthers + " chunks");
         }

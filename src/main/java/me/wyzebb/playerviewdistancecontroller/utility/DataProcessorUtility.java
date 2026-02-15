@@ -25,7 +25,7 @@ public class DataProcessorUtility {
 
     public static void processDataOthers(OfflinePlayer target, int amountOthers) {
         PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
-        dataHandler.setChunksOthers(amountOthers);
+        dataHandler.setAdminChunks(amountOthers);
     }
 
     public static void processPingMode(Player target, boolean pingMode) {

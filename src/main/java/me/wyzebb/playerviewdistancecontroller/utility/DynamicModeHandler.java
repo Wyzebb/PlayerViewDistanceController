@@ -29,8 +29,8 @@ public class DynamicModeHandler {
                     PlayerDataHandler playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);
                     int maxAllowed = ClampAmountUtility.clampChunkValue(ClampAmountUtility.getMaxPossible());
 
-                    if (playerDataHandler.getChunksOthers() != 0 && playerDataHandler.getChunksOthers() != -1) {
-                        maxAllowed = Math.min(playerDataHandler.getChunksOthers(), luckpermsDistance);
+                    if (playerDataHandler.getAdminChunks() != 0 && playerDataHandler.getAdminChunks() != -1) {
+                        maxAllowed = Math.min(playerDataHandler.getAdminChunks(), luckpermsDistance);
                     }
 
                     int optimisedChunks = ClampAmountUtility.clampChunkValue(maxAllowed);

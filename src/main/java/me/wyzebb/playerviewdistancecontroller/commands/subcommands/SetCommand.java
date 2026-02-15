@@ -114,7 +114,7 @@ public class SetCommand extends SubCommand {
                     FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
                     dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
-                    dataHandler.setChunksOthers(cfg.getInt("chunksOthers"));
+                    dataHandler.setAdminChunks(cfg.getInt("chunksOthers"));
                     dataHandler.setPingMode(cfg.getBoolean("pingMode"));
                 }
 
@@ -142,7 +142,7 @@ public class SetCommand extends SubCommand {
                     FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
                     cfg.set("chunks", dataHandler.getChunks());
-                    cfg.set("chunksOthers", dataHandler.getChunksOthers());
+                    cfg.set("chunksOthers", dataHandler.getAdminChunks());
                     cfg.set("pingMode", dataHandler.isPingMode());
 
                     try {

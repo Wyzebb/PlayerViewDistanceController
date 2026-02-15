@@ -42,8 +42,6 @@ public class DatabaseCommand extends SubCommand {
         return "/pvdc db [player]";
     }
 
-    private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     @Override
     public void performCommand(CommandSender commandSender, String[] args) {
         if (args.length < 1 || args.length > 2) {

@@ -1,16 +1,16 @@
 package me.wyzebb.playerviewdistancecontroller.data;
 
 public class PlayerDataHandler {
-    private int chunks;
-    private int chunksOthers;
     private boolean pingMode;
+    private int chunks;
+    private int adminChunks;
 
     public int getChunks() {
         return chunks;
     }
 
-    public int getChunksOthers() {
-        return chunksOthers;
+    public int getAdminChunks() {
+        return adminChunks;
     }
 
     public boolean isPingMode() {
@@ -21,8 +21,8 @@ public class PlayerDataHandler {
         this.chunks = chunks;
     }
 
-    public void setChunksOthers(int chunksOthers) {
-        this.chunksOthers = chunksOthers;
+    public void setAdminChunks(int adminChunks) {
+        this.adminChunks = adminChunks;
     }
 
     public void setPingMode(boolean pingMode) {
