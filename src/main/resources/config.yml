@@ -59,10 +59,20 @@ msg-on-world-change: false
 # Useful if you have different permission nodes for different worlds
 world-change-recalculate-view: false
 
+world-independent: false
+
 # Whether to save player view distance preferences to disk (defaults to true)
 # When disabled, players start fresh each session with default/LuckPerms settings
 save-player-data: true
 
 list-offline-players: false
+
+storage-method: sqlite
+
+db-host: 12.34.56.78
+db-port: 1234
+db-database: pvdc-db
+db-username:
+db-password:
 
 update-checker-enabled: true

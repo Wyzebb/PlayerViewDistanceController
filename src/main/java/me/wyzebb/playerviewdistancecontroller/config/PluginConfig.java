@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.config;
 
+import me.wyzebb.playerviewdistancecontroller.Database;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class PluginConfig {
@@ -114,5 +115,37 @@ public class PluginConfig {
 
     public boolean isListOfflinePlayers() {
         return config.getBoolean(ConfigKeys.LIST_OFFLINE_PLAYERS, false);
+    }
+
+    public Database.StorageType getDatabaseType() {
+        return Database.StorageType.valueOf(config.getString(ConfigKeys.STORAGE_METHOD, "sqlite").toUpperCase());
+    }
+
+    public String getDatabaseHost() {
+        return config.getString(ConfigKeys.DB_HOST, "");
+    }
+
+    public String getDatabasePort() {
+        return config.getString(ConfigKeys.DB_PORT, "");
+    }
+
+    public String getDatabaseDatabase() {
+        return config.getString(ConfigKeys.DB_DATABASE, "");
+    }
+
+    public String getDatabaseUsername() {
+        return config.getString(ConfigKeys.DB_USERNAME, "");
+    }
+
+    public String getDatabasePassword() {
+        return config.getString(ConfigKeys.DB_PASSWORD, "");
+    }
+
+    public String getSqliteFile() {
+        return config.getString(ConfigKeys.SQLITE_FILE, "");
+    }
+
+    public boolean isWorldIndependent() {
+        return config.getBoolean(ConfigKeys.WORLD_INDEPENDENT, false);
     }
 }
