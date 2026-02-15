@@ -43,6 +43,8 @@ no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact
 no-permission: "You do not have permission to execute this command!"
 incorrect-args: "Incorrect arguments - Use /pvdc help for help"
 
+db-header: "Database view for player {target-player}:"
+
 # Command descriptions
 get-cmd-description: "Displays a player's max view distance, excluding AFK and performance mode effects"
 help-cmd-description: "Displays the plugin's help message"

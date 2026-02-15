@@ -7,6 +7,10 @@ description: This plugin makes the maximum view distance of each player highly c
 prefix: PVDC
 folia-supported: true
 
+libraries:
+  - com.mysql:mysql-connector-j:9.5.0
+  - org.xerial:sqlite-jdbc:3.50.3.0
+
 dependencies:
   server:
     PlaceholderAPI:
@@ -87,4 +91,8 @@ permissions:
 
   pvdc.info-others:
     description: Allows you to view view distance information for other players
+    default: op
+
+  pvdc.db-view:
+    description: View VD Data rows for a player
     default: op

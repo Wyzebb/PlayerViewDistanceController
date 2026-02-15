@@ -33,6 +33,7 @@ public class CommandManager implements TabExecutor {
         subcommands.add(new HelpCommand());
         subcommands.add(new PingModeCommand());
         subcommands.add(new DynamicModeCommand());
+        subcommands.add(new DatabaseCommand());
     }
 
     @Override
@@ -75,11 +76,8 @@ public class CommandManager implements TabExecutor {
             suggestions.add("<chunks>");
 
             return suggestions;
-        } else if (args.length == 2 && args[0].equals("get")) {
-            return getAllPlayers(args, 1);
-        } else if (args.length == 2 && args[0].equals("reset")) {
-            return getAllPlayers(args, 1);
-        } else if (args.length == 2 && args[0].equals("info")) {
+        } else if (args.length == 2 && (args[0].equals("get") || args[0].equals("reset") || args[0].equals("info")
+                || args[0].equals("db"))) {
             return getAllPlayers(args, 1);
         } else if (args.length == 2 && args[0].equals("setonline")) {
             return Collections.singletonList("<chunks>");
