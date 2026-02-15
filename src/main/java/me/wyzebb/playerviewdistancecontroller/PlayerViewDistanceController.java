@@ -105,6 +105,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
         languageManager = new LanguageManager();
 
+        // Database init
+        Database.getInstance().load();
+
         luckPermsDetected = IntegrationManager.initialLuckPermsCheck();
 
         if (luckPermsDetected) {
@@ -296,6 +299,9 @@ public final class PlayerViewDistanceController extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        // Database init
+        Database.getInstance().close();
 
         getLogger().info("Plugin shut down!");
     }
