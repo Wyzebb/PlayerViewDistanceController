@@ -1,9 +1,10 @@
 # To prevent a specific message from being sent, set it to "none"
+# 要阻止发送特定消息，请将其设置为 "none"
 
 messages:
   join: "您当前的最大视距设置为 {chunks} 区块"
 
-  not-max: "Your view distance is set to {chunks}. Use /pvdc <chunks> to alter this to a max of {maxChunks} for this world! Use /pvdc reset to max your view distance globally."
+  not-max: "您的视距已设置为 {chunks} 区块。使用 /pvdc <区块数> 可将其更改为此世界最大 {maxChunks} 区块！使用 /pvdc reset 可全局重置为最大视距。"
 
   no-permission: "您没有权限执行此命令！"
 
@@ -23,36 +24,36 @@ messages:
   target-view-distance-change: "您的最大视距已被更改为 {chunks} 区块"
 
   reset: "您已重置 {target-player} 的视距！"
-  self-reset: "重置自己的视距！"
+  self-reset: "您已将自己的视距重置为最大值！"
 
   all-online-change: "所有在线玩家的最大视距已设置为 {chunks} 区块"
 
   view-distance-get: "{target-player} 的最大视距当前设置为 {chunks} 区块"
   self-view-distance-get: "您的最大视距当前设置为 {chunks} 区块"
 
-  ping-mode-change-self: "You turned {mode} ping mode!"
-  ping-mode-change-others: "The player's ping mode is now {mode}!"
-  ping-mode-change: "Your ping mode is now {mode}!"
-  ping-optimised: "Your view distance has been optimised for ping!"
-  ping-info: "Ping mode is turned {mode} for you!"
-  ping-mode-disabled: "Ping mode is disabled on this server!"
+  ping-mode-change-self: "您已 {mode} ping 优化模式！"
+  ping-mode-change-others: "该玩家的 ping 优化模式现已 {mode}！"
+  ping-mode-change: "您的 ping 优化模式现已 {mode}！"
+  ping-optimised: "您的视距已根据 ping 值进行优化！"
+  ping-info: "您的 ping 优化模式当前为 {mode} 状态！"
+  ping-mode-disabled: "本服务器已禁用 ping 优化模式！"
 
-  dynamic-mode-change: "Dynamic mode is now {mode}!"
-  dynamic-info: "Dynamic mode is turned {mode}!"
-  dynamic-mode-reduced: "Your view distance has been reduced due to dynamic mode!"
+  dynamic-mode-change: "动态视距模式现已 {mode}！"
+  dynamic-info: "动态视距模式当前为 {mode} 状态！"
+  dynamic-mode-reduced: "由于动态模式介入，您的视距已被降低！"
 
-  not-player: "You must be a player to do this!"
-  not-offline-cmd: "This command does not currently support offline players!"
+  not-player: "您必须是玩家才能执行此操作！"
+  not-offline-cmd: "该命令当前不支持对离线玩家使用！"
 
-  no-keys-ping: "There are missing config keys for ping mode. Please contact the server admin!"
-  no-keys-dynamic: "There are missing config keys for dynamic mode. Please contact the server admin!"
+  no-keys-ping: "ping 优化模式的配置项缺失，请联系服务器管理员！"
+  no-keys-dynamic: "动态视距模式的配置项缺失，请联系服务器管理员！"
 
 
 commands:
-  get: "Displays a player's max view distance, excluding AFK and performance mode effects"
+  get: "显示一名玩家的最大视距（不包括 AFK 和性能模式的影响）"
   help: "显示插件的帮助信息"
   reset: "重置某个玩家的最大视距"
   set: "设置自己的最大视距或其他玩家的最大视距"
   setonline: "设置所有在线玩家的最大视距"
-  ping: "Toggles ping mode"
-  dynamic: "Toggles dynamic mode"
+  ping: "切换（开启/关闭）ping 优化模式"
+  dynamic: "切换（开启/关闭）动态视距模式"
