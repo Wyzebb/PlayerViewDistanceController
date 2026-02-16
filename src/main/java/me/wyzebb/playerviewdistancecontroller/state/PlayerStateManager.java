@@ -157,9 +157,7 @@ public class PlayerStateManager {
             info.state = PlayerState.LEAVING;
         }
         // Clean up after a delay to allow final operations
-        plugin.getFoliaLib().getScheduler().runLater(() -> {
-            playerStates.remove(playerId);
-        }, 20L); // 1 second delay
+        plugin.getFoliaLib().getScheduler().runLater(() -> playerStates.remove(playerId), 20L); // 1 second delay
     }
     
     /**
@@ -172,20 +170,13 @@ public class PlayerStateManager {
      */
     private boolean isValidTransition(PlayerState from, PlayerState to) {
         // Define valid transitions
-        switch (from) {
-            case ACTIVE:
-                return to == PlayerState.AFK || to == PlayerState.LEAVING;
-            case AFK:
-                return to == PlayerState.RETURNING_FROM_AFK || to == PlayerState.LEAVING;
-            case RETURNING_FROM_AFK:
-                return to == PlayerState.ACTIVE || to == PlayerState.LEAVING;
-            case JOINING:
-                return to == PlayerState.ACTIVE || to == PlayerState.AFK;
-            case LEAVING:
-                return false; // No transitions from LEAVING
-            default:
-                return false;
-        }
+        return switch (from) {
+            case ACTIVE -> to == PlayerState.AFK || to == PlayerState.LEAVING;
+            case AFK -> to == PlayerState.RETURNING_FROM_AFK || to == PlayerState.LEAVING;
+            case RETURNING_FROM_AFK -> to == PlayerState.ACTIVE || to == PlayerState.LEAVING;
+            case JOINING -> to == PlayerState.ACTIVE || to == PlayerState.AFK;
+            case LEAVING -> false; // No transitions from LEAVING
+        };
     }
     
     /**

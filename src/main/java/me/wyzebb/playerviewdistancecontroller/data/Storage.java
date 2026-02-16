@@ -25,9 +25,8 @@ public class Storage {
 
     public static void setChunks(OfflinePlayer player, UUID world, int chunks) {
         if (sqlDb) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                Database.getInstance().updateInt("vd", player, world, chunks);
-            });
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                    Database.getInstance().updateInt("vd", player, world, chunks));
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             handler.setChunks(chunks);
@@ -36,9 +35,8 @@ public class Storage {
 
     public static void setAdminChunks(OfflinePlayer player, UUID world, int chunks) {
         if (sqlDb) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                Database.getInstance().updateInt("vd_admin", player, world, chunks);
-            });
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                    Database.getInstance().updateInt("vd_admin", player, world, chunks));
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             handler.setAdminChunks(chunks);
@@ -47,9 +45,8 @@ public class Storage {
 
     public static void setPingMode(OfflinePlayer player, boolean pingMode) {
         if (sqlDb) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                Database.getInstance().updateBoolean("ping_mode", player, pingMode);
-            });
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                    Database.getInstance().updateBoolean("ping_mode", player, pingMode));
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             handler.setPingMode(pingMode);

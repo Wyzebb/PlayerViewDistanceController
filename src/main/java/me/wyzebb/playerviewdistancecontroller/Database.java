@@ -1,6 +1,5 @@
 package me.wyzebb.playerviewdistancecontroller;
 
-import com.google.gson.Gson;
 import org.bukkit.OfflinePlayer;
 
 import java.io.File;
@@ -14,7 +13,6 @@ import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceControlle
 
 public final class Database {
     private static final Database INSTANCE = new Database();
-    private static final Gson GSON = new Gson();
     private Connection connection;
 
     public boolean updateInt(String field, OfflinePlayer player, UUID world, int value) {

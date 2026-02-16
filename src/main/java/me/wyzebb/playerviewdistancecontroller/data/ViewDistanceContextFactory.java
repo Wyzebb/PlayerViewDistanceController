@@ -4,7 +4,6 @@ import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import org.bukkit.entity.Player;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;

@@ -67,7 +67,7 @@ public class ViewDistanceCalculationContext {
     }
     
     public static class Builder {
-        private Player player;
+        private final Player player;
         private PlayerState playerState = PlayerState.ACTIVE;
         private int baseViewDistance;
         private int savedViewDistance = -1;
