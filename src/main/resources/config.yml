@@ -69,10 +69,10 @@ list-offline-players: false
 
 storage-method: sqlite
 
-db-host: 12.34.56.78
-db-port: 1234
-db-database: pvdc-db
-db-username:
-db-password:
+db-host: localhost
+db-port: 3306
+db-database: pvdc
+db-username: user
+db-password: pass
 
 update-checker-enabled: true
