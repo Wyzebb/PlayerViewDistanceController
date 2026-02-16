@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.UUID;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
@@ -16,7 +17,7 @@ public final class Database {
     private static final Gson GSON = new Gson();
     private Connection connection;
 
-    public boolean updateInt(String field, OfflinePlayer player, String world, int vd) {
+    public boolean updateInt(String field, OfflinePlayer player, UUID world, int value) {
         synchronized (this.connection) {
             try {
                 final PreparedStatement statement = connection.prepareStatement(
@@ -28,12 +29,12 @@ public final class Database {
                 statement.setBoolean(3, plugin.getPingOptimiserConfig().getBoolean("enabled"));
 
                 final PreparedStatement vdStatement = connection.prepareStatement(
-                        "INSERT INTO vdData (player_uuid, world, " + field + ") " +
+                        "INSERT INTO vd_data (player_uuid, world, " + field + ") " +
                                 "VALUES (?, ?, ?)");
 
-                statement.setString(1, player.getUniqueId().toString());
-                statement.setString(2, plugin.getPluginConfig().isWorldIndependent() ? world : "default");
-                statement.setInt(3, vd);
+                vdStatement.setString(1, player.getUniqueId().toString());
+                vdStatement.setString(2, plugin.getPluginConfig().isWorldIndependent() ? world.toString() : "default");
+                vdStatement.setInt(3, value);
 
                 final int rows = statement.executeUpdate();
                 statement.close();
@@ -125,14 +126,14 @@ public final class Database {
                     "ping_mode BOOLEAN NOT NULL" +
                     ")");
 
-            statement.execute("CREATE TABLE vdData (" +
-                    "user_id TEXT NOT NULL," +
+            statement.execute("CREATE TABLE vd_data (" +
+                    "player_uuid VARCHAR(36) NOT NULL," +
                     "world TEXT," +
                     "vd INTEGER NOT NULL DEFAULT 0," +
                     "vd_admin INTEGER NOT NULL DEFAULT 0," +
                     "created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-                    "FOREIGN KEY (user_id) REFERENCES users(player_uuid) ON DELETE CASCADE" +
+                    "FOREIGN KEY (player_uuid) REFERENCES users(player_uuid) ON DELETE CASCADE" +
                     ")");
 
             statement.close();

@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.listeners;
 
+import me.wyzebb.playerviewdistancecontroller.Database;
 import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
@@ -58,6 +59,7 @@ public class UpdateVDListeners implements Listener {
         Player player = e.getPlayer();
 
         if (!Storage.isSqlDb()) PlayerDataManager.ensureDataLoaded(player);
+        if (Storage.isSqlDb()) Database.getInstance().updateInt("vd", player, player.getWorld().getUID(), 0);
         
         // Use factory for player join context
         ViewDistanceCalculationContext context = ViewDistanceContextFactory.createJoinContext(player);

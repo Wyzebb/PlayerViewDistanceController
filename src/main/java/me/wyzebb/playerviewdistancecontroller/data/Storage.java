@@ -26,7 +26,7 @@ public class Storage {
     public static void setChunks(OfflinePlayer player, UUID world, int chunks) {
         if (sqlDb) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                Database.getInstance().updateInt("vd", player, world.toString(), chunks);
+                Database.getInstance().updateInt("vd", player, world, chunks);
             });
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
@@ -37,7 +37,7 @@ public class Storage {
     public static void setAdminChunks(OfflinePlayer player, UUID world, int chunks) {
         if (sqlDb) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                Database.getInstance().updateInt("vd_admin", player, world.toString(), chunks);
+                Database.getInstance().updateInt("vd_admin", player, world, chunks);
             });
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
@@ -61,7 +61,7 @@ public class Storage {
             final int[] value = {0};
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try {
-                    String query = "SELECT vd FROM vdData WHERE player_uuid = ?";
+                    String query = "SELECT vd FROM vd_data WHERE player_uuid = ?";
 
                     if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
 
@@ -92,7 +92,7 @@ public class Storage {
             final int[] value = {0};
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try {
-                    String query = "SELECT vd_admin FROM vdData WHERE player_uuid = ?";
+                    String query = "SELECT vd_admin FROM vd_data WHERE player_uuid = ?";
 
                     if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
 
@@ -150,7 +150,7 @@ public class Storage {
             final List<WorldDataRow> rows = new ArrayList<>();
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try {
-                    final String query = "SELECT * FROM vdData WHERE player_uuid = ?";
+                    final String query = "SELECT * FROM vd_data WHERE player_uuid = ?";
 
                     final PreparedStatement statement = Database.getConnection().prepareStatement(query);
                     statement.setString(1, player.getName());
