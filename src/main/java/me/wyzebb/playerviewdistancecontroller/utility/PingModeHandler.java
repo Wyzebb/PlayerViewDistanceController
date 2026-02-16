@@ -1,6 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
@@ -24,16 +24,15 @@ public class PingModeHandler {
 
     public static void optimisePing(Player player) {
         if (!pingModeDisabled) {
-            PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
-            if (dataHandler.isPingMode()) {
+            if (Storage.isPingMode(player)) {
                 int luckpermsDistance = IntegrationManager.getLuckpermsDistance(player);
                 luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-                PlayerDataHandler playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);
                 int maxAllowed = ClampAmountUtility.clampChunkValue(ClampAmountUtility.getMaxPossible());
 
-                if (playerDataHandler.getAdminChunks() != 0 && playerDataHandler.getAdminChunks() != -1) {
-                    maxAllowed = Math.min(playerDataHandler.getAdminChunks(), luckpermsDistance);
+                final int adminChunks = Storage.getAdminChunks(player, player.getWorld().getUID());
+                if (adminChunks != 0 && adminChunks != -1) {
+                    maxAllowed = Math.min(adminChunks, luckpermsDistance);
                 }
 
                 int pingOptimisedChunks = Math.max(maxAllowed, plugin.getPingOptimiserConfig().getInt("min"));

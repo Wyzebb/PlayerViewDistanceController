@@ -1,6 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
@@ -26,11 +26,11 @@ public class DynamicModeHandler {
                     int luckpermsDistance = IntegrationManager.getLuckpermsDistance(player);
                     luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
 
-                    PlayerDataHandler playerDataHandler = DataHandlerHandler.getPlayerDataHandler(player);
                     int maxAllowed = ClampAmountUtility.clampChunkValue(ClampAmountUtility.getMaxPossible());
 
-                    if (playerDataHandler.getAdminChunks() != 0 && playerDataHandler.getAdminChunks() != -1) {
-                        maxAllowed = Math.min(playerDataHandler.getAdminChunks(), luckpermsDistance);
+                    final int adminChunks = Storage.getAdminChunks(player, player.getWorld().getUID());
+                    if (adminChunks != 0 && adminChunks != -1) {
+                        maxAllowed = Math.min(adminChunks, luckpermsDistance);
                     }
 
                     int optimisedChunks = ClampAmountUtility.clampChunkValue(maxAllowed);

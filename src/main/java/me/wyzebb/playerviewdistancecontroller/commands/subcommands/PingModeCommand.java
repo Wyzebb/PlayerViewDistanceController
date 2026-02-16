@@ -1,8 +1,8 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
@@ -44,7 +44,7 @@ public class PingModeCommand extends SubCommand {
         } else {
             if (args.length == 1) {
                 if (commandSender instanceof Player player) {
-                    setSelfPingMode(commandSender, !(DataHandlerHandler.getPlayerDataHandler(player).isPingMode()));
+                    setSelfPingMode(commandSender, !(Storage.isPingMode(player)));
                 } else {
                     MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
@@ -62,7 +62,7 @@ public class PingModeCommand extends SubCommand {
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
+                    MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, Storage.isPingMode((Player) commandSender), commandSender);
                     return;
                 }
 
@@ -81,7 +81,7 @@ public class PingModeCommand extends SubCommand {
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, DataHandlerHandler.getPlayerDataHandler((Player) commandSender).isPingMode(), commandSender);
+                    MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, Storage.isPingMode((Player) commandSender), commandSender);
                     return;
                 }
 

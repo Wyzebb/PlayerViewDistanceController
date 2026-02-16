@@ -1,7 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
-import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
@@ -9,7 +9,6 @@ import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.state.PlayerState;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -108,8 +107,6 @@ public class InfoCommand extends SubCommand {
         if (!isOnline) {
             commandSender.sendMessage("§cPlayer is OFFLINE - showing saved data only");
         }
-
-        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
         
         // Basic View Distance Information
         if (isOnline) {
@@ -118,10 +115,10 @@ public class InfoCommand extends SubCommand {
             commandSender.sendMessage("§aApplied View Distance: §f" + appliedDistance + " chunks");
         }
         
-        int basePreference = dataHandler.getChunks();
+        int basePreference = Storage.getChunks(target, ((Player) target).getWorld().getUID());
         commandSender.sendMessage("§aBase Preference: §f" + basePreference + " chunks");
         
-        int chunksOthers = dataHandler.getAdminChunks();
+        int chunksOthers = Storage.getAdminChunks(target, ((Player) target).getWorld().getUID());
         if (chunksOthers != 0 && chunksOthers != -1) {
             commandSender.sendMessage("§eAdmin Override: §f" + chunksOthers + " chunks");
         }
@@ -148,7 +145,7 @@ public class InfoCommand extends SubCommand {
         commandSender.sendMessage("§aPlayer Type: §f" + playerType);
         
         // Mode Information
-        boolean pingMode = dataHandler.isPingMode();
+        boolean pingMode = Storage.isPingMode(target);
         String pingStatus = pingMode ? "§aON" : "§cOFF";
         commandSender.sendMessage("§aPing Mode: " + pingStatus);
         
