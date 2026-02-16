@@ -118,11 +118,11 @@ public final class Database {
             final Statement statement = connection.createStatement();
 
             statement.execute("CREATE TABLE IF NOT EXISTS users (" +
-                    "player_uuid TEXT NOT NULL PRIMARY KEY," +
+                    "player_uuid VARCHAR(36) NOT NULL PRIMARY KEY," +
                     "created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "world_independent BOOLEAN NOT NULL," +
-                    "ping_mode BOOLEAN NOT NULL," +
+                    "ping_mode BOOLEAN NOT NULL" +
                     ")");
 
             statement.execute("CREATE TABLE vdData (" +
