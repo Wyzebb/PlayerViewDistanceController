@@ -16,7 +16,7 @@ public final class Database {
     private static final Gson GSON = new Gson();
     private Connection connection;
 
-    public boolean updateVd(OfflinePlayer player, String world, int vd) {
+    public boolean updateInt(String field, OfflinePlayer player, String world, int vd) {
         synchronized (this.connection) {
             try {
                 final PreparedStatement statement = connection.prepareStatement(
@@ -25,10 +25,10 @@ public final class Database {
 
                 statement.setString(1, player.getUniqueId().toString());
                 statement.setBoolean(2, plugin.getPluginConfig().isWorldIndependent());
-                statement.setBoolean(2, plugin.getPingOptimiserConfig().getBoolean("enabled"));
+                statement.setBoolean(3, plugin.getPingOptimiserConfig().getBoolean("enabled"));
 
                 final PreparedStatement vdStatement = connection.prepareStatement(
-                        "INSERT INTO vdData (user_id, world, vd) " +
+                        "INSERT INTO vdData (player_uuid, world, " + field + ") " +
                                 "VALUES (?, ?, ?)");
 
                 statement.setString(1, player.getUniqueId().toString());
@@ -42,6 +42,27 @@ public final class Database {
                 vdStatement.close();
 
                 return rows > 0 && vdRows > 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+    }
+
+    public boolean updateBoolean(String field, OfflinePlayer player, boolean value) {
+        synchronized (this.connection) {
+            try {
+                final PreparedStatement statement = connection.prepareStatement(
+                        "INSERT INTO users (player_uuid, " + field + ") " +
+                                "VALUES (?, ?)");
+
+                statement.setString(1, player.getUniqueId().toString());
+                statement.setBoolean(2, value);
+
+                final int rows = statement.executeUpdate();
+                statement.close();
+
+                return rows > 0;
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
