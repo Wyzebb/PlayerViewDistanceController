@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.listeners;
 
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTracker;
@@ -55,7 +56,8 @@ public class UpdateVDListeners implements Listener {
         
         // Load player data from file before context creation
         Player player = e.getPlayer();
-        PlayerDataManager.ensureDataLoaded(player);
+
+        if (!Storage.isSqlDb()) PlayerDataManager.ensureDataLoaded(player);
         
         // Use factory for player join context
         ViewDistanceCalculationContext context = ViewDistanceContextFactory.createJoinContext(player);
@@ -99,26 +101,28 @@ public class UpdateVDListeners implements Listener {
     private void onPlayerQuit(PlayerQuitEvent e) {
         // Notify state manager of player quit
         plugin.getStateManager().onPlayerQuit(e.getPlayer());
-        
-        PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(e.getPlayer());
 
-        if (plugin.getPluginConfig().savePlayerData()) {
-            File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+        if (!Storage.isSqlDb()) {
+            PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(e.getPlayer());
 
-            cfg.set("chunks", dataHandler.getChunks());
-            cfg.set("chunksOthers", dataHandler.getAdminChunks());
-            cfg.set("pingMode", dataHandler.isPingMode());
+            if (plugin.getPluginConfig().savePlayerData()) {
+                File playerDataFile = DataHandlerHandler.getPlayerDataFile(e.getPlayer());
+                FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
-            try {
-                cfg.save(playerDataFile);
-            } catch (Exception ex) {
-                plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
-            } finally {
+                cfg.set("chunks", dataHandler.getChunks());
+                cfg.set("chunksOthers", dataHandler.getAdminChunks());
+                cfg.set("pingMode", dataHandler.isPingMode());
+
+                try {
+                    cfg.save(playerDataFile);
+                } catch (Exception ex) {
+                    plugin.getLogger().severe("An exception occurred when setting view distance data for " + e.getPlayer().getName() + ": " + ex.getMessage());
+                } finally {
+                    DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
+                }
+            } else {
                 DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
             }
-        } else {
-            DataHandlerHandler.setPlayerDataHandler(e.getPlayer(), null);
         }
             
         // Cleanup client view distance tracking data

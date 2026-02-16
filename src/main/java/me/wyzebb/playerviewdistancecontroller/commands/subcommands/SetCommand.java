@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
@@ -106,19 +107,24 @@ public class SetCommand extends SubCommand {
     public static void setOthers(CommandSender commandSender, OfflinePlayer target, int amount) {
         if (commandSender.hasPermission("pvdc.set-others") || commandSender instanceof ConsoleCommandSender) {
             if (!target.isOnline()) {
-                File playerDataFile = DataHandlerHandler.getPlayerDataFile(target);
+                if (!Storage.isSqlDb()) {
+                    File playerDataFile = DataHandlerHandler.getPlayerDataFile(target);
 
-                PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
+                    PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
 
-                if (playerDataFile.exists()) {
-                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+                    if (playerDataFile.exists()) {
+                        FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
-                    dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
-                    dataHandler.setAdminChunks(cfg.getInt("chunksOthers"));
-                    dataHandler.setPingMode(cfg.getBoolean("pingMode"));
+                        dataHandler.setChunks(ClampAmountUtility.clampChunkValue(cfg.getInt("chunks")));
+                        dataHandler.setAdminChunks(cfg.getInt("chunksOthers"));
+                        dataHandler.setPingMode(cfg.getBoolean("pingMode"));
+                    }
+
+                    DataHandlerHandler.setPlayerDataHandler(target, dataHandler);
+                } else {
+                    if (plugin.getPluginConfig().savePlayerData()) Storage.setAdminChunks(target, ((Player) target).getWorld().getUID(), amount);
+                    //TODO: WI and sort out offline player setting - if offline must select world if WI on
                 }
-
-                DataHandlerHandler.setPlayerDataHandler(target, dataHandler);
             }
 
             DataProcessorUtility.processDataOthers(target, amount);
@@ -134,26 +140,31 @@ public class SetCommand extends SubCommand {
 
                 MessageProcessor.processMessage("target-view-distance-change", MessageType.SUCCESS, target, appliedAmount, player);
             } else {
-                // Remove the data handler from memory and save
-                PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
+                if (!Storage.isSqlDb()) {
+                    // Remove the data handler from memory and save
+                    PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(target);
 
-                if (plugin.getPluginConfig().savePlayerData()) {
-                    File playerDataFile = DataHandlerHandler.getPlayerDataFile(target);
-                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
+                    if (plugin.getPluginConfig().savePlayerData()) {
+                        File playerDataFile = DataHandlerHandler.getPlayerDataFile(target);
+                        FileConfiguration cfg = YamlConfiguration.loadConfiguration(playerDataFile);
 
-                    cfg.set("chunks", dataHandler.getChunks());
-                    cfg.set("chunksOthers", dataHandler.getAdminChunks());
-                    cfg.set("pingMode", dataHandler.isPingMode());
+                        cfg.set("chunks", dataHandler.getChunks());
+                        cfg.set("chunksOthers", dataHandler.getAdminChunks());
+                        cfg.set("pingMode", dataHandler.isPingMode());
 
-                    try {
-                        cfg.save(playerDataFile);
-                    } catch (Exception ex) {
-                        plugin.getLogger().severe("An exception occurred when setting view distance data for " + target.getName() + ": " + ex.getMessage());
-                    } finally {
+                        try {
+                            cfg.save(playerDataFile);
+                        } catch (Exception ex) {
+                            plugin.getLogger().severe("An exception occurred when setting view distance data for " + target.getName() + ": " + ex.getMessage());
+                        } finally {
+                            DataHandlerHandler.setPlayerDataHandler(target, null);
+                        }
+                    } else {
                         DataHandlerHandler.setPlayerDataHandler(target, null);
                     }
                 } else {
-                    DataHandlerHandler.setPlayerDataHandler(target, null);
+                    if (plugin.getPluginConfig().savePlayerData()) Storage.setAdminChunks(target, ((Player) target).getWorld().getUID(), amount);
+                    //TODO: WI and sort out offline player setting - if offline must select world if WI on
                 }
             }
         } else {
