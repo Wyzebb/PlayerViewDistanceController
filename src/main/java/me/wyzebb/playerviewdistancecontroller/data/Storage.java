@@ -26,7 +26,7 @@ public class Storage {
     public static void setChunks(OfflinePlayer player, UUID world, int chunks) {
         if (sqlDb) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
-                    Database.getInstance().updateInt("vd", player, world, chunks));
+                    Database.getInstance().updateVdRowInt("vd", player, world, chunks));
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             handler.setChunks(chunks);
@@ -36,7 +36,7 @@ public class Storage {
     public static void setAdminChunks(OfflinePlayer player, UUID world, int chunks) {
         if (sqlDb) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
-                    Database.getInstance().updateInt("vd_admin", player, world, chunks));
+                    Database.getInstance().updateVdRowInt("vd_admin", player, world, chunks));
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             handler.setAdminChunks(chunks);
@@ -46,7 +46,7 @@ public class Storage {
     public static void setPingMode(OfflinePlayer player, boolean pingMode) {
         if (sqlDb) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
-                    Database.getInstance().updateBoolean("ping_mode", player, pingMode));
+                    Database.getInstance().updateUserBoolean("ping_mode", player, pingMode));
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             handler.setPingMode(pingMode);
@@ -55,60 +55,65 @@ public class Storage {
 
     public static int getChunks(OfflinePlayer player, UUID world) {
         if (sqlDb) {
-            final int[] value = {0};
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                try {
-                    String query = "SELECT vd FROM vd_data WHERE player_uuid = ?";
+            try {
+                String query = "SELECT vd FROM vd_data WHERE player_uuid = ?";
 
-                    if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
+                if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
 
-                    final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                    statement.setString(1, player.getName());
-                    if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world.toString());
+                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+                statement.setString(1, player.getUniqueId().toString());
+                if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world.toString());
 
-                    final ResultSet resultSet = statement.executeQuery();
-                    value[0] = resultSet.getInt(0);
-                    //TODO Issue when multiple rows and world independence off
+                final ResultSet resultSet = statement.executeQuery();
 
-                    resultSet.close();
-                    statement.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
+                int result = 0;
+                if (resultSet.next()) {
+                    result = resultSet.getInt("vd");
                 }
-            });
+                //TODO Issue when multiple rows and world independence off
 
-            return value[0];
+                resultSet.close();
+                statement.close();
+
+                return result;
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             return handler.getChunks();
         }
+        return 0;
     }
 
     public static int getAdminChunks(OfflinePlayer player, UUID world) {
         if (sqlDb) {
-            final int[] value = {0};
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                try {
-                    String query = "SELECT vd_admin FROM vd_data WHERE player_uuid = ?";
+            try {
+                String query = "SELECT vd_admin FROM vd_data WHERE player_uuid = ?";
 
-                    if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
+                if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
 
-                    final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                    statement.setString(1, player.getName());
-                    if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world.toString());
+                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+                statement.setString(1, player.getUniqueId().toString());
+                if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world.toString());
 
-                    final ResultSet resultSet = statement.executeQuery();
-                    value[0] = resultSet.getInt(0);
-                    //TODO Issue when multiple rows and world independence off
+                final ResultSet resultSet = statement.executeQuery();
 
-                    resultSet.close();
-                    statement.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
+                int result = 0;
+                if (resultSet.next()) {
+                    result = resultSet.getInt("vd_admin");
                 }
-            });
+                //TODO Issue when multiple rows and world independence off
 
-            return value[0];
+                resultSet.close();
+                statement.close();
+
+                return result;
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+
+            return 0;
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             return handler.getAdminChunks();
@@ -117,25 +122,28 @@ public class Storage {
 
     public static boolean isPingMode(OfflinePlayer player) {
         if (sqlDb) {
-            final boolean[] value = {false};
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                try {
-                    String query = "SELECT ping_mode FROM users WHERE player_uuid = ?";
+            try {
+                String query = "SELECT ping_mode FROM users WHERE player_uuid = ?";
 
-                    final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                    statement.setString(1, player.getName());
+                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+                statement.setString(1, player.getUniqueId().toString());
 
-                    final ResultSet resultSet = statement.executeQuery();
-                    value[0] = resultSet.getBoolean(0);
+                final ResultSet resultSet = statement.executeQuery();
 
-                    resultSet.close();
-                    statement.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
+                boolean result = false;
+                if (resultSet.next()) {
+                    result = resultSet.getBoolean("ping_mode");
                 }
-            });
 
-            return value[0];
+                resultSet.close();
+                statement.close();
+
+                return result;
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+
+            return false;
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             return handler.isPingMode();
@@ -145,12 +153,11 @@ public class Storage {
     public static List<WorldDataRow> getRows(OfflinePlayer player) {
         if (sqlDb) {
             final List<WorldDataRow> rows = new ArrayList<>();
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 try {
                     final String query = "SELECT * FROM vd_data WHERE player_uuid = ?";
 
                     final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                    statement.setString(1, player.getName());
+                    statement.setString(1, player.getUniqueId().toString());
 
                     final ResultSet resultSet = statement.executeQuery();
 
@@ -163,7 +170,6 @@ public class Storage {
                 } catch (final SQLException e) {
                     e.printStackTrace();
                 }
-            });
             return rows;
         }
 

@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller;
 
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.sql.Connection;
@@ -15,48 +16,15 @@ public final class Database {
     private static final Database INSTANCE = new Database();
     private Connection connection;
 
-    public boolean updateInt(String field, OfflinePlayer player, UUID world, int value) {
-        synchronized (this.connection) {
+    public boolean createUser(Player player) {
+        synchronized (this) {
             try {
                 final PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO users (player_uuid, world_independent, ping_mode) " +
-                                "VALUES (?, ?, ?)");
-
-                statement.setString(1, player.getUniqueId().toString());
-                statement.setBoolean(2, plugin.getPluginConfig().isWorldIndependent());
-                statement.setBoolean(3, plugin.getPingOptimiserConfig().getBoolean("enabled"));
-
-                final PreparedStatement vdStatement = connection.prepareStatement(
-                        "INSERT INTO vd_data (player_uuid, world, " + field + ") " +
-                                "VALUES (?, ?, ?)");
-
-                vdStatement.setString(1, player.getUniqueId().toString());
-                vdStatement.setString(2, plugin.getPluginConfig().isWorldIndependent() ? world.toString() : "default");
-                vdStatement.setInt(3, value);
-
-                final int rows = statement.executeUpdate();
-                statement.close();
-
-                final int vdRows = vdStatement.executeUpdate();
-                vdStatement.close();
-
-                return rows > 0 && vdRows > 0;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-    }
-
-    public boolean updateBoolean(String field, OfflinePlayer player, boolean value) {
-        synchronized (this.connection) {
-            try {
-                final PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO users (player_uuid, " + field + ") " +
+                        "INSERT IGNORE INTO users (player_uuid, world_independent) " +
                                 "VALUES (?, ?)");
 
                 statement.setString(1, player.getUniqueId().toString());
-                statement.setBoolean(2, value);
+                statement.setBoolean(2, plugin.getPluginConfig().isWorldIndependent());
 
                 final int rows = statement.executeUpdate();
                 statement.close();
@@ -65,6 +33,47 @@ public final class Database {
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
+            }
+        }
+    }
+
+    public void updateVdRowInt(String field, OfflinePlayer player, UUID world, int value) {
+        synchronized (this) {
+            try {
+                final PreparedStatement statement = connection.prepareStatement(
+                        "INSERT INTO vd_data (player_uuid, world, " + field + ") " +
+                        "VALUES (?, ?, ?) " +
+                        "ON DUPLICATE KEY UPDATE " +
+                        field + " = VALUES(" + field + ")");
+
+                statement.setString(1, player.getUniqueId().toString());
+                statement.setString(2, plugin.getPluginConfig().isWorldIndependent() ? world.toString() : "DEFAULT");
+                statement.setInt(3, value);
+
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateUserBoolean(String field, OfflinePlayer player, boolean value) {
+        synchronized (this) {
+            try {
+                final PreparedStatement statement = connection.prepareStatement(
+                        "INSERT INTO users (player_uuid, " + field + ") " +
+                                "VALUES (?, ?) " +
+                                "ON DUPLICATE KEY UPDATE " +
+                                field + " = VALUES(" + field + ")");
+
+                statement.setString(1, player.getUniqueId().toString());
+                statement.setBoolean(2, value);
+
+                statement.executeUpdate();
+                statement.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -121,16 +130,17 @@ public final class Database {
                     "created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "world_independent BOOLEAN NOT NULL," +
-                    "ping_mode BOOLEAN NOT NULL" +
+                    "ping_mode BOOLEAN NOT NULL DEFAULT FALSE" +
                     ")");
 
-            statement.execute("CREATE TABLE vd_data (" +
+            statement.execute("CREATE TABLE IF NOT EXISTS vd_data (" +
                     "player_uuid VARCHAR(36) NOT NULL," +
-                    "world TEXT," +
+                    "world VARCHAR(36) NOT NULL," +
                     "vd INTEGER NOT NULL DEFAULT 0," +
                     "vd_admin INTEGER NOT NULL DEFAULT 0," +
                     "created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                    "PRIMARY KEY (player_uuid, world)," +
                     "FOREIGN KEY (player_uuid) REFERENCES users(player_uuid) ON DELETE CASCADE" +
                     ")");
 

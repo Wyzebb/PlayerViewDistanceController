@@ -59,7 +59,10 @@ public class UpdateVDListeners implements Listener {
         Player player = e.getPlayer();
 
         if (!Storage.isSqlDb()) PlayerDataManager.ensureDataLoaded(player);
-        if (Storage.isSqlDb()) Database.getInstance().updateInt("vd", player, player.getWorld().getUID(), 0);
+
+        if (Storage.isSqlDb()) {
+            Database.getInstance().createUser(player);
+        }
         
         // Use factory for player join context
         ViewDistanceCalculationContext context = ViewDistanceContextFactory.createJoinContext(player);
