@@ -116,6 +116,20 @@ public class ViewDistanceContextFactory {
     }
 
     /**
+     * Creates a context for administrative commands.
+     * Uses specified base distance and enables appropriate messaging.
+     */
+    public static ViewDistanceCalculationContext createSelfCommandContext(Player player, int commandDistance) {
+        return createBaseContext(player)
+                .withBaseViewDistance(commandDistance)
+                .withLuckPermsEvent(false)
+                .withSendNoMessages(false)
+                .withWorldChange(false)
+                .withSelfChange(true)
+                .build();
+    }
+
+    /**
      * Creates a context for stopping dynamic mode.
      * Disables dynamic mode and enables permission-based messaging.
      */
@@ -167,8 +181,8 @@ public class ViewDistanceContextFactory {
         return ViewDistanceCalculationContext.builder(player)
                 .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
                 .withBaseViewDistance(getDefaultViewDistance(player))
-                .withSavedViewDistance(Storage.getChunks(player, player.getWorld().getUID()))
-                .withSavedOthersDistance(Storage.getAdminChunks(player, player.getWorld().getUID()))
+                .withSavedViewDistance(Storage.getChunks(player, player.getWorld().getUID().toString()))
+                .withSavedOthersDistance(Storage.getAdminChunks(player, player.getWorld().getUID().toString()))
                 .withPingMode(Storage.isPingMode(player))
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
                 .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
@@ -183,8 +197,8 @@ public class ViewDistanceContextFactory {
         return ViewDistanceCalculationContext.builder(player)
                 .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
                 .withBaseViewDistance(getDefaultViewDistance(player))
-                .withSavedViewDistance(Storage.getChunks(player, player.getWorld().getUID()))
-                .withSavedOthersDistance(Storage.getAdminChunks(player, player.getWorld().getUID()))
+                .withSavedViewDistance(Storage.getChunks(player, player.getWorld().getUID().toString()))
+                .withSavedOthersDistance(Storage.getAdminChunks(player, player.getWorld().getUID().toString()))
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
                 .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
                 .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))

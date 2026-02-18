@@ -1,10 +1,10 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
@@ -58,7 +58,7 @@ public class SetOnlineCommand extends SubCommand {
                     for (Player p : plugin.getServer().getOnlinePlayers()) {
                         MessageProcessor.processMessage("all-online-change", MessageType.SUCCESS, amount, p);
 
-                        DataProcessorUtility.processDataOthers(p, amount);
+                        Storage.setAdminChunks(p, p.getWorld().getUID().toString(), amount);
                         
                         // Build context for command execution using factory
                         ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(p, amount);

@@ -22,7 +22,8 @@ public class ViewDistanceCalculationContext {
     private final boolean isLuckPermsEvent;
     private final boolean sendNoMessages;
     private final boolean isWorldChange;
-    
+    private final boolean isSelfChange;
+
     private ViewDistanceCalculationContext(Builder builder) {
         this.player = builder.player;
         this.playerState = builder.playerState;
@@ -38,6 +39,7 @@ public class ViewDistanceCalculationContext {
         this.isLuckPermsEvent = builder.isLuckPermsEvent;
         this.sendNoMessages = builder.sendNoMessages;
         this.isWorldChange = builder.isWorldChange;
+        this.isSelfChange = builder.isSelfChange;
     }
     
     // Getters
@@ -55,7 +57,8 @@ public class ViewDistanceCalculationContext {
     public boolean isLuckPermsEvent() { return isLuckPermsEvent; }
     public boolean shouldSendNoMessages() { return sendNoMessages; }
     public boolean isWorldChange() { return isWorldChange; }
-    
+    public boolean isSelfChange() { return isSelfChange; }
+
     /**
      * Gets the effective base distance considering saved values
      */
@@ -81,7 +84,8 @@ public class ViewDistanceCalculationContext {
         private boolean isLuckPermsEvent = false;
         private boolean sendNoMessages = false;
         private boolean isWorldChange = false;
-        
+        private boolean isSelfChange = false;
+
         public Builder(Player player) {
             this.player = player;
         }
@@ -144,6 +148,11 @@ public class ViewDistanceCalculationContext {
         
         public Builder withWorldChange(boolean isWorldChange) {
             this.isWorldChange = isWorldChange;
+            return this;
+        }
+
+        public Builder withSelfChange(boolean isSelfChange) {
+            this.isSelfChange = isSelfChange;
             return this;
         }
         

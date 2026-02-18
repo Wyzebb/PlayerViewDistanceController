@@ -6,7 +6,6 @@ import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContex
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
-import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
@@ -73,8 +72,7 @@ public class SetCommand extends SubCommand {
                     MessageProcessor.processMessage("incorrect-args", MessageType.ERROR, 0, commandSender);
                 }
 
-                String targetName = args[2];
-                OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
+                OfflinePlayer target = Bukkit.getOfflinePlayer(args[2]);
 
                 if (commandSender == target) {
                     setSelf(commandSender, amount);
@@ -90,11 +88,8 @@ public class SetCommand extends SubCommand {
             int luckpermsMax = IntegrationManager.getLuckpermsDistance((Player) commandSender);
 
             if (luckpermsMax >= amount || commandSender.hasPermission("pvdc.bypass-maxdistance")) {
-                MessageProcessor.processMessage("self-view-distance-change", MessageType.SUCCESS, amount, commandSender);
-
-                DataProcessorUtility.processData((Player) commandSender, amount);
-
-                DataProcessorUtility.processDataOthers((Player) commandSender, 0);
+                ViewDistanceCalculationContext context = ViewDistanceContextFactory.createSelfCommandContext((Player) commandSender, amount);
+                ViewDistanceUtility.applyOptimalViewDistance(context);
             } else {
                 MessageProcessor.processMessage("chunks-too-high", MessageType.ERROR, luckpermsMax, commandSender);
             }
@@ -122,12 +117,12 @@ public class SetCommand extends SubCommand {
 
                     DataHandlerHandler.setPlayerDataHandler(target, dataHandler);
                 } else {
-                    if (plugin.getPluginConfig().savePlayerData()) Storage.setAdminChunks(target, ((Player) target).getWorld().getUID(), amount);
+                    if (plugin.getPluginConfig().savePlayerData()) Storage.setAdminChunks(target, ((Player) target).getWorld().getUID().toString(), amount);
                     //TODO: WI and sort out offline player setting - if offline must select world if WI on
                 }
             }
 
-            DataProcessorUtility.processDataOthers(target, amount);
+            Storage.setAdminChunks(target, ((Player) target).getWorld().getUID().toString(), amount);
             MessageProcessor.processMessage("sender-view-distance-change", MessageType.SUCCESS, target, amount, commandSender);
 
             if (target.isOnline()) {
@@ -163,7 +158,7 @@ public class SetCommand extends SubCommand {
                         DataHandlerHandler.setPlayerDataHandler(target, null);
                     }
                 } else {
-                    if (plugin.getPluginConfig().savePlayerData()) Storage.setAdminChunks(target, ((Player) target).getWorld().getUID(), amount);
+                    if (plugin.getPluginConfig().savePlayerData()) Storage.setAdminChunks(target, ((Player) target).getWorld().getUID().toString(), amount);
                     //TODO: WI and sort out offline player setting - if offline must select world if WI on
                 }
             }

@@ -1,6 +1,7 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
+import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 
@@ -113,7 +114,7 @@ public class ViewDistanceUtility {
     public static ViewDistanceResult applyOptimalViewDistance(ViewDistanceCalculationContext context) {
         ViewDistanceResult result = calculateAndApplyViewDistance(context);
         
-        updatePlayerDataHandler(context, result);
+        updatePlayerData(context);
         processMessaging(context, result);
         
         if (context.isPingModeEnabled()) {
@@ -209,6 +210,10 @@ public class ViewDistanceUtility {
             }
             return;
         }
+
+        if (context.isSelfChange()) {
+            MessageProcessor.processMessage("self-view-distance-change", MessageType.SUCCESS, appliedDistance, player);
+        }
         
         // Handle join messaging
         if (!context.isLuckPermsEvent() && !context.shouldSendNoMessages()) {
@@ -266,17 +271,23 @@ public class ViewDistanceUtility {
         MessageProcessor.processMessage("join", MessageType.INFO, appliedDistance, player);
     }
     
-    private static void updatePlayerDataHandler(ViewDistanceCalculationContext context, ViewDistanceResult result) {
+    private static void updatePlayerData(ViewDistanceCalculationContext context) {
         if (!context.isLuckPermsEvent()) {
-            Player player = context.getPlayer();
-            PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
-            
-            // Save user preference
-            dataHandler.setChunks(context.getSavedViewDistance());
-            dataHandler.setAdminChunks(context.getSavedOthersDistance());
-            dataHandler.setPingMode(context.isPingModeEnabled());
-            
-            DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
+            if (!Storage.isSqlDb()) {
+                Player player = context.getPlayer();
+                PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
+
+                // Save user preference
+                dataHandler.setChunks(context.getSavedViewDistance());
+                dataHandler.setAdminChunks(context.getSavedOthersDistance());
+                dataHandler.setPingMode(context.isPingModeEnabled());
+
+                DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
+            } else {
+                Storage.setChunks(context.getPlayer(), (plugin.getPluginConfig().isWorldIndependent() ? context.getPlayer().getWorld().getUID().toString() : "DEFAULT"), context.getSavedViewDistance());
+                Storage.setAdminChunks(context.getPlayer(), (plugin.getPluginConfig().isWorldIndependent() ? context.getPlayer().getWorld().getUID().toString() : "DEFAULT"), context.getSavedOthersDistance());
+                Storage.setPingMode(context.getPlayer(), context.isPingModeEnabled());
+            }
         }
     }
 }

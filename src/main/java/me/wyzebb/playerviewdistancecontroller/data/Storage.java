@@ -3,8 +3,11 @@ package me.wyzebb.playerviewdistancecontroller.data;
 import me.wyzebb.playerviewdistancecontroller.Database;
 import me.wyzebb.playerviewdistancecontroller.models.WorldDataRow;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +26,7 @@ public class Storage {
         return sqlDb;
     }
 
-    public static void setChunks(OfflinePlayer player, UUID world, int chunks) {
+    public static void setChunks(OfflinePlayer player, String world, int chunks) {
         if (sqlDb) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
                     Database.getInstance().updateVdRowInt("vd", player, world, chunks));
@@ -33,7 +36,7 @@ public class Storage {
         }
     }
 
-    public static void setAdminChunks(OfflinePlayer player, UUID world, int chunks) {
+    public static void setAdminChunks(OfflinePlayer player, String world, int chunks) {
         if (sqlDb) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
                     Database.getInstance().updateVdRowInt("vd_admin", player, world, chunks));
@@ -51,9 +54,16 @@ public class Storage {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
             handler.setPingMode(pingMode);
         }
+
+        if (pingMode) {
+            PingModeHandler.optimisePing((Player) player);
+        } else {
+            ViewDistanceCalculationContext context = ViewDistanceContextFactory.createStandardContext((Player) player);
+            ViewDistanceUtility.applyOptimalViewDistance(context);
+        }
     }
 
-    public static int getChunks(OfflinePlayer player, UUID world) {
+    public static int getChunks(OfflinePlayer player, String world) {
         if (sqlDb) {
             try {
                 String query = "SELECT vd FROM vd_data WHERE player_uuid = ?";
@@ -86,7 +96,7 @@ public class Storage {
         return 0;
     }
 
-    public static int getAdminChunks(OfflinePlayer player, UUID world) {
+    public static int getAdminChunks(OfflinePlayer player, String world) {
         if (sqlDb) {
             try {
                 String query = "SELECT vd_admin FROM vd_data WHERE player_uuid = ?";

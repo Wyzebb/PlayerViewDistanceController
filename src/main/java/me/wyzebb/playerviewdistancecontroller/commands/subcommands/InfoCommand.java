@@ -99,10 +99,9 @@ public class InfoCommand extends SubCommand {
      * @param commandSender The sender who will receive the output
      */
     private void sendInfoForPlayer(OfflinePlayer target, CommandSender commandSender) {
-        String playerName = target.getName();
-        boolean isOnline = target.isOnline();
+        final boolean isOnline = target.isOnline();
         
-        commandSender.sendMessage("§6=== PVDC View Distance Info for " + playerName + " ===");
+        commandSender.sendMessage("§6=== PVDC View Distance Info for " + target.getName() + " ===");
         
         if (!isOnline) {
             commandSender.sendMessage("§cPlayer is OFFLINE - showing saved data only");
@@ -115,10 +114,10 @@ public class InfoCommand extends SubCommand {
             commandSender.sendMessage("§aApplied View Distance: §f" + appliedDistance + " chunks");
         }
         
-        int basePreference = Storage.getChunks(target, ((Player) target).getWorld().getUID());
+        int basePreference = Storage.getChunks(target, ((Player) target).getWorld().getUID().toString());
         commandSender.sendMessage("§aBase Preference: §f" + basePreference + " chunks");
         
-        int chunksOthers = Storage.getAdminChunks(target, ((Player) target).getWorld().getUID());
+        int chunksOthers = Storage.getAdminChunks(target, ((Player) target).getWorld().getUID().toString());
         if (chunksOthers != 0 && chunksOthers != -1) {
             commandSender.sendMessage("§eAdmin Override: §f" + chunksOthers + " chunks");
         }

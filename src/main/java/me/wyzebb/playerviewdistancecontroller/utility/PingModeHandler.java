@@ -1,6 +1,8 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
 import me.wyzebb.playerviewdistancecontroller.data.Storage;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
@@ -30,7 +32,7 @@ public class PingModeHandler {
 
                 int maxAllowed = ClampAmountUtility.clampChunkValue(ClampAmountUtility.getMaxPossible());
 
-                final int adminChunks = Storage.getAdminChunks(player, player.getWorld().getUID());
+                final int adminChunks = Storage.getAdminChunks(player, player.getWorld().getUID().toString());
                 if (adminChunks != 0 && adminChunks != -1) {
                     maxAllowed = Math.min(adminChunks, luckpermsDistance);
                 }
@@ -51,12 +53,12 @@ public class PingModeHandler {
                 }
 
                 if (dynamicModeEnabled && (maxAllowed - dynamicReducedChunks != pingOptimisedChunks)) {
-                    DataProcessorUtility.processPingChunks(player, pingOptimisedChunks);
+                    processPingChunks(player, pingOptimisedChunks);
                     return;
                 }
 
                 if (!dynamicModeEnabled && (maxAllowed != pingOptimisedChunks)) {
-                    DataProcessorUtility.processPingChunks(player, pingOptimisedChunks);
+                    processPingChunks(player, pingOptimisedChunks);
                 }
             }
         }
@@ -84,5 +86,11 @@ public class PingModeHandler {
 
         plugin.getLogger().severe("There are no ping keys in the ping mode config! Ping mode will not work until you fix this!");
         return 1000;
+    }
+
+    private static void processPingChunks(Player target, int pingChunks) {
+        ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(target, pingChunks);
+        ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
+        MessageProcessor.processMessage("ping-optimised", MessageType.SUCCESS, result.getViewDistance(), target);
     }
 }

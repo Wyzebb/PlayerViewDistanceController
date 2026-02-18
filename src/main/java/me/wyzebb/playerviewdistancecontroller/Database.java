@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.UUID;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
@@ -37,7 +36,7 @@ public final class Database {
         }
     }
 
-    public void updateVdRowInt(String field, OfflinePlayer player, UUID world, int value) {
+    public void updateVdRowInt(String field, OfflinePlayer player, String world, int value) {
         synchronized (this) {
             try {
                 final PreparedStatement statement = connection.prepareStatement(

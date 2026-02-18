@@ -2,7 +2,6 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
-import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.Bukkit;
@@ -103,7 +102,7 @@ public class PingModeCommand extends SubCommand {
             if (commandSender.hasPermission("pvdc.ping-mode-set-self")) {
                 MessageProcessor.processMessage("ping-mode-change-self", MessageType.SUCCESS, pingMode, commandSender);
 
-                DataProcessorUtility.processPingMode((Player) commandSender, pingMode);
+                Storage.setPingMode((Player) commandSender, pingMode);
 
             } else {
                 MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
@@ -119,7 +118,7 @@ public class PingModeCommand extends SubCommand {
                 MessageProcessor.processMessage("ping-mode-change", MessageType.SUCCESS, pingMode, target);
                 MessageProcessor.processMessage("ping-mode-change-others", MessageType.SUCCESS, pingMode, commandSender);
 
-                DataProcessorUtility.processPingMode(target, pingMode);
+                Storage.setPingMode(target, pingMode);
 
             } else {
                 MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
