@@ -5,8 +5,11 @@ colour: "§e§l(!) §e"
 error-colour: "§c§l(!) §c"
 success-colour: "§a§l(!) §a"
 
-# Whether setting view distance also sets simulation distance
-sync-simulation-distance: true
+# Percentage of view distance to use for simulation distance (0-100)
+# 100 = simulation distance equals view distance
+# 60 = simulation distance is 60% of view distance
+# Set to 0 to disable syncing (simulation distance will use its own settings)
+sync-simulation-distance-percent: 60
 
 # Default view distance for anyone who joins the server (Must be between 2 and 32)
 default-distance: 32
@@ -17,6 +20,16 @@ max-distance: 32
 
 # Minimum view distance for anyone (Cannot be less than 2)
 min-distance: 2
+
+# Default simulation distance for anyone who joins the server (Must be between 2 and 32)
+default-simulation-distance: 10
+bedrock-default-simulation-distance: 10
+
+# Maximum simulation distance for anyone (Cannot exceed 32)
+max-simulation-distance: 32
+
+# Minimum simulation distance for anyone (Cannot be less than 2)
+min-simulation-distance: 2
 
 # Whether to save player view distance preferences to disk (defaults to true)
 # When disabled, players start fresh each session with default/LuckPerms settings

@@ -37,8 +37,8 @@ public class DynamicModeHandler {
 
                     player.setViewDistance(optimisedChunks);
 
-                    if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                        player.setSimulationDistance(optimisedChunks);
+                    if (SimulationDistanceUtility.isSimulationSyncEnabled()) {
+                        player.setSimulationDistance(SimulationDistanceUtility.calculateSimulationDistance(optimisedChunks));
                     }
 
                     if (optimisedChunks != maxAllowed && plugin.getConfig().getBoolean("send-dynamic-msgs")) {

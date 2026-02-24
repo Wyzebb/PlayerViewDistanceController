@@ -2,6 +2,7 @@ package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.SimulationDistanceUtility;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import org.bukkit.command.CommandSender;
@@ -57,8 +58,8 @@ public class SetOnlineCommand extends SubCommand {
                         DataProcessorUtility.processDataOthers(p, amount);
                         p.setViewDistance(amount);
 
-                        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                            p.setSimulationDistance(amount);
+                        if (SimulationDistanceUtility.isSimulationSyncEnabled()) {
+                            p.setSimulationDistance(SimulationDistanceUtility.calculateSimulationDistance(amount));
                         }
                     }
                 } catch (Exception e) {

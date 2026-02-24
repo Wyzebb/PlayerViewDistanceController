@@ -4,6 +4,7 @@ import me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataProcessorUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.SimulationDistanceUtility;
 import me.wyzebb.playerviewdistancecontroller.integrations.LPDetector;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
@@ -124,8 +125,8 @@ public class SetCommand extends SubCommand {
             if (target.isOnline()) {
                 ((Player) target).setViewDistance(amount);
 
-                if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                    ((Player) target).setSimulationDistance(amount);
+                if (SimulationDistanceUtility.isSimulationSyncEnabled()) {
+                    ((Player) target).setSimulationDistance(SimulationDistanceUtility.calculateSimulationDistance(amount));
                 }
 
                 MessageProcessor.processMessage("messages.target-view-distance-change", 2, target, amount, (Player) target);

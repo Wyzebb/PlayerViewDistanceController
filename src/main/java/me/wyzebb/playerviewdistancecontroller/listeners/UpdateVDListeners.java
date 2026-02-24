@@ -7,6 +7,7 @@ import me.wyzebb.playerviewdistancecontroller.data.VdCalculator;
 import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
+import me.wyzebb.playerviewdistancecontroller.utility.SimulationDistanceUtility;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -63,8 +64,8 @@ public class UpdateVDListeners implements Listener {
                 if (!player.hasPermission("pvdc.bypass-afk")) {
                     player.setViewDistance(afkChunks);
 
-                    if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                        player.setSimulationDistance(afkChunks);
+                    if (SimulationDistanceUtility.isSimulationSyncEnabled()) {
+                        player.setSimulationDistance(SimulationDistanceUtility.calculateSimulationDistance(afkChunks));
                     }
 
                     PlayerViewDistanceController.playerAfkMap.put(player.getUniqueId(), 0);

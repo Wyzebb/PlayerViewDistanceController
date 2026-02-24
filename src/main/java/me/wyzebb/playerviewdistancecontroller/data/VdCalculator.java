@@ -81,8 +81,8 @@ public class VdCalculator {
 
         boolean msgSent = false;
 
-        if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-            player.setSimulationDistance(amount);
+        if (SimulationDistanceUtility.isSimulationSyncEnabled()) {
+            player.setSimulationDistance(SimulationDistanceUtility.calculateSimulationDistance(finalChunks));
         }
 
         if (worldChange && finalChunks != luckpermsDistance) {

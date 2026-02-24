@@ -222,8 +222,8 @@ public final class PlayerViewDistanceController extends JavaPlugin {
 
                 player.setViewDistance(afkChunks);
 
-                if (plugin.getConfig().getBoolean("sync-simulation-distance")) {
-                    player.setSimulationDistance(afkChunks);
+                if (SimulationDistanceUtility.isSimulationSyncEnabled()) {
+                    player.setSimulationDistance(SimulationDistanceUtility.calculateSimulationDistance(afkChunks));
                 }
 
                 playerAfkMap.put(playerId, 0);
