@@ -34,6 +34,7 @@ public class CommandManager implements TabExecutor {
         subcommands.add(new PingModeCommand());
         subcommands.add(new DynamicModeCommand());
         subcommands.add(new DatabaseCommand());
+        subcommands.add(new MenuCommand());
     }
 
     @Override

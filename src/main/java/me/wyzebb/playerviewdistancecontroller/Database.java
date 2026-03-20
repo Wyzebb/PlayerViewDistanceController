@@ -19,11 +19,10 @@ public final class Database {
         synchronized (this) {
             try {
                 final PreparedStatement statement = connection.prepareStatement(
-                        "INSERT IGNORE INTO users (player_uuid, world_independent) " +
-                                "VALUES (?, ?)");
+                        "INSERT IGNORE INTO users (player_uuid) " +
+                                "VALUES (?)");
 
                 statement.setString(1, player.getUniqueId().toString());
-                statement.setBoolean(2, plugin.getPluginConfig().isWorldIndependent());
 
                 final int rows = statement.executeUpdate();
                 statement.close();
@@ -128,7 +127,6 @@ public final class Database {
                     "player_uuid VARCHAR(36) NOT NULL PRIMARY KEY," +
                     "created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-                    "world_independent BOOLEAN NOT NULL," +
                     "ping_mode BOOLEAN NOT NULL DEFAULT FALSE" +
                     ")");
 

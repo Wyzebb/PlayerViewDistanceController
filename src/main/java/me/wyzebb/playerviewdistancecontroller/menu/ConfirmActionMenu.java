@@ -11,6 +11,7 @@ import java.util.List;
 public class ConfirmActionMenu extends Menu {
     private final String actionName;
     private final Runnable onConfirm;
+
     public ConfirmActionMenu(PlayerMenuHandler playerMenuHandler, String actionName, Runnable onConfirm) {
         super(playerMenuHandler);
         this.actionName = actionName;

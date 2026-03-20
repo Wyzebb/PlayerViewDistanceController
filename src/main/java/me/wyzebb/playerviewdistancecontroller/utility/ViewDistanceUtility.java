@@ -273,8 +273,8 @@ public class ViewDistanceUtility {
     
     private static void updatePlayerData(ViewDistanceCalculationContext context) {
         if (!context.isLuckPermsEvent()) {
+            final Player player = context.getPlayer();
             if (!Storage.isSqlDb()) {
-                Player player = context.getPlayer();
                 PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
 
                 // Save user preference
@@ -284,9 +284,9 @@ public class ViewDistanceUtility {
 
                 DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
             } else {
-                Storage.setChunks(context.getPlayer(), (plugin.getPluginConfig().isWorldIndependent() ? context.getPlayer().getWorld().getUID().toString() : "DEFAULT"), context.getSavedViewDistance());
-                Storage.setAdminChunks(context.getPlayer(), (plugin.getPluginConfig().isWorldIndependent() ? context.getPlayer().getWorld().getUID().toString() : "DEFAULT"), context.getSavedOthersDistance());
-                Storage.setPingMode(context.getPlayer(), context.isPingModeEnabled());
+                Storage.setChunks(player, (plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT"), context.getSavedViewDistance());
+                Storage.setAdminChunks(player, (plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT"), context.getSavedOthersDistance());
+                Storage.setPingMode(player, context.isPingModeEnabled());
             }
         }
     }

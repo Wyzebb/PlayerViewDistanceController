@@ -12,9 +12,7 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
@@ -57,10 +55,47 @@ public class Storage {
 
         if (pingMode) {
             PingModeHandler.optimisePing((Player) player);
-        } else {
-            ViewDistanceCalculationContext context = ViewDistanceContextFactory.createStandardContext((Player) player);
-            ViewDistanceUtility.applyOptimalViewDistance(context);
         }
+    }
+
+    public static int getColumn(OfflinePlayer player, String column) {
+        if (sqlDb) {
+            try {
+                String query = "SELECT " + column + " FROM vd_data WHERE player_uuid = ?";
+
+                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+                statement.setString(1, player.getUniqueId().toString());
+
+                final ResultSet resultSet = statement.executeQuery();
+
+                int result = 0;
+                if (resultSet.next()) {
+                    result = resultSet.getInt("vd");
+                }
+
+                resultSet.close();
+                statement.close();
+
+                return result;
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
+
+            switch (column) {
+                case "vd":
+                    handler.getChunks();
+                    break;
+                case "vd_admin":
+                    handler.getAdminChunks();
+                    break;
+                default:
+                    plugin.getLogger().severe("Could not get chunk data from player handler!");
+                    break;
+            }
+        }
+        return 0;
     }
 
     public static int getChunks(OfflinePlayer player, String world) {
@@ -94,6 +129,86 @@ public class Storage {
             return handler.getChunks();
         }
         return 0;
+    }
+
+    public static ArrayList<String> getWorlds(OfflinePlayer player) {
+        if (sqlDb) {
+            try {
+                String query = "SELECT world FROM vd_data WHERE player_uuid = ?";
+
+                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+                statement.setString(1, player.getUniqueId().toString());
+
+                final ResultSet resultSet = statement.executeQuery();
+
+                ArrayList<String> worlds = new ArrayList<>();
+                if (resultSet.next()) {
+                    worlds.add(resultSet.getString("world"));
+                }
+
+                resultSet.close();
+                statement.close();
+
+                return worlds;
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            return null;
+        }
+
+        return null;
+    }
+
+    public static Map<String, Integer> getIntegersAndWorlds(OfflinePlayer player, String column) {
+        if (sqlDb) {
+            try {
+                String query = "SELECT " + column + ", world FROM vd_data WHERE player_uuid = ?";
+
+                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+                statement.setString(1, player.getUniqueId().toString());
+
+                final ResultSet resultSet = statement.executeQuery();
+
+                HashMap<String, Integer> values = new HashMap<>();
+                if (resultSet.next()) {
+                    values.put(resultSet.getString("world"), resultSet.getInt(column));
+                }
+
+                resultSet.close();
+                statement.close();
+
+                return values;
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
+            return Map.of("DEFAULT", handler.getChunks());
+        }
+
+        return Map.of("DEFAULT", 0);
+    }
+
+    public static void setChunksToWorld(OfflinePlayer player, String world, String column, int chunks) {
+        if (sqlDb) {
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                    Database.getInstance().updateVdRowInt(column, player, world, chunks));
+        } else {
+            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
+
+            switch (column) {
+                case "vd":
+                    handler.setChunks(chunks);
+                    break;
+                case "vd_admin":
+                    handler.setAdminChunks(chunks);
+                    break;
+                default:
+                    plugin.getLogger().severe("Could not save chunk data to player handler!");
+                    break;
+            }
+        }
     }
 
     public static int getAdminChunks(OfflinePlayer player, String world) {
