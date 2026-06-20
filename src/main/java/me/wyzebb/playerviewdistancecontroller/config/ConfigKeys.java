@@ -46,7 +46,7 @@ public final class ConfigKeys {
     public static final String DB_USERNAME = "db-username";
     public static final String DB_PASSWORD = "db-password";
 
-    public static final String SQLITE_FILE = "sqlite-file";
+    public static final String SQLITE_PATH = "sqlite-path";
     public static final String WORLD_INDEPENDENT = "world-independent";
 
     // Private constructor to prevent instantiation

@@ -75,4 +75,6 @@ db-database: pvdc
 db-username: user
 db-password: pass
 
+sqlite-file: auto
+
 update-checker-enabled: true

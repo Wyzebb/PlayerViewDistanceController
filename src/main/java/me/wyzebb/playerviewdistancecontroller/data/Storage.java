@@ -70,7 +70,7 @@ public class Storage {
 
                 int result = 0;
                 if (resultSet.next()) {
-                    result = resultSet.getInt("vd");
+                    result = resultSet.getInt(column);
                 }
 
                 resultSet.close();
@@ -85,11 +85,9 @@ public class Storage {
 
             switch (column) {
                 case "vd":
-                    handler.getChunks();
-                    break;
+                    return handler.getChunks();
                 case "vd_admin":
-                    handler.getAdminChunks();
-                    break;
+                    return handler.getAdminChunks();
                 default:
                     plugin.getLogger().severe("Could not get chunk data from player handler!");
                     break;
@@ -142,7 +140,7 @@ public class Storage {
                 final ResultSet resultSet = statement.executeQuery();
 
                 ArrayList<String> worlds = new ArrayList<>();
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     worlds.add(resultSet.getString("world"));
                 }
 
@@ -171,7 +169,7 @@ public class Storage {
                 final ResultSet resultSet = statement.executeQuery();
 
                 HashMap<String, Integer> values = new HashMap<>();
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     values.put(resultSet.getString("world"), resultSet.getInt(column));
                 }
 

@@ -3,6 +3,8 @@ package me.wyzebb.playerviewdistancecontroller.config;
 import me.wyzebb.playerviewdistancecontroller.Database;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
+
 public class PluginConfig {
 
     private final FileConfiguration config;
@@ -141,8 +143,15 @@ public class PluginConfig {
         return config.getString(ConfigKeys.DB_PASSWORD, "");
     }
 
-    public String getSqliteFile() {
-        return config.getString(ConfigKeys.SQLITE_FILE, "");
+    public String getSqlitePath() {
+        final String DEFAULT = plugin.getDataFolder().getAbsolutePath() + "/pvdc-data.db";
+
+        String sqlitePath = config.getString(ConfigKeys.SQLITE_PATH, DEFAULT);
+        if (sqlitePath.equals("auto")) {
+            return DEFAULT;
+        } else {
+            return sqlitePath;
+        }
     }
 
     public boolean isWorldIndependent() {
