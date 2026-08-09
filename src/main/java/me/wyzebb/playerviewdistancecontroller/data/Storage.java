@@ -123,11 +123,10 @@ public class Storage {
 
     public static Map<String, Integer> getIntegersAndWorlds(OfflinePlayer player, String column) {
         try {
-            final String query = "SELECT ?, world FROM vd_data WHERE player_uuid = ?";
+            final String query = "SELECT " + column + ", world FROM vd_data WHERE player_uuid = ?";
 
             final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-            statement.setString(1, column);
-            statement.setString(2, player.getUniqueId().toString());
+            statement.setString(1, player.getUniqueId().toString());
 
             final ResultSet resultSet = statement.executeQuery();
 
