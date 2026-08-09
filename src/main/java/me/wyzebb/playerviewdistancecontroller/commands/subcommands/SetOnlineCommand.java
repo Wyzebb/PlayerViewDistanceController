@@ -58,7 +58,8 @@ public class SetOnlineCommand extends SubCommand {
                     for (Player p : plugin.getServer().getOnlinePlayers()) {
                         MessageProcessor.processMessage("all-online-change", MessageType.SUCCESS, amount, p);
 
-                        Storage.setAdminChunks(p, p.getWorld().getUID().toString(), amount);
+                        String worldId = plugin.getPluginConfig().isWorldIndependent() ? p.getWorld().getUID().toString() : "DEFAULT";
+                        Storage.setAdminChunks(p, worldId, amount);
                         
                         // Build context for command execution using factory
                         ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(p, amount);

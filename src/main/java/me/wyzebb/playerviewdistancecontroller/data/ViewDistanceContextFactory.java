@@ -109,6 +109,7 @@ public class ViewDistanceContextFactory {
     public static ViewDistanceCalculationContext createCommandContext(Player player, int commandDistance) {
         return createBaseContext(player)
                 .withBaseViewDistance(commandDistance)
+                .withSavedOthersDistance(commandDistance)
                 .withLuckPermsEvent(false)
                 .withSendNoMessages(false)
                 .withWorldChange(false)
@@ -122,6 +123,7 @@ public class ViewDistanceContextFactory {
     public static ViewDistanceCalculationContext createSelfCommandContext(Player player, int commandDistance) {
         return createBaseContext(player)
                 .withBaseViewDistance(commandDistance)
+                .withSavedViewDistance(commandDistance)
                 .withLuckPermsEvent(false)
                 .withSendNoMessages(false)
                 .withWorldChange(false)
@@ -178,11 +180,13 @@ public class ViewDistanceContextFactory {
      * Creates base context with specific player data handler.
      */
     private static ViewDistanceCalculationContext.Builder createBaseContextWithPlayerData(Player player) {
+        String worldId = plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT";
+        
         return ViewDistanceCalculationContext.builder(player)
                 .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
                 .withBaseViewDistance(getDefaultViewDistance(player))
-                .withSavedViewDistance(Storage.getChunks(player, player.getWorld().getUID().toString()))
-                .withSavedOthersDistance(Storage.getAdminChunks(player, player.getWorld().getUID().toString()))
+                .withSavedViewDistance(Storage.getChunks(player, worldId))
+                .withSavedOthersDistance(Storage.getAdminChunks(player, worldId))
                 .withPingMode(Storage.isPingMode(player))
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
                 .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
@@ -194,11 +198,13 @@ public class ViewDistanceContextFactory {
      * Creates base context without ping mode (used when stopping ping mode).
      */
     private static ViewDistanceCalculationContext.Builder createBaseContextWithoutPingMode(Player player) {
+        String worldId = plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT";
+        
         return ViewDistanceCalculationContext.builder(player)
                 .withPlayerState(plugin.getStateManager().getPlayerState(player.getUniqueId()))
                 .withBaseViewDistance(getDefaultViewDistance(player))
-                .withSavedViewDistance(Storage.getChunks(player, player.getWorld().getUID().toString()))
-                .withSavedOthersDistance(Storage.getAdminChunks(player, player.getWorld().getUID().toString()))
+                .withSavedViewDistance(Storage.getChunks(player, worldId))
+                .withSavedOthersDistance(Storage.getAdminChunks(player, worldId))
                 .withDynamicMode(PlayerViewDistanceController.dynamicModeEnabled, PlayerViewDistanceController.dynamicReducedChunks)
                 .withPermissionMaxDistance(ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player)))
                 .withClientPreferredDistance(ClientViewDistanceTracker.getLastKnownClientVD(player.getUniqueId()))

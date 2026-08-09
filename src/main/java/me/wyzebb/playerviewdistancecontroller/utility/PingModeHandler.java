@@ -32,7 +32,8 @@ public class PingModeHandler {
 
                 int maxAllowed = ClampAmountUtility.clampChunkValue(ClampAmountUtility.getMaxPossible());
 
-                final int adminChunks = Storage.getAdminChunks(player, player.getWorld().getUID().toString());
+                final String worldId = plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT";
+                final int adminChunks = Storage.getAdminChunks(player, worldId);
                 if (adminChunks != 0 && adminChunks != -1) {
                     maxAllowed = Math.min(adminChunks, luckpermsDistance);
                 }

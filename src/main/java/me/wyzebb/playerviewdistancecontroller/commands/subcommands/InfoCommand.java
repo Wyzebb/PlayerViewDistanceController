@@ -117,7 +117,10 @@ public class InfoCommand extends SubCommand {
         if (plugin.getPluginConfig().isWorldIndependent() && !isOnline) {
             commandSender.sendMessage("§cWorld-specific data not available for offline players");
         } else {
-            String worldId = plugin.getPluginConfig().isWorldIndependent() ? ((Player) target).getWorld().getUID().toString() : "DEFAULT";
+            final String worldId = isOnline
+            ? (plugin.getPluginConfig().isWorldIndependent() ? ((Player) target).getWorld().getUID().toString() : "DEFAULT")
+            : "DEFAULT";
+            
             int basePreference = Storage.getChunks(target, worldId);
             commandSender.sendMessage("§aBase Preference: §f" + basePreference + " chunks");
 
