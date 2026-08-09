@@ -158,9 +158,9 @@ public class MessageProcessor {
 
     private static String getColouredPrefix(MessageType type) {
         return switch (type) {
-            case SUCCESS -> successColour + prefix + " ";
-            case ERROR -> errorColour + prefix + " ";
-            case INFO -> colour + prefix + " ";
+            case SUCCESS -> successColour + prefix + " §r" + successColour;
+            case ERROR -> errorColour + prefix + " §r" + errorColour;
+            case INFO -> colour + prefix + " §r" + colour;
         };
     }
 }
