@@ -18,7 +18,7 @@ public class UpdateChecker implements Runnable {
 
         pluginVersion = plugin.getDescription().getVersion();
 
-        String versionUrl = "https://raw.githubusercontent.com/Wyzebb/PlayerViewDistanceController/refs/heads/master/version.txt";
+        String versionUrl = "https://raw.githubusercontent.com/Wyzebb/PlayerViewDistanceController/refs/heads/main/version.txt";
 
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(versionUrl).openConnection();
