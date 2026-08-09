@@ -1,10 +1,8 @@
 package me.wyzebb.playerviewdistancecontroller.utility;
 
-import me.wyzebb.playerviewdistancecontroller.data.PlayerDataHandler;
 import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
-
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import org.bukkit.entity.Player;
 
@@ -274,20 +272,9 @@ public class ViewDistanceUtility {
     private static void updatePlayerData(ViewDistanceCalculationContext context) {
         if (!context.isLuckPermsEvent()) {
             final Player player = context.getPlayer();
-            if (!Storage.isSqlDb()) {
-                PlayerDataHandler dataHandler = DataHandlerHandler.getPlayerDataHandler(player);
-
-                // Save user preference
-                dataHandler.setChunks(context.getSavedViewDistance());
-                dataHandler.setAdminChunks(context.getSavedOthersDistance());
-                dataHandler.setPingMode(context.isPingModeEnabled());
-
-                DataHandlerHandler.setPlayerDataHandler(player, dataHandler);
-            } else {
-                Storage.setChunks(player, (plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT"), context.getSavedViewDistance());
-                Storage.setAdminChunks(player, (plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT"), context.getSavedOthersDistance());
-                Storage.setPingMode(player, context.isPingModeEnabled());
-            }
+            Storage.setChunks(player, (plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT"), context.getSavedViewDistance());
+            Storage.setAdminChunks(player, (plugin.getPluginConfig().isWorldIndependent() ? player.getWorld().getUID().toString() : "DEFAULT"), context.getSavedOthersDistance());
+            Storage.setPingMode(player, context.isPingModeEnabled());
         }
     }
 }
