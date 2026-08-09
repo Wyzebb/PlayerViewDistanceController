@@ -15,8 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
@@ -68,69 +70,97 @@ public class CommandManager implements TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
         if (args.length == 1) {
-            ArrayList<String> suggestions = new ArrayList<>();
+            final List<String> suggestions = getSubcommands().stream()
+                    .map(SubCommand::getName)
+                    .collect(Collectors.toCollection(ArrayList::new));
 
-            for (int i = 0; i < getSubcommands().size(); i++) {
-                suggestions.add(getSubcommands().get(i).getName());
+            if (!args[0].isEmpty()) {
+                final String input = args[0].toLowerCase();
+                final List<String> filteredSuggestions = new ArrayList<>();
+
+                suggestions.forEach(suggestion -> {
+                    if (suggestion.startsWith(input)) {
+                        filteredSuggestions.add(suggestion);
+                    }
+                });
+
+                try {
+                    Integer.parseInt(args[0]);
+                    filteredSuggestions.add("<chunks>");
+                } catch (NumberFormatException ignored) {}
+
+                return filteredSuggestions;
+            } else {
+                suggestions.add("<chunks>");
+                return suggestions;
             }
-
-            suggestions.add("<chunks>");
-
-            return suggestions;
         } else if (args.length == 2 && (args[0].equals("get") || args[0].equals("reset") || args[0].equals("info")
                 || args[0].equals("db"))) {
             return getAllPlayers(args, 1);
         } else if (args.length == 2 && args[0].equals("setonline")) {
             return Collections.singletonList("<chunks>");
-
         } else if (args.length == 2 && args[0].equals("set")) {
             return Collections.singletonList("<chunks>");
-
         } else if (args.length == 3 && args[0].equals("set")) {
             return getAllPlayers(args, 2);
         } else if (args.length == 2 && args[0].equals("ping")) {
-            String[] suggestions = {"on", "off", "info"};
-            return List.of(suggestions);
+            return getPerfModeSuggestions(args);
         } else if (args.length == 3 && args[0].equals("ping")) {
             return getAllPlayers(args, 2);
         } else if (args.length == 2 && args[0].equals("dynamic")) {
-            String[] suggestions = {"on", "off", "info"};
-            return List.of(suggestions);
+            return getPerfModeSuggestions(args);
         }
 
-        return new ArrayList<>() {};
+        return new ArrayList<>();
+    }
+
+    private static List<String> getPerfModeSuggestions(String[] args) {
+        final List<String> suggestions = Arrays.asList("on", "off", "info");
+
+        if (!args[1].isEmpty()) {
+            final String input = args[1].toLowerCase();
+            final List<String> filteredSuggestions = new ArrayList<>();
+
+            suggestions.forEach(suggestion -> {
+                plugin.getLogger().info(suggestion);
+                if (suggestion.startsWith(input)) {
+                    filteredSuggestions.add(suggestion);
+                }
+            });
+
+            return filteredSuggestions;
+        } else return suggestions;
     }
 
     private static @NotNull ArrayList<String> getAllPlayers(@NotNull String @NotNull [] args, int argIndex) {
-        ArrayList<String> playerNames = new ArrayList<>();
+        final ArrayList<String> playerNames = new ArrayList<>();
 
         if (args[argIndex].isEmpty()) {
             if (plugin.getPluginConfig().isListOfflinePlayers()) {
-                for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
+                for (final OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
                     playerNames.add(player.getName());
                 }
             } else {
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
                     playerNames.add(player.getName());
                 }
             }
         } else {
-            String input = args[argIndex].toLowerCase();
+            final String input = args[argIndex].toLowerCase();
 
             if (plugin.getPluginConfig().isListOfflinePlayers()) {
                 for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
-                    String name = player.getName();
+                    final String name = player.getName();
                     if (name != null && name.toLowerCase().startsWith(input)) {
                         playerNames.add(name);
                     }
                 }
             } else {
-                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    String name = player.getName();
-                    if (name.toLowerCase().startsWith(input)) {
-                        playerNames.add(name);
+                Bukkit.getServer().getOnlinePlayers().forEach(player -> {
+                    if (player.getName().toLowerCase().startsWith(input)) {
+                        playerNames.add(player.getName());
                     }
-                }
+                });
             }
         }
 
