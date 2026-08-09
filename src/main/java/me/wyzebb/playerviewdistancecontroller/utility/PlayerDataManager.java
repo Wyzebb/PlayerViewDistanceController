@@ -22,21 +22,21 @@ public class PlayerDataManager {
      * @param player The player whose data should be reset
      */
     public static void resetPlayerData(OfflinePlayer player) {
-        String worldId = player.isOnline() ? (plugin.getPluginConfig().isWorldIndependent() ? ((Player) player).getWorld().getUID().toString() : "DEFAULT") : "DEFAULT";
+        final String worldId = player.isOnline() ? (plugin.getPluginConfig().isWorldIndependent() ? ((Player) player).getWorld().getUID().toString() : "DEFAULT") : "DEFAULT";
         
         Storage.setChunks(player, worldId, ClampAmountUtility.getMaxPossible());
         Storage.setAdminChunks(player, worldId, 0);
         Storage.setPingMode(player, false);
 
         if (player.isOnline()) {
-            Player onlinePlayer = (Player) player;
+            final Player onlinePlayer = (Player) player;
             
             // Clear AFK state and transition to active
             plugin.getStateManager().transitionState(onlinePlayer, PlayerState.ACTIVE);
             
             // Apply view distance reset using factory
-            ViewDistanceCalculationContext context = ViewDistanceContextFactory.createResetContext(onlinePlayer);
-            ViewDistanceUtility.applyOptimalViewDistance(context);
+            final ViewDistanceCalculationContext ctx = ViewDistanceContextFactory.createResetContext(onlinePlayer);
+            ViewDistanceUtility.applyOptimalViewDistance(ctx);
         }
     }
 
@@ -48,14 +48,13 @@ public class PlayerDataManager {
      * @return The current effective view distance
      */
     public static int getCurrentViewDistance(OfflinePlayer player) {
-        int luckpermsDistance = IntegrationManager.getLuckpermsDistance(player);
-        luckpermsDistance = ClampAmountUtility.clampChunkValue(luckpermsDistance);
+        final int luckpermsDistance = ClampAmountUtility.clampChunkValue(IntegrationManager.getLuckpermsDistance(player));
         
         final String worldId = player.isOnline() ? (plugin.getPluginConfig().isWorldIndependent() ? ((Player) player).getWorld().getUID().toString() : "DEFAULT") : "DEFAULT";
-        
-        int savedChunks = Storage.getChunks(player, worldId);
-        int adminChunks = Storage.getAdminChunks(player, worldId);
-        
+
+        final int savedChunks = Storage.getChunks(player, worldId);
+        final int adminChunks = Storage.getAdminChunks(player, worldId);
+
         int finalChunks = Math.min(savedChunks, luckpermsDistance);
 
         if (adminChunks != 0 && adminChunks != -1) {

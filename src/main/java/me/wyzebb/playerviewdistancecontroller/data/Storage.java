@@ -38,8 +38,8 @@ public class Storage {
     public static int getColumn(OfflinePlayer player, String column) {
         try {
             String query = "SELECT " + column + " FROM vd_data WHERE player_uuid = ?";
-            
-            if (plugin.getPluginConfig().isWorldIndependent()) {
+
+            if (plugin.getPluginConfig().isWorldIndependent() && player instanceof Player) {
                 query += " AND world = ?";
             } else {
                 query += " AND world = 'DEFAULT'";
@@ -47,7 +47,7 @@ public class Storage {
 
             final PreparedStatement statement = Database.getConnection().prepareStatement(query);
             statement.setString(1, player.getUniqueId().toString());
-            
+
             if (plugin.getPluginConfig().isWorldIndependent() && player instanceof Player) {
                 statement.setString(2, ((Player) player).getWorld().getUID().toString());
             }

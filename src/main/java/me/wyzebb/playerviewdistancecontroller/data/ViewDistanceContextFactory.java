@@ -163,7 +163,7 @@ public class ViewDistanceContextFactory {
      */
     public static ViewDistanceCalculationContext createResetContext(Player player) {
         return createBaseContext(player)
-                .withLuckPermsEvent(true)
+                .withLuckPermsEvent(false)
                 .withSendNoMessages(false)
                 .withWorldChange(false)
                 .build();

@@ -96,7 +96,7 @@ public class SetCommand extends SubCommand {
     public static void setOthers(CommandSender commandSender, OfflinePlayer target, int amount) {
         if (commandSender.hasPermission("pvdc.set-others") || commandSender instanceof ConsoleCommandSender) {
             if (!target.isOnline()) {
-                // If WI storage is enabled we cannot determine the world for an offline player
+                // We cannot determine the world for an offline player
                 if (plugin.getPluginConfig().isWorldIndependent()) {
                     MessageProcessor.processMessage("not-offline-cmd", MessageType.ERROR, 0, commandSender);
                     return;
@@ -104,16 +104,15 @@ public class SetCommand extends SubCommand {
             }
 
             if (target.isOnline()) {
-                Player player = (Player) target;
-                // Build context for command execution using factory
-                ViewDistanceCalculationContext context = ViewDistanceContextFactory.createCommandContext(player, amount);
+                final Player player = (Player) target;
 
-                ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(context);
-                int appliedAmount = result.getViewDistance();
+                final ViewDistanceCalculationContext ctx = ViewDistanceContextFactory.createCommandContext(player, amount);
+                final ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(ctx);
+                final int appliedAmount = result.getViewDistance();
 
                 MessageProcessor.processMessage("target-view-distance-change", MessageType.SUCCESS, target, appliedAmount, player);
             } else {
-                // Use "DEFAULT" as we cannot determine the world of an offline player)
+                // Use "DEFAULT" as we cannot determine the world of an offline player
                 Storage.setAdminChunks(target, "DEFAULT", amount);
                 MessageProcessor.processMessage("sender-view-distance-change", MessageType.SUCCESS, target, amount, commandSender);
             }

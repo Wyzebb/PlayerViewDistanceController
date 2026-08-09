@@ -34,7 +34,7 @@ public final class WorldDataRow {
     }
 
     public String toString() {
-        return "Data for " + playerUUID + " for world " + world + ": vd " + vd + ", vdAdmin " + vdAdmin + ", createdAt " + createdAt + ", updatedAt " + updatedAt + ", updatedAt " + createdAt;
+        return "Data for " + playerUUID + " for world " + world + ": vd " + vd + ", vd_admin " + vdAdmin + ", createdAt " + createdAt + ", updatedAt " + updatedAt + ", updatedAt " + createdAt;
     }
 
     public UUID getPlayerUUID() {
