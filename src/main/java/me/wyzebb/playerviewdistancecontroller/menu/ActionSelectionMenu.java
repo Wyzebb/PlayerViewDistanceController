@@ -44,7 +44,7 @@ public class ActionSelectionMenu extends Menu {
         ArrayList<Option> options = getOptions();
 
         for (int i = 0; i < options.size(); i++) {
-            inventory.setItem(i, makeItem(Material.LIME_WOOL, options.get(i).getName(), "Click to change"));
+            inventory.setItem(i, makeItem(options.get(i).getItem().getType(), options.get(i).getName(), "Click to change"));
         }
     }
 

@@ -10,9 +10,7 @@ import me.wyzebb.playerviewdistancecontroller.integrations.ClientViewDistanceTra
 import me.wyzebb.playerviewdistancecontroller.integrations.IntegrationManager;
 import me.wyzebb.playerviewdistancecontroller.integrations.PlaceholderAPIExpansion;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
-import me.wyzebb.playerviewdistancecontroller.listeners.UpdateVDListeners;
-import me.wyzebb.playerviewdistancecontroller.listeners.LuckPermsListeners;
-import me.wyzebb.playerviewdistancecontroller.listeners.AFKListeners;
+import me.wyzebb.playerviewdistancecontroller.listeners.*;
 import me.wyzebb.playerviewdistancecontroller.utility.*;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
@@ -121,9 +119,10 @@ public final class PlayerViewDistanceController extends JavaPlugin {
             new LuckPermsListeners(luckPerms).register();
         }
 
-        // Register join and leave listeners
+        // Register listeners
         getServer().getPluginManager().registerEvents(new UpdateVDListeners(), this);
         getServer().getPluginManager().registerEvents(new AFKListeners(), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
         // Register commands and tab completer
         Objects.requireNonNull(getCommand("pvdc")).setExecutor(new CommandManager());

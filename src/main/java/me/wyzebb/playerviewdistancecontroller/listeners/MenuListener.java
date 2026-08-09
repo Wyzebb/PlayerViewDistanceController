@@ -1,5 +1,6 @@
-package me.wyzebb.playerviewdistancecontroller.menu;
+package me.wyzebb.playerviewdistancecontroller.listeners;
 
+import me.wyzebb.playerviewdistancecontroller.menu.Menu;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -9,10 +10,12 @@ public class MenuListener implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent e){
         InventoryHolder holder = e.getInventory().getHolder();
-        if (holder instanceof Menu) {
+        if (holder instanceof Menu menu) {
             e.setCancelled(true);
-            Menu menu = (Menu) holder;
-            menu.handleMenu(e);
+
+            if (e.getCurrentItem() != null) {
+                menu.handleMenu(e);
+            }
         }
     }
 }

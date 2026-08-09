@@ -13,9 +13,9 @@ public abstract class PaginatedMenu extends Menu {
     }
 
     public void addPageControls(){
-        inventory.setItem(47, makeItem(Material.JIGSAW, ChatColor.GREEN + "Back", ""));
+        inventory.setItem(47, makeItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Back", ""));
         inventory.setItem(49, makeItem(Material.BARRIER, ChatColor.RED + "Close", ""));
-        inventory.setItem(51, makeItem(Material.JIGSAW, ChatColor.GREEN + "Next", ""));
+        inventory.setItem(51, makeItem(Material.DARK_OAK_BUTTON, ChatColor.GREEN + "Next", ""));
     }
 
     public int getMaxItemsPerPage() {
