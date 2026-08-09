@@ -74,7 +74,7 @@ public class PluginConfig {
 
     // Color Settings
     public String getPrefix() {
-        return config.getString(ConfigKeys.PREFIX, "§l(!) ");
+        return config.getString(ConfigKeys.PREFIX, "§l(!)");
     }
 
     public String getColor() {

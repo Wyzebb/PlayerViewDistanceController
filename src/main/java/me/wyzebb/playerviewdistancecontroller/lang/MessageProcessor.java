@@ -29,7 +29,7 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
+            final String msg = getColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, target, amount));
             }
@@ -50,7 +50,7 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
+            final String msg = getColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, amount));
             }
@@ -71,7 +71,7 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
+            String msg = getColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, pingMode));
             }
@@ -92,7 +92,7 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
+            String msg = getColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(msg);
             }
@@ -113,7 +113,7 @@ public class MessageProcessor {
         FileConfiguration langConfig = languageManager.getLanguageFile();
 
         if (sendTo instanceof Player) {
-            String msg = generateColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
+            String msg = getColouredPrefix(type) + langConfig.getString(langPath, "Message key '" + langPath + "' not found!");
             if (!(msg.equals("none") || msg.isEmpty())) {
                 sendTo.sendMessage(processPlaceholders(msg, chunks, maxChunks));
             }
@@ -156,11 +156,11 @@ public class MessageProcessor {
         return msg;
     }
 
-    private static String generateColouredPrefix(MessageType type) {
+    private static String getColouredPrefix(MessageType type) {
         return switch (type) {
-            case SUCCESS -> prefix + successColour;
-            case ERROR -> prefix + errorColour;
-            case INFO -> prefix + colour;
+            case SUCCESS -> successColour + prefix + " ";
+            case ERROR -> errorColour + prefix + " ";
+            case INFO -> colour + prefix + " ";
         };
     }
 }

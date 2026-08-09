@@ -1,7 +1,7 @@
 language: "en_US"
 
 # Prefixes and colours added to every PVDC message
-prefix: "§l(!) "
+prefix: "§l(!)"
 info-color: "§e"
 success-color: "§a"
 error-color: "§c"
