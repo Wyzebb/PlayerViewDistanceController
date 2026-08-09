@@ -2,6 +2,7 @@ package me.wyzebb.playerviewdistancecontroller.menu;
 
 import me.wyzebb.playerviewdistancecontroller.data.Storage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -33,6 +34,12 @@ public class WorldSelectionMenu extends PaginatedMenu {
 
             playerMenuHandler.setCurrentValue(option.getValues().get(e.getCurrentItem().getItemMeta().getDisplayName()));
             new NumberSelectionMenu(playerMenuHandler, option).open();
+        } else if (e.getCurrentItem().getType() == Material.DARK_OAK_BUTTON) {
+            String displayName = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName());
+            if (displayName.equals("Back")) {
+                e.getWhoClicked().closeInventory();
+                new ActionSelectionMenu(playerMenuHandler).open();
+            }
         }
     }
 
