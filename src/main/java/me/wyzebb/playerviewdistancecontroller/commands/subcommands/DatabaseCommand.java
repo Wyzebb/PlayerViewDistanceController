@@ -51,16 +51,16 @@ public class DatabaseCommand extends SubCommand {
                 }
 
             } else {
-                String targetName = args[1];
-                OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
+                final String targetName = args[1];
+                final OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
 
                 if (commandSender == target) {
                     sendToSelf(commandSender);
                 } else {
                     if (commandSender.hasPermission("pvdc.db-view") || commandSender instanceof ConsoleCommandSender) {
-                        final List<WorldDataRow> rows = Storage.getRows((Player) commandSender);
+                        final List<WorldDataRow> rows = Storage.getRows(target);
 
-                        MessageProcessor.processMessage("db-header", MessageType.INFO, (Player) commandSender, 0, commandSender);
+                        MessageProcessor.processMessage("db-header", MessageType.INFO, target, 0, commandSender);
 
                         for (final WorldDataRow row : rows) {
                             commandSender.sendMessage(row.toString());
@@ -75,7 +75,7 @@ public class DatabaseCommand extends SubCommand {
 
     private void sendToSelf(CommandSender commandSender) {
         if (commandSender.hasPermission("pvdc.db-view")) {
-            Player player = (Player) commandSender;
+            final Player player = (Player) commandSender;
             final List<WorldDataRow> rows = Storage.getRows(player);
 
             MessageProcessor.processMessage("db-header", MessageType.INFO, player, 0, commandSender);
