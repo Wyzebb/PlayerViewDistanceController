@@ -114,12 +114,17 @@ public class InfoCommand extends SubCommand {
             commandSender.sendMessage("§aApplied View Distance: §f" + appliedDistance + " chunks");
         }
         
-        int basePreference = Storage.getChunks(target, ((Player) target).getWorld().getUID().toString());
-        commandSender.sendMessage("§aBase Preference: §f" + basePreference + " chunks");
-        
-        int chunksOthers = Storage.getAdminChunks(target, ((Player) target).getWorld().getUID().toString());
-        if (chunksOthers != 0 && chunksOthers != -1) {
-            commandSender.sendMessage("§eAdmin Override: §f" + chunksOthers + " chunks");
+        if (plugin.getPluginConfig().isWorldIndependent() && !isOnline) {
+            commandSender.sendMessage("§cWorld-specific data not available for offline players");
+        } else {
+            String worldId = plugin.getPluginConfig().isWorldIndependent() ? ((Player) target).getWorld().getUID().toString() : "DEFAULT";
+            int basePreference = Storage.getChunks(target, worldId);
+            commandSender.sendMessage("§aBase Preference: §f" + basePreference + " chunks");
+
+            int chunksOthers = Storage.getAdminChunks(target, worldId);
+            if (chunksOthers != 0 && chunksOthers != -1) {
+                commandSender.sendMessage("§eAdmin Override: §f" + chunksOthers + " chunks");
+            }
         }
         
         // Client and Permission Information
