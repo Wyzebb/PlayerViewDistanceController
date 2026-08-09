@@ -37,6 +37,7 @@ public class ViewDistanceContextFactory {
                 .withLuckPermsEvent(false)
                 .withSendNoMessages(false)
                 .withWorldChange(false)
+                .withJoin(true)
                 .build();
     }
 

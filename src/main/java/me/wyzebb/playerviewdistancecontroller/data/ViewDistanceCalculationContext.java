@@ -23,6 +23,7 @@ public class ViewDistanceCalculationContext {
     private final boolean sendNoMessages;
     private final boolean isWorldChange;
     private final boolean isSelfChange;
+    private final boolean isJoin;
 
     private ViewDistanceCalculationContext(Builder builder) {
         this.player = builder.player;
@@ -40,6 +41,7 @@ public class ViewDistanceCalculationContext {
         this.sendNoMessages = builder.sendNoMessages;
         this.isWorldChange = builder.isWorldChange;
         this.isSelfChange = builder.isSelfChange;
+        this.isJoin = builder.isJoin;
     }
     
     // Getters
@@ -58,6 +60,7 @@ public class ViewDistanceCalculationContext {
     public boolean shouldSendNoMessages() { return sendNoMessages; }
     public boolean isWorldChange() { return isWorldChange; }
     public boolean isSelfChange() { return isSelfChange; }
+    public boolean isJoin() { return isJoin; }
 
     /**
      * Gets the effective base distance considering saved values
@@ -85,6 +88,7 @@ public class ViewDistanceCalculationContext {
         private boolean sendNoMessages = false;
         private boolean isWorldChange = false;
         private boolean isSelfChange = false;
+        private boolean isJoin = false;
 
         public Builder(Player player) {
             this.player = player;
@@ -153,6 +157,11 @@ public class ViewDistanceCalculationContext {
 
         public Builder withSelfChange(boolean isSelfChange) {
             this.isSelfChange = isSelfChange;
+            return this;
+        }
+
+        public Builder withJoin(boolean isJoin) {
+            this.isJoin = isJoin;
             return this;
         }
         

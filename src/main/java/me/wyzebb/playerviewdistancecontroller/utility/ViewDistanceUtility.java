@@ -214,7 +214,7 @@ public class ViewDistanceUtility {
         }
         
         // Handle join messaging
-        if (!context.isLuckPermsEvent() && !context.shouldSendNoMessages()) {
+        if (context.isJoin() && !context.isLuckPermsEvent() && !context.shouldSendNoMessages()) {
             handleJoinMessaging(context, result, appliedDistance, permissionMaxDistance, wasPermissionLimited, player);
         }
     }
