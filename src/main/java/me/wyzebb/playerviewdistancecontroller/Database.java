@@ -202,8 +202,7 @@ public final class Database {
 
     public enum StorageType {
         MYSQL,
-        SQLITE,
-        YAML
+        SQLITE
     }
 
     public static Database getInstance() {

@@ -2,7 +2,6 @@ package me.wyzebb.playerviewdistancecontroller.data;
 
 import me.wyzebb.playerviewdistancecontroller.Database;
 import me.wyzebb.playerviewdistancecontroller.models.WorldDataRow;
-import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -16,289 +15,215 @@ import java.util.*;
 import static me.wyzebb.playerviewdistancecontroller.PlayerViewDistanceController.plugin;
 
 public class Storage {
-    private static final boolean sqlDb = plugin.getPluginConfig().getDatabaseType() == Database.StorageType.MYSQL
-            || plugin.getPluginConfig().getDatabaseType() == Database.StorageType.SQLITE;
-
-    public static boolean isSqlDb() {
-        return sqlDb;
-    }
-
+    
     public static void setChunks(OfflinePlayer player, String world, int chunks) {
-        if (sqlDb) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
-                    Database.getInstance().updateVdRowInt("vd", player, world, chunks));
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            handler.setChunks(chunks);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                Database.getInstance().updateVdRowInt("vd", player, world, chunks));
     }
 
     public static void setAdminChunks(OfflinePlayer player, String world, int chunks) {
-        if (sqlDb) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
-                    Database.getInstance().updateVdRowInt("vd_admin", player, world, chunks));
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            handler.setAdminChunks(chunks);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                Database.getInstance().updateVdRowInt("vd_admin", player, world, chunks));
     }
 
     public static void setPingMode(OfflinePlayer player, boolean pingMode) {
-        if (sqlDb) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
-                    Database.getInstance().updateUserBoolean("ping_mode", player, pingMode));
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            handler.setPingMode(pingMode);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                Database.getInstance().updateUserBoolean("ping_mode", player, pingMode));
 
-        if (pingMode) {
+        if (pingMode && player instanceof Player) {
             PingModeHandler.optimisePing((Player) player);
         }
     }
 
     public static int getColumn(OfflinePlayer player, String column) {
-        if (sqlDb) {
-            try {
-                String query = "SELECT " + column + " FROM vd_data WHERE player_uuid = ?";
-
-                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                statement.setString(1, player.getUniqueId().toString());
-
-                final ResultSet resultSet = statement.executeQuery();
-
-                int result = 0;
-                if (resultSet.next()) {
-                    result = resultSet.getInt(column);
-                }
-
-                resultSet.close();
-                statement.close();
-
-                return result;
-            } catch (final SQLException e) {
-                e.printStackTrace();
+        try {
+            String query = "SELECT " + column + " FROM vd_data WHERE player_uuid = ?";
+            
+            if (plugin.getPluginConfig().isWorldIndependent()) {
+                query += " AND world = ?";
+            } else {
+                query += " AND world = 'DEFAULT'";
             }
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
 
-            switch (column) {
-                case "vd":
-                    return handler.getChunks();
-                case "vd_admin":
-                    return handler.getAdminChunks();
-                default:
-                    plugin.getLogger().severe("Could not get chunk data from player handler!");
-                    break;
+            final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+            statement.setString(1, player.getUniqueId().toString());
+            
+            if (plugin.getPluginConfig().isWorldIndependent() && player instanceof Player) {
+                statement.setString(2, ((Player) player).getWorld().getUID().toString());
             }
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            int result = 0;
+            if (resultSet.next()) {
+                result = resultSet.getInt(column);
+            }
+
+            resultSet.close();
+            statement.close();
+
+            return result;
+        } catch (final SQLException e) {
+            e.printStackTrace();
         }
         return 0;
     }
 
     public static int getChunks(OfflinePlayer player, String world) {
-        if (sqlDb) {
-            try {
-                String query = "SELECT vd FROM vd_data WHERE player_uuid = ?";
+        try {
+            String query = "SELECT vd FROM vd_data WHERE player_uuid = ?";
 
-                if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
+            if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
 
-                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                statement.setString(1, player.getUniqueId().toString());
-                if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world.toString());
+            final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+            statement.setString(1, player.getUniqueId().toString());
+            if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world);
 
-                final ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
 
-                int result = 0;
-                if (resultSet.next()) {
-                    result = resultSet.getInt("vd");
-                }
-                //TODO Issue when multiple rows and world independence off
-
-                resultSet.close();
-                statement.close();
-
-                return result;
-            } catch (final SQLException e) {
-                e.printStackTrace();
+            int result = 0;
+            if (resultSet.next()) {
+                result = resultSet.getInt("vd");
             }
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            return handler.getChunks();
+
+            resultSet.close();
+            statement.close();
+
+            return result;
+        } catch (final SQLException e) {
+            e.printStackTrace();
         }
         return 0;
     }
 
     public static ArrayList<String> getWorlds(OfflinePlayer player) {
-        if (sqlDb) {
-            try {
-                String query = "SELECT world FROM vd_data WHERE player_uuid = ?";
+        try {
+            String query = "SELECT world FROM vd_data WHERE player_uuid = ?";
 
-                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                statement.setString(1, player.getUniqueId().toString());
+            final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+            statement.setString(1, player.getUniqueId().toString());
 
-                final ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
 
-                ArrayList<String> worlds = new ArrayList<>();
-                while (resultSet.next()) {
-                    worlds.add(resultSet.getString("world"));
-                }
-
-                resultSet.close();
-                statement.close();
-
-                return worlds;
-            } catch (final SQLException e) {
-                e.printStackTrace();
+            ArrayList<String> worlds = new ArrayList<>();
+            while (resultSet.next()) {
+                worlds.add(resultSet.getString("world"));
             }
-        } else {
-            return new ArrayList<>();
+
+            resultSet.close();
+            statement.close();
+
+            return worlds;
+        } catch (final SQLException e) {
+            e.printStackTrace();
         }
 
         return new ArrayList<>();
     }
 
     public static Map<String, Integer> getIntegersAndWorlds(OfflinePlayer player, String column) {
-        if (sqlDb) {
-            try {
-                String query = "SELECT " + column + ", world FROM vd_data WHERE player_uuid = ?";
+        try {
+            final String query = "SELECT ?, world FROM vd_data WHERE player_uuid = ?";
 
-                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                statement.setString(1, player.getUniqueId().toString());
+            final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+            statement.setString(1, column);
+            statement.setString(2, player.getUniqueId().toString());
 
-                final ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
 
-                HashMap<String, Integer> values = new HashMap<>();
-                while (resultSet.next()) {
-                    values.put(resultSet.getString("world"), resultSet.getInt(column));
-                }
-
-                resultSet.close();
-                statement.close();
-
-                return values;
-            } catch (final SQLException e) {
-                e.printStackTrace();
+            final HashMap<String, Integer> values = new HashMap<>();
+            while (resultSet.next()) {
+                values.put(resultSet.getString("world"), resultSet.getInt(column));
             }
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            return switch (column) {
-                case "vd" -> Map.of("DEFAULT", handler.getChunks());
-                case "vd_admin" -> Map.of("DEFAULT", handler.getAdminChunks());
-                default -> Map.of("DEFAULT", 0);
-            };
+
+            resultSet.close();
+            statement.close();
+
+            return values;
+        } catch (final SQLException e) {
+            e.printStackTrace();
         }
 
         return Map.of("DEFAULT", 0);
     }
 
     public static void setChunksToWorld(OfflinePlayer player, String world, String column, int chunks) {
-        if (sqlDb) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
-                    Database.getInstance().updateVdRowInt(column, player, world, chunks));
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-
-            switch (column) {
-                case "vd":
-                    handler.setChunks(chunks);
-                    break;
-                case "vd_admin":
-                    handler.setAdminChunks(chunks);
-                    break;
-                default:
-                    plugin.getLogger().severe("Could not save chunk data to player handler!");
-                    break;
-            }
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () ->
+                Database.getInstance().updateVdRowInt(column, player, world, chunks));
     }
 
     public static int getAdminChunks(OfflinePlayer player, String world) {
-        if (sqlDb) {
-            try {
-                String query = "SELECT vd_admin FROM vd_data WHERE player_uuid = ?";
+        try {
+            String query = "SELECT vd_admin FROM vd_data WHERE player_uuid = ?";
 
-                if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
+            if (plugin.getPluginConfig().isWorldIndependent()) query += " AND world = ? ";
 
-                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                statement.setString(1, player.getUniqueId().toString());
-                if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world.toString());
+            final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+            statement.setString(1, player.getUniqueId().toString());
+            if (plugin.getPluginConfig().isWorldIndependent()) statement.setString(2, world);
 
-                final ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
 
-                int result = 0;
-                if (resultSet.next()) {
-                    result = resultSet.getInt("vd_admin");
-                }
-                //TODO Issue when multiple rows and world independence off
-
-                resultSet.close();
-                statement.close();
-
-                return result;
-            } catch (final SQLException e) {
-                e.printStackTrace();
+            int result = 0;
+            if (resultSet.next()) {
+                result = resultSet.getInt("vd_admin");
             }
 
-            return 0;
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            return handler.getAdminChunks();
+            resultSet.close();
+            statement.close();
+
+            return result;
+        } catch (final SQLException e) {
+            e.printStackTrace();
         }
+
+        return 0;
     }
 
     public static boolean isPingMode(OfflinePlayer player) {
-        if (sqlDb) {
-            try {
-                String query = "SELECT ping_mode FROM users WHERE player_uuid = ?";
+        try {
+            String query = "SELECT ping_mode FROM users WHERE player_uuid = ?";
 
-                final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                statement.setString(1, player.getUniqueId().toString());
+            final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+            statement.setString(1, player.getUniqueId().toString());
 
-                final ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
 
-                boolean result = false;
-                if (resultSet.next()) {
-                    result = resultSet.getBoolean("ping_mode");
-                }
-
-                resultSet.close();
-                statement.close();
-
-                return result;
-            } catch (final SQLException e) {
-                e.printStackTrace();
+            boolean result = false;
+            if (resultSet.next()) {
+                result = resultSet.getBoolean("ping_mode");
             }
 
-            return false;
-        } else {
-            PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            return handler.isPingMode();
+            resultSet.close();
+            statement.close();
+
+            return result;
+        } catch (final SQLException e) {
+            e.printStackTrace();
         }
+
+        return false;
     }
 
     public static List<WorldDataRow> getRows(OfflinePlayer player) {
-        if (sqlDb) {
-            final List<WorldDataRow> rows = new ArrayList<>();
-                try {
-                    final String query = "SELECT * FROM vd_data WHERE player_uuid = ?";
+        final List<WorldDataRow> rows = new ArrayList<>();
+        try {
+            final String query = "SELECT * FROM vd_data WHERE player_uuid = ?";
 
-                    final PreparedStatement statement = Database.getConnection().prepareStatement(query);
-                    statement.setString(1, player.getUniqueId().toString());
+            final PreparedStatement statement = Database.getConnection().prepareStatement(query);
+            statement.setString(1, player.getUniqueId().toString());
 
-                    final ResultSet resultSet = statement.executeQuery();
+            final ResultSet resultSet = statement.executeQuery();
 
-                    while (resultSet.next()) {
-                        rows.add(WorldDataRow.fromResultSet(resultSet));
-                    }
+            while (resultSet.next()) {
+                rows.add(WorldDataRow.fromResultSet(resultSet));
+            }
 
-                    resultSet.close();
-                    statement.close();
-                } catch (final SQLException e) {
-                    e.printStackTrace();
-                }
-            return rows;
+            resultSet.close();
+            statement.close();
+        } catch (final SQLException e) {
+            e.printStackTrace();
         }
-
-        return List.of();
+        return rows;
     }
 }
