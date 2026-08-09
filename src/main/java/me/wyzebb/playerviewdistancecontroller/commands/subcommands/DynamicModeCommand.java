@@ -1,8 +1,11 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
+import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -78,6 +81,8 @@ public class DynamicModeCommand extends SubCommand {
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
+            ViewDistanceCalculationContext context = ViewDistanceContextFactory.createStandardContext(player);
+            ViewDistanceUtility.applyOptimalViewDistance(context);
             MessageProcessor.processMessage("dynamic-mode-change", MessageType.SUCCESS, mode, player);
         }
     }

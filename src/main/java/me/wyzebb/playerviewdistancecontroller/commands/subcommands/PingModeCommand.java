@@ -1,9 +1,11 @@
 package me.wyzebb.playerviewdistancecontroller.commands.subcommands;
 
 import me.wyzebb.playerviewdistancecontroller.data.Storage;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
 import me.wyzebb.playerviewdistancecontroller.lang.LanguageManager;
 import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -80,7 +82,11 @@ public class PingModeCommand extends SubCommand {
                 }
 
                 if (Objects.equals(args[1], "info")) {
-                    MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, Storage.isPingMode((Player) commandSender), commandSender);
+                    if (target != null) {
+                        MessageProcessor.processMessage("ping-info", MessageType.SUCCESS, Storage.isPingMode(target), commandSender);
+                    } else {
+                        MessageProcessor.processMessage("not-offline-cmd", MessageType.ERROR, 0, commandSender);
+                    }
                     return;
                 }
 
@@ -100,9 +106,14 @@ public class PingModeCommand extends SubCommand {
     public static void setSelfPingMode(CommandSender commandSender, boolean pingMode) {
         if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
             if (commandSender.hasPermission("pvdc.ping-mode-set-self")) {
+                final Player player = (Player) commandSender;
+                
+                Storage.setPingMode(player, pingMode);
                 MessageProcessor.processMessage("ping-mode-change-self", MessageType.SUCCESS, pingMode, commandSender);
-
-                Storage.setPingMode((Player) commandSender, pingMode);
+                
+                ViewDistanceUtility.applyOptimalViewDistance(
+                    ViewDistanceContextFactory.createStandardContext(player)
+                );
 
             } else {
                 MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
@@ -115,10 +126,14 @@ public class PingModeCommand extends SubCommand {
     public static void setPingMode(CommandSender commandSender, boolean pingMode, Player target) {
         if (plugin.getPingOptimiserConfig().getBoolean("enabled")) {
             if (commandSender.hasPermission("pvdc.ping-mode-set-others")) {
+                Storage.setPingMode(target, pingMode);
+                
                 MessageProcessor.processMessage("ping-mode-change", MessageType.SUCCESS, pingMode, target);
                 MessageProcessor.processMessage("ping-mode-change-others", MessageType.SUCCESS, pingMode, commandSender);
-
-                Storage.setPingMode(target, pingMode);
+                
+                ViewDistanceUtility.applyOptimalViewDistance(
+                    ViewDistanceContextFactory.createStandardContext(target)
+                );
 
             } else {
                 MessageProcessor.processMessage("no-permission", MessageType.ERROR, 0, commandSender);
