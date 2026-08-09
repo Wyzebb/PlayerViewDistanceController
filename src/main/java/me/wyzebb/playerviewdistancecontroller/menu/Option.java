@@ -50,9 +50,7 @@ public class Option {
         ArrayList<String> lore = new ArrayList<>();
 
         lore.add("Click to modify");
-        values.forEach((world, value) -> {
-            lore.add(world + ": " + value.toString());
-        });
+        values.forEach((world, value) -> lore.add(world + ": " + value.toString()));
 
         lore.add(type.toString());
 

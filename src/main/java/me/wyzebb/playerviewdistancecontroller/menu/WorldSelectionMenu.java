@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WorldSelectionMenu extends PaginatedMenu {
-    private Option option;
+    private final Option option;
 
     public WorldSelectionMenu(PlayerMenuHandler playerMenuHandler, Option option) {
         super(playerMenuHandler);

@@ -4,7 +4,6 @@ import me.wyzebb.playerviewdistancecontroller.Database;
 import me.wyzebb.playerviewdistancecontroller.models.WorldDataRow;
 import me.wyzebb.playerviewdistancecontroller.utility.DataHandlerHandler;
 import me.wyzebb.playerviewdistancecontroller.utility.PingModeHandler;
-import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -152,10 +151,10 @@ public class Storage {
                 e.printStackTrace();
             }
         } else {
-            return null;
+            return new ArrayList<>();
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     public static Map<String, Integer> getIntegersAndWorlds(OfflinePlayer player, String column) {
@@ -182,7 +181,11 @@ public class Storage {
             }
         } else {
             PlayerDataHandler handler = DataHandlerHandler.getPlayerDataHandler(player);
-            return Map.of("DEFAULT", handler.getChunks());
+            return switch (column) {
+                case "vd" -> Map.of("DEFAULT", handler.getChunks());
+                case "vd_admin" -> Map.of("DEFAULT", handler.getAdminChunks());
+                default -> Map.of("DEFAULT", 0);
+            };
         }
 
         return Map.of("DEFAULT", 0);

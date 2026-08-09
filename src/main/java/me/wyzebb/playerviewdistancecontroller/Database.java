@@ -3,7 +3,6 @@ package me.wyzebb.playerviewdistancecontroller;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -58,7 +57,7 @@ public final class Database {
 
                 final PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, player.getUniqueId().toString());
-                statement.setString(2, plugin.getPluginConfig().isWorldIndependent() ? world.toString() : "DEFAULT");
+                statement.setString(2, plugin.getPluginConfig().isWorldIndependent() ? world : "DEFAULT");
                 statement.setInt(3, value);
 
                 statement.executeUpdate();
@@ -119,7 +118,6 @@ public final class Database {
                 connection = DriverManager.getConnection(jdbcUrl, plugin.getPluginConfig().getDatabaseUsername(), plugin.getPluginConfig().getDatabasePassword());
 
                 plugin.getLogger().info("Successfully connected to MySQL database");
-
             } else {
                 currentType = StorageType.SQLITE;
                 Class.forName("org.sqlite.JDBC");
