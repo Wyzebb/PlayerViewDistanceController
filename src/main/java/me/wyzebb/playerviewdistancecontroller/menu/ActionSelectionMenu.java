@@ -24,17 +24,16 @@ public class ActionSelectionMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        if (e.getCurrentItem().getType() == Material.GREEN_WOOL) {
-            e.getWhoClicked().closeInventory();
-
-            if (Option.OptionType.valueOf(e.getCurrentItem().getItemMeta().getLore().getLast()) == Option.OptionType.INTEGER) {
-                if (plugin.getPluginConfig().isWorldIndependent()) {
-                    new WorldSelectionMenu(playerMenuHandler, getOptions().get(e.getSlot()));
-                } else {
-                    final int chunks = Storage.getColumn(playerMenuHandler.getPlayer(), e.getCurrentItem().getItemMeta().getDisplayName());
-                    playerMenuHandler.setCurrentValue(chunks);
-                    new NumberSelectionMenu(playerMenuHandler, getOptions().get(e.getSlot()));
-                }
+        if (Option.OptionType.valueOf(e.getCurrentItem().getItemMeta().getLore().getLast()) == Option.OptionType.INTEGER) {
+            if (plugin.getPluginConfig().isWorldIndependent()) {
+                new WorldSelectionMenu(playerMenuHandler, getOptions().get(e.getSlot()));
+            } else {
+                final int chunks = Storage.getColumn(
+                        playerMenuHandler.getPlayer(),
+                        e.getCurrentItem().getItemMeta().getDisplayName()
+                );
+                playerMenuHandler.setCurrentValue(chunks);
+                new NumberSelectionMenu(playerMenuHandler, getOptions().get(e.getSlot())).open();
             }
         }
     }
@@ -44,7 +43,7 @@ public class ActionSelectionMenu extends Menu {
         ArrayList<Option> options = getOptions();
 
         for (int i = 0; i < options.size(); i++) {
-            inventory.setItem(i, makeItem(options.get(i).getItem().getType(), options.get(i).getName(), "Click to change"));
+            inventory.setItem(i, options.get(i).getItem());
         }
     }
 
@@ -52,7 +51,7 @@ public class ActionSelectionMenu extends Menu {
         ArrayList<Option> options = new ArrayList<>();
 
         options.add(new Option("vd", Material.LIME_WOOL, Storage.getIntegersAndWorlds(playerMenuHandler.getPlayer(), "vd"), Option.OptionType.INTEGER));
-        options.add(new Option("vdAdmin", Material.RED_WOOL, Storage.getIntegersAndWorlds(playerMenuHandler.getPlayer(), "vdAdmin"), Option.OptionType.INTEGER));
+        options.add(new Option("vd_admin", Material.RED_WOOL, Storage.getIntegersAndWorlds(playerMenuHandler.getPlayer(), "vd_admin"), Option.OptionType.INTEGER));
 
         return options;
     }

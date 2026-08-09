@@ -1,5 +1,6 @@
 package me.wyzebb.playerviewdistancecontroller.menu;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,11 +14,15 @@ public class Option {
     private final ItemStack item;
     private Map<String, Integer> values;
     private final OptionType type;
-    private final int value = -1;
 
     public Option(String name, Material material, Map<String, Integer> values, OptionType type) {
         this.name = name;
         this.item = new ItemStack(material);
+
+        final ItemMeta itemMeta = this.item.getItemMeta();
+        itemMeta.displayName(Component.text(name));
+        this.item.setItemMeta(itemMeta);
+
         this.values = values;
         this.type = type;
 
@@ -43,6 +48,15 @@ public class Option {
     public void setValues(HashMap<String, Integer> values) {
         this.values = values;
         updateLore();
+    }
+
+    public ItemStack createCurrentValueItem(int currentValue) {
+        final ItemStack currentValueItem = item.clone();
+        currentValueItem.setAmount(currentValue);
+        final ItemMeta currentValueItemMeta = currentValueItem.getItemMeta();
+        currentValueItemMeta.displayName(Component.text(currentValue));
+        currentValueItem.setItemMeta(currentValueItemMeta);
+        return currentValueItem;
     }
 
     private void updateLore() {

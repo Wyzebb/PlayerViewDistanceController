@@ -1,8 +1,15 @@
 package me.wyzebb.playerviewdistancecontroller.menu;
 
 import me.wyzebb.playerviewdistancecontroller.data.Storage;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceCalculationContext;
+import me.wyzebb.playerviewdistancecontroller.data.ViewDistanceContextFactory;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageProcessor;
+import me.wyzebb.playerviewdistancecontroller.lang.MessageType;
+import me.wyzebb.playerviewdistancecontroller.utility.ClampAmountUtility;
+import me.wyzebb.playerviewdistancecontroller.utility.ViewDistanceUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,39 +32,55 @@ public class NumberSelectionMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        switch (e.getCurrentItem().getType()){
-            case GREEN_WOOL:
-                e.getWhoClicked().closeInventory();
+        final Material material = e.getCurrentItem().getType();
+        final int currentValue = playerMenuHandler.getCurrentValue();
 
-                switch (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName())) {
-                    case ("-1"):
-                        playerMenuHandler.setCurrentValue(playerMenuHandler.getCurrentValue() - 1);
-                        break;
-                    case ("-3"):
-                        playerMenuHandler.setCurrentValue(playerMenuHandler.getCurrentValue() - 3);
-                        break;
-                    case ("-5"):
-                        playerMenuHandler.setCurrentValue(playerMenuHandler.getCurrentValue() - 5);
-                        break;
-                    case ("+1"):
-                        playerMenuHandler.setCurrentValue(playerMenuHandler.getCurrentValue() + 1);
-                        break;
-                    case ("+3"):
-                        playerMenuHandler.setCurrentValue(playerMenuHandler.getCurrentValue() + 3);
-                        break;
-                    case ("+5"):
-                        playerMenuHandler.setCurrentValue(playerMenuHandler.getCurrentValue() + 5);
-                        break;
-                }
-                break;
-            case BARRIER:
-                // Return to the previous menu
-                new PlayerSelectionMenu(playerMenuHandler).open();
-                break;
-            case LIME_CONCRETE:
-                this.inventory.close();
-                Storage.setChunksToWorld(playerMenuHandler.getPlayer(), playerMenuHandler.getWorldId(), option.getName(), playerMenuHandler.getCurrentValue());
-                break;
+        if (material == Material.GREEN_WOOL || material == Material.RED_WOOL) {
+            boolean matched = true;
+            int changeTo = 0;
+            switch (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName())) {
+                case ("-1"):
+                    changeTo = currentValue - 1;
+                    break;
+                case ("-3"):
+                    changeTo = currentValue - 3;
+                    break;
+                case ("-5"):
+                    changeTo = currentValue - 5;
+                    break;
+                case ("+1"):
+                    changeTo = currentValue + 1;
+                    break;
+                case ("+3"):
+                    changeTo = currentValue + 3;
+                    break;
+                case ("+5"):
+                    changeTo = currentValue + 5;
+                    break;
+                default:
+                    matched = false;
+                    break;
+            }
+            if (matched) {
+                playerMenuHandler.setCurrentValue(ClampAmountUtility.clampChunkValue(changeTo));
+                e.getInventory().setItem(4, option.createCurrentValueItem(playerMenuHandler.getCurrentValue()));
+            }
+
+        } else if (material == Material.BARRIER) {
+            // Return to the previous menu
+            new PlayerSelectionMenu(playerMenuHandler).open();
+        } else if (material == Material.LIME_CONCRETE) {
+            this.inventory.close();
+            Storage.setChunksToWorld(playerMenuHandler.getPlayer(), playerMenuHandler.getWorldId(), option.getName(), currentValue);
+
+            if (e.getWhoClicked() == playerMenuHandler.getTargetPlayer()) {
+                final ViewDistanceCalculationContext ctx = ViewDistanceContextFactory.createCommandContext(playerMenuHandler.getTargetPlayer(), currentValue);
+
+                final ViewDistanceUtility.ViewDistanceResult result = ViewDistanceUtility.applyOptimalViewDistance(ctx);
+                final int appliedAmount = result.getViewDistance();
+
+                MessageProcessor.processMessage("target-view-distance-change", MessageType.SUCCESS, playerMenuHandler.getTargetPlayer(), appliedAmount, e.getWhoClicked());
+            }
         }
     }
 
@@ -73,7 +96,7 @@ public class NumberSelectionMenu extends Menu {
         inventory.setItem(0, n5Arrow);
         inventory.setItem(1, n3Arrow);
         inventory.setItem(2, n1Arrow);
-        inventory.setItem(4, option.getItem());
+        inventory.setItem(4, option.createCurrentValueItem(playerMenuHandler.getCurrentValue()));
         inventory.setItem(6, p1Arrow);
         inventory.setItem(7, p3Arrow);
         inventory.setItem(8, p5Arrow);
